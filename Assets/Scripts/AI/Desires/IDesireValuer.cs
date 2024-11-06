@@ -2,7 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IDesireValuer
+
+namespace GameAI
 {
-    public float GetDesireCalculationValue();
+    public interface IDesireValuer
+    {
+        public float GetDesireCalculationValue();
+    }
 }

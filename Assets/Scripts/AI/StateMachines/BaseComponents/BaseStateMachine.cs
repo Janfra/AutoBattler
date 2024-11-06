@@ -4,47 +4,51 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 
-[Serializable]
-public abstract class BaseStateMachine<StateContainer> : MonoBehaviour
+
+namespace GameAI
 {
-    [SerializeField]
-    protected State entryState;
-    [SerializeField]
-    protected StateContainer[] availableStates;
-    [SerializeField]
-    protected Blackboard blackboard;
-
-    protected StateContainer currentStateData;
-    protected bool isEnabled = false;
-
-    private void Start()
+    [Serializable]
+    public abstract class BaseStateMachine<StateContainer> : MonoBehaviour
     {
-        BakeData();
-        if (entryState == null)
+        [SerializeField]
+        protected State entryState;
+        [SerializeField]
+        protected StateContainer[] availableStates;
+        [SerializeField]
+        protected Blackboard blackboard;
+
+        protected StateContainer currentStateData;
+        protected bool isEnabled = false;
+
+        private void Start()
         {
-            return;
+            BakeData();
+            if (entryState == null)
+            {
+                return;
+            }
+
+            SetState(entryState);
+            isEnabled = true;
         }
 
-        SetState(entryState);
-        isEnabled = true;
-    }
-
-    private void Update()
-    {
-        if (isEnabled && currentStateData != null)
+        private void Update()
         {
-            RunCurrentState();
-            AttemptToTransition();
+            if (isEnabled && currentStateData != null)
+            {
+                RunCurrentState();
+                AttemptToTransition();
+            }
         }
+
+        public abstract bool TryGetStateDataFromState(State targetState, out StateContainer stateData);
+
+        public abstract void SetState(State targetState);
+
+        public abstract void RunCurrentState();
+
+        public abstract void AttemptToTransition();
+
+        public virtual void BakeData() { }
     }
-
-    public abstract bool TryGetStateDataFromState(State targetState, out StateContainer stateData);
-
-    public abstract void SetState(State targetState);
-
-    public abstract void RunCurrentState();
-
-    public abstract void AttemptToTransition();
-
-    public virtual void BakeData() { }
 }

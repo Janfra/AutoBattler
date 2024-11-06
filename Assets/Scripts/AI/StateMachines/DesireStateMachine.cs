@@ -2,105 +2,109 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DesireStateMachine : BaseStateMachine<StateDesire>
+
+namespace GameAI
 {
-    protected Dictionary<State, StateDesire> stateRetriever = new Dictionary<State, StateDesire>();
-
-    public override void AttemptToTransition()
+    public class DesireStateMachine : BaseStateMachine<StateDesire>
     {
-        float highestDesire = 0.0f;
-        StateDesire transitionState = null;
-        foreach (StateDesire stateDesire in availableStates)
+        protected Dictionary<State, StateDesire> stateRetriever = new Dictionary<State, StateDesire>();
+
+        public override void AttemptToTransition()
         {
-            float currentDesire = stateDesire.GetDesireValue();
-            if (currentDesire > highestDesire)
+            float highestDesire = 0.0f;
+            StateDesire transitionState = null;
+            foreach (StateDesire stateDesire in availableStates)
             {
-                highestDesire = currentDesire;
-                transitionState = stateDesire;
+                float currentDesire = stateDesire.GetDesireValue();
+                if (currentDesire > highestDesire)
+                {
+                    highestDesire = currentDesire;
+                    transitionState = stateDesire;
+                }
+            }
+
+            if (transitionState != null && !currentStateData.IsSameTarget(transitionState))
+            {
+                SetState(transitionState.Target);
             }
         }
 
-        if (transitionState != null && !currentStateData.IsSameTarget(transitionState))
+        public override void RunCurrentState()
         {
-            SetState(transitionState.Target);
+            currentStateData.Target.RunState();
         }
-    }
 
-    public override void RunCurrentState()
-    {
-        currentStateData.Target.RunState();
-    }
-
-    public override void SetState(State targetState)
-    {
-        if (stateRetriever.ContainsKey(targetState))
+        public override void SetState(State targetState)
         {
-            if (currentStateData != null)
+            if (stateRetriever.ContainsKey(targetState))
             {
-                currentStateData.Target.StateExited();
+                if (currentStateData != null)
+                {
+                    currentStateData.Target.StateExited();
+                }
+
+                currentStateData = stateRetriever[targetState];
+                currentStateData.Target.StateEntered();
+            }
+        }
+
+        public override bool TryGetStateDataFromState(State targetState, out StateDesire stateData)
+        {
+            if (stateRetriever.ContainsKey(targetState))
+            {
+                stateData = stateRetriever[targetState];
+                return true;
             }
 
-            currentStateData = stateRetriever[targetState];
-            currentStateData.Target.StateEntered();
-        }
-    }
-
-    public override bool TryGetStateDataFromState(State targetState, out StateDesire stateData)
-    {
-        if (stateRetriever.ContainsKey(targetState))
-        {
-            stateData = stateRetriever[targetState];
-            return true;
+            stateData = null;
+            return false;
         }
 
-        stateData = null;
-        return false;
-    }
-
-    public override void BakeData()
-    {
-        if (availableStates == null || availableStates.Length <= 0)
+        public override void BakeData()
         {
-            Debug.LogError("Attemped to add states with an empty array");
-            return;
-        }
-
-        if (stateRetriever == null)
-        {
-            stateRetriever = new Dictionary<State, StateDesire>();
-            if (stateRetriever == null)
+            if (availableStates == null || availableStates.Length <= 0)
             {
+                Debug.LogError("Attemped to add states with an empty array");
                 return;
             }
-        }
 
-        foreach (StateDesire desire in availableStates)
-        {
-            if (!desire.IsValid())
+            if (stateRetriever == null)
             {
-                continue;
+                stateRetriever = new Dictionary<State, StateDesire>();
+                if (stateRetriever == null)
+                {
+                    return;
+                }
             }
 
-            if (!desire.IsBlackboardValidForState(blackboard))
+            foreach (StateDesire desire in availableStates)
             {
-                Debug.LogError("Blackboard is missing variables for the states to handle");
-                continue;
-            }
+                if (!desire.IsValid())
+                {
+                    continue;
+                }
 
-            if (stateRetriever.ContainsKey(desire.Target))
-            {
-                Debug.LogError("Attempted to add state that is already registered");
-                continue;
-            }
+                if (!desire.IsBlackboardValidForState(blackboard))
+                {
+                    Debug.LogError("Blackboard is missing variables for the states to handle");
+                    continue;
+                }
 
-            if (entryState == null)
-            {
-                entryState = desire.Target;
-            }
+                if (stateRetriever.ContainsKey(desire.Target))
+                {
+                    Debug.LogError("Attempted to add state that is already registered");
+                    continue;
+                }
 
-            desire.InitReferences(blackboard);
-            desire.Target.Init(blackboard);
-            stateRetriever.Add(desire.Target, desire);
+                if (entryState == null)
+                {
+                    entryState = desire.Target;
+                }
+
+                desire.InitReferences(blackboard);
+                desire.Target.Init(blackboard);
+                stateRetriever.Add(desire.Target, desire);
+            }
         }
     }
 }

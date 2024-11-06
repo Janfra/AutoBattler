@@ -3,139 +3,142 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class TransitionCondition : ScriptableObject
+namespace GameAI
 {
-    public abstract bool CanTransition();
-}
-
-[Serializable]
-public struct StateData
-{
-    [ShowScriptableObjectEditor]
-    public State State;
-    public StateTransitionData[] Transitions;
-
-    public bool IsValid()
+    public abstract class TransitionCondition : ScriptableObject
     {
-        return State != null;
+        public abstract bool CanTransition();
     }
 
-    public bool HasTransition()
+    [Serializable]
+    public struct StateData
     {
-        return Transitions != null && Transitions.Length > 0;
-    }
-}
+        [ShowScriptableObjectEditor]
+        public State State;
+        public StateTransitionData[] Transitions;
 
-[Serializable]
-public struct StateTransitionData
-{
-    public State TransitionState;
-    public TransitionCondition[] TransitionConditions;
-
-    public bool IsMeetingTransitionRequirements()
-    {
-        bool areRequirementsMet = true;
-
-        foreach (TransitionCondition condition in TransitionConditions)
+        public bool IsValid()
         {
-            areRequirementsMet &= condition.CanTransition();
+            return State != null;
         }
 
-        return areRequirementsMet;
-    }
-}
-
-public class ConditionStateMachine : BaseStateMachine<StateData>
-{
-    protected Dictionary<State, StateData> stateRetriever;
-
-    public override void SetState(State targetState)
-    {
-        if (stateRetriever == null)
+        public bool HasTransition()
         {
-            Debug.LogError("State retriever is null");
-            return;
+            return Transitions != null && Transitions.Length > 0;
         }
+    }
 
-        if (!stateRetriever.ContainsKey(targetState))
+    [Serializable]
+    public struct StateTransitionData
+    {
+        public State TransitionState;
+        public TransitionCondition[] TransitionConditions;
+
+        public bool IsMeetingTransitionRequirements()
         {
-            Debug.LogError("Attempted to set to state that has not been defined - " + targetState.ToString());
-            return;
-        }
+            bool areRequirementsMet = true;
 
-        currentStateData = stateRetriever[targetState];
-    }
-
-    public override bool TryGetStateDataFromState(State targetState, out StateData stateData)
-    {
-        stateRetriever.TryGetValue(targetState, out stateData);
-        return stateData.IsValid();
-    }
-
-    public override void RunCurrentState()
-    {
-        currentStateData.State.RunState();
-    }
-
-    public override void AttemptToTransition()
-    {
-        if (currentStateData.HasTransition())
-        {
-            StateTransitionData[] transitions = currentStateData.Transitions;
-            foreach (StateTransitionData transition in transitions)
+            foreach (TransitionCondition condition in TransitionConditions)
             {
-                if (transition.IsMeetingTransitionRequirements())
+                areRequirementsMet &= condition.CanTransition();
+            }
+
+            return areRequirementsMet;
+        }
+    }
+
+    public class ConditionStateMachine : BaseStateMachine<StateData>
+    {
+        protected Dictionary<State, StateData> stateRetriever;
+
+        public override void SetState(State targetState)
+        {
+            if (stateRetriever == null)
+            {
+                Debug.LogError("State retriever is null");
+                return;
+            }
+
+            if (!stateRetriever.ContainsKey(targetState))
+            {
+                Debug.LogError("Attempted to set to state that has not been defined - " + targetState.ToString());
+                return;
+            }
+
+            currentStateData = stateRetriever[targetState];
+        }
+
+        public override bool TryGetStateDataFromState(State targetState, out StateData stateData)
+        {
+            stateRetriever.TryGetValue(targetState, out stateData);
+            return stateData.IsValid();
+        }
+
+        public override void RunCurrentState()
+        {
+            currentStateData.State.RunState();
+        }
+
+        public override void AttemptToTransition()
+        {
+            if (currentStateData.HasTransition())
+            {
+                StateTransitionData[] transitions = currentStateData.Transitions;
+                foreach (StateTransitionData transition in transitions)
                 {
-                    SetState(transition.TransitionState);
-                    break;
+                    if (transition.IsMeetingTransitionRequirements())
+                    {
+                        SetState(transition.TransitionState);
+                        break;
+                    }
                 }
             }
         }
-    }
 
-    public override void BakeData()
-    {
-        if (availableStates.Length <= 0)
+        public override void BakeData()
         {
-            Debug.LogError("Attemped to add states with an empty array");
-            return;
-        }
-
-        if (stateRetriever == null)
-        {
-            stateRetriever = new Dictionary<State, StateData>();
-            if (stateRetriever == null)
+            if (availableStates.Length <= 0)
             {
+                Debug.LogError("Attemped to add states with an empty array");
                 return;
             }
-        }
 
-        foreach (var stateData in availableStates)
-        {
-            if (!stateData.IsValid())
+            if (stateRetriever == null)
             {
-                continue;
+                stateRetriever = new Dictionary<State, StateData>();
+                if (stateRetriever == null)
+                {
+                    return;
+                }
             }
 
-            if (!stateData.State.IsBlackboardValidForState(blackboard))
+            foreach (var stateData in availableStates)
             {
-                Debug.LogError("Blackboard is missing variables for the states to handle");
-                continue;
-            }
+                if (!stateData.IsValid())
+                {
+                    continue;
+                }
 
-            if (stateRetriever.ContainsKey(stateData.State))
-            {
-                Debug.LogError("Attempted to add state that is already registered");
-                continue;
-            }
+                if (!stateData.State.IsBlackboardValidForState(blackboard))
+                {
+                    Debug.LogError("Blackboard is missing variables for the states to handle");
+                    continue;
+                }
 
-            if (entryState == null)
-            {
-                entryState = stateData.State;
-            }
+                if (stateRetriever.ContainsKey(stateData.State))
+                {
+                    Debug.LogError("Attempted to add state that is already registered");
+                    continue;
+                }
 
-            stateData.State.Init(blackboard);
-            stateRetriever.Add(stateData.State, stateData);
+                if (entryState == null)
+                {
+                    entryState = stateData.State;
+                }
+
+                stateData.State.Init(blackboard);
+                stateRetriever.Add(stateData.State, stateData);
+            }
         }
     }
 }

@@ -4,138 +4,141 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-[Serializable]
-public struct BoardReferenceData
+namespace GameAI
 {
-    [SerializeField]
-    private BlackboardReferenceType constraint;
-
-    [ReadOnlyInspector]
-    [SerializeField]
-    private Object objectReference;
-
-    public Object GetReference()
+    [Serializable]
+    public struct BoardReferenceData
     {
-        return objectReference;
-    }
+        [SerializeField]
+        private BlackboardReferenceType constraint;
 
-    public bool HasValidConstraint()
-    {
-        return constraint != null;
-    }
+        [ReadOnlyInspector]
+        [SerializeField]
+        private Object objectReference;
 
-    public bool HasValidReference()
-    {
-        return objectReference != null;
-    }
-
-    public bool SetReference(Object reference)
-    {
-        if (reference == null)
+        public Object GetReference()
         {
-            return false;
+            return objectReference;
         }
 
-        if (!constraint.IsObjectValid(reference))
+        public bool HasValidConstraint()
         {
-            return false;
+            return constraint != null;
         }
 
-        Debug.Log("Set reference");
-        objectReference = reference;
-        return true;
-    }
-
-    public Type GetExpectedType()
-    {
-        if (!HasValidConstraint())
+        public bool HasValidReference()
         {
-            return null;
+            return objectReference != null;
         }
 
-        return constraint.GetDataObjectType();
-    }
-
-    public BlackboardReferenceType GetReferenceTypeConstraint()
-    {
-        return constraint;
-    }
-}
-
-public class Blackboard : MonoBehaviour
-{
-    [SerializeField]
-    private BoardReferenceData[] referencesData;
-    private Dictionary<BlackboardReferenceType, Object> sharedData = new Dictionary<BlackboardReferenceType, Object>();
-
-    private void Awake()
-    {
-        if (sharedData == null)
+        public bool SetReference(Object reference)
         {
-            sharedData = new Dictionary<BlackboardReferenceType, Object>();
-        }
-
-        foreach (BoardReferenceData referenceData in referencesData)
-        {
-            if (referenceData.HasValidReference())
+            if (reference == null)
             {
-                BlackboardReferenceType constraintType = referenceData.GetReferenceTypeConstraint();
-                if (sharedData.ContainsKey(constraintType))
-                {
-                    Debug.LogWarning("Same blackboard constraint key given more than once, keeping the first seen");
-                    continue;
-                }
+                return false;
+            }
 
-                sharedData[constraintType] = referenceData.GetReference();
-                Debug.Log("Added reference to: " + referenceData.GetReference().name);
+            if (!constraint.IsObjectValid(reference))
+            {
+                return false;
+            }
+
+            Debug.Log("Set reference");
+            objectReference = reference;
+            return true;
+        }
+
+        public Type GetExpectedType()
+        {
+            if (!HasValidConstraint())
+            {
+                return null;
+            }
+
+            return constraint.GetDataObjectType();
+        }
+
+        public BlackboardReferenceType GetReferenceTypeConstraint()
+        {
+            return constraint;
+        }
+    }
+
+    public class Blackboard : MonoBehaviour
+    {
+        [SerializeField]
+        private BoardReferenceData[] referencesData;
+        private Dictionary<BlackboardReferenceType, Object> sharedData = new Dictionary<BlackboardReferenceType, Object>();
+
+        private void Awake()
+        {
+            if (sharedData == null)
+            {
+                sharedData = new Dictionary<BlackboardReferenceType, Object>();
+            }
+
+            foreach (BoardReferenceData referenceData in referencesData)
+            {
+                if (referenceData.HasValidReference())
+                {
+                    BlackboardReferenceType constraintType = referenceData.GetReferenceTypeConstraint();
+                    if (sharedData.ContainsKey(constraintType))
+                    {
+                        Debug.LogWarning("Same blackboard constraint key given more than once, keeping the first seen");
+                        continue;
+                    }
+
+                    sharedData[constraintType] = referenceData.GetReference();
+                    Debug.Log("Added reference to: " + referenceData.GetReference().name);
+                }
             }
         }
-    }
 
-    public object this[BlackboardReferenceType key]
-    {
-        get => !sharedData.ContainsKey(key) ? null : sharedData[key];
-        set => sharedData[key] = (Object)value;
-    }
-
-    public bool ContainsKey(BlackboardReferenceType key) => sharedData.ContainsKey(key);
-
-    public T TryGetValue<T>(BlackboardReferenceType key, T defaultValue)
-    {
-        if (!ContainsKey(key))
+        public object this[BlackboardReferenceType key]
         {
+            get => !sharedData.ContainsKey(key) ? null : sharedData[key];
+            set => sharedData[key] = (Object)value;
+        }
+
+        public bool ContainsKey(BlackboardReferenceType key) => sharedData.ContainsKey(key);
+
+        public T TryGetValue<T>(BlackboardReferenceType key, T defaultValue)
+        {
+            if (!ContainsKey(key))
+            {
+                return defaultValue;
+            }
+
+            if (sharedData[key] is T t)
+            {
+                return t;
+            }
+
             return defaultValue;
         }
 
-        if (sharedData[key] is T t)
+        public BoardReferenceData[] GetDataContainersCopy()
         {
-            return t;
+            return referencesData;
         }
 
-        return defaultValue;
-    }
-
-    public BoardReferenceData[] GetDataContainersCopy()
-    {
-        return referencesData;
-    }
-
-    public bool SetReferenceAt(int index, Object reference)
-    {
-        if (referencesData.Length <= index)
+        public bool SetReferenceAt(int index, Object reference)
         {
-            Debug.LogError("Given index outside of references range");
-            return false;
+            if (referencesData.Length <= index)
+            {
+                Debug.LogError("Given index outside of references range");
+                return false;
+            }
+
+            return referencesData[index].SetReference(reference);
         }
 
-        return referencesData[index].SetReference(reference);
-    }
-
-    public void AddReference(BoardReferenceData newReference)
-    {
-        if (newReference.HasValidReference())
+        public void AddReference(BoardReferenceData newReference)
         {
-            sharedData[newReference.GetReferenceTypeConstraint()] = newReference.GetReference();
+            if (newReference.HasValidReference())
+            {
+                sharedData[newReference.GetReferenceTypeConstraint()] = newReference.GetReference();
+            }
         }
     }
 }

@@ -3,24 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public abstract class StateDesire : Desire<State>, IBlackboardVerifier
+namespace GameAI
 {
-    public bool IsSameTarget(StateDesire other)
+    [Serializable]
+    public abstract class StateDesire : Desire<State>, IBlackboardVerifier
     {
-        return desireTarget == other.Target;
-    }
-
-    public virtual void InitReferences(Blackboard data) { }
-
-    public virtual bool IsBlackboardValidForState(Blackboard data) 
-    { 
-        if (!IsValid())
+        public bool IsSameTarget(StateDesire other)
         {
-            Debug.LogWarning("State desire has no target and its verifying for references");
-            return true;
+            return desireTarget == other.Target;
         }
 
-        return Target.IsBlackboardValidForState(data); 
+        public virtual void InitReferences(Blackboard data) { }
+
+        public virtual bool IsBlackboardValidForState(Blackboard data)
+        {
+            if (!IsValid())
+            {
+                Debug.LogWarning("State desire has no target and its verifying for references");
+                return true;
+            }
+
+            return Target.IsBlackboardValidForState(data);
+        }
     }
 }

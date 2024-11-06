@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BehaviourTree : MonoBehaviour
+namespace GameAI
 {
-    [SerializeField]
-    protected Blackboard blackboard;
-    [SerializeField]
-    protected BTNode rootNode;
-
-    private void Awake()
+    public class BehaviourTree : MonoBehaviour
     {
-        rootNode = new SequenceNode(blackboard);
+        [SerializeField]
+        protected Blackboard blackboard;
+        [SerializeField]
+        protected BTNode rootNode;
+
+        private void Awake()
+        {
+            rootNode = new SequenceNode(blackboard);
+        }
     }
 }
