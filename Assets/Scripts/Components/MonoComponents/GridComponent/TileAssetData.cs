@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AutoBattler
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "New Tile Asset Data", menuName = "ScriptableObjects/Tile Asset Data")]
     public class TileAssetData : ScriptableObject, IValidated
     {
         public BattleTile TilePrefab;

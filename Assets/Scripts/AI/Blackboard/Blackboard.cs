@@ -69,6 +69,17 @@ namespace GameAI
                 objectReference = null;
             }
         }
+
+        public BoardReferenceData GetWithUniqueConstraint()
+        {
+            if(constraint == null)
+            {
+                return new BoardReferenceData();
+            }
+
+            constraint = (BlackboardReferenceType)ScriptableObject.CreateInstance(constraint.GetType().Name);
+            return this;
+        }
     }
 
     public class Blackboard : BlackboardBase
@@ -81,7 +92,7 @@ namespace GameAI
             return referencesData;
         }
 
-        public override bool SetReferenceAt(int index, Object reference)
+        public bool SetReferenceAt(int index, Object reference)
         {
             if (referencesData.Length <= index)
             {
@@ -105,6 +116,7 @@ namespace GameAI
             }
 
             PopulateBlackboard();
+            
         }
 
         public object this[BlackboardReferenceType key]
@@ -132,8 +144,6 @@ namespace GameAI
 
         public abstract BoardReferenceData[] GetDataContainersCopy();
 
-        public abstract bool SetReferenceAt(int index, Object reference);
-
         public void AddReference(BoardReferenceData newReference)
         {
             if (newReference.HasValidReference())
@@ -144,6 +154,8 @@ namespace GameAI
 
         protected void PopulateBlackboard()
         {
+            BeforeInit();
+
             foreach (BoardReferenceData referenceData in GetDataContainersCopy())
             {
                 referenceData.ValidateReference();
@@ -159,7 +171,17 @@ namespace GameAI
                     sharedData[constraintType] = referenceData.GetReference();
                     Debug.Log("Added reference to: " + referenceData.GetReference().name);
                 }
+                else
+                {
+                    throw new NullReferenceException($"Blackboard containts an invalid reference - Object Name: {name}");
+                }
             }
+
+            AfterInit();
         }
+
+        protected virtual void BeforeInit() { }
+
+        protected virtual void AfterInit() { }
     }
 }

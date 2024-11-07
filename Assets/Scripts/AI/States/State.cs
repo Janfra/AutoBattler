@@ -8,12 +8,12 @@ namespace GameAI
 {
     public abstract class State : ScriptableObject, IBlackboardVerifier
     {
-        protected Blackboard blackboard;
+        protected BlackboardBase blackboard;
 
         // Check that blackboard has the required references
-        public abstract bool IsBlackboardValidForState(Blackboard data);
+        public abstract bool IsBlackboardValidForState(BlackboardBase data);
 
-        public virtual void Init(Blackboard data)
+        public virtual void Init(BlackboardBase data)
         {
             blackboard = data;
         }

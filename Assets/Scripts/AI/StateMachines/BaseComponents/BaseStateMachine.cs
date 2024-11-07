@@ -15,7 +15,7 @@ namespace GameAI
         [SerializeField]
         protected StateContainer[] availableStates;
         [SerializeField]
-        protected Blackboard blackboard;
+        protected BlackboardBase blackboard;
 
         protected StateContainer currentStateData;
         protected bool isEnabled = false;

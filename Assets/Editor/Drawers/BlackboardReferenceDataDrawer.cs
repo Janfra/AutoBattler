@@ -2,7 +2,6 @@ using GameAI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing.Printing;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -12,15 +11,19 @@ using Object = UnityEngine.Object;
 [CustomPropertyDrawer(typeof(BoardReferenceData))]
 public class BlackboardReferenceDataDrawer : PropertyDrawer
 {
-    const string objectFieldName = "ObjectField";
+    public const string constraintFieldName = "ConstraintField";
+    public const string objectFieldName = "ObjectField";
+    public const string constraintPropertyName = "constraint";
+    public const string objectReferencePropertyName = "objectReference";
+    Dictionary<IEventHandler, SerializedProperty> fieldToProperty = new Dictionary<IEventHandler, SerializedProperty>();
 
     public override VisualElement CreatePropertyGUI(SerializedProperty property)
     {
         VisualElement root = new VisualElement();
-        BoardReferenceData data = (BoardReferenceData)property.boxedValue;
 
         PropertyField field = new PropertyField();
-        field.BindProperty(property.FindPropertyRelative("constraint"));
+        field.BindProperty(property.FindPropertyRelative(constraintPropertyName));
+        field.name = constraintFieldName;
         root.Add(field);
         field.RegisterValueChangeCallback(OnReferenceTypeChanged);
 
@@ -29,17 +32,7 @@ public class BlackboardReferenceDataDrawer : PropertyDrawer
 
     public void OnReferenceTypeChanged(SerializedPropertyChangeEvent eventData)
     {
-        string[] propertyPaths = eventData.changedProperty.propertyPath.Split(".");
-        string propertyPath = "";
-        for (int i = 0; i < propertyPaths.Length - 1; i++)
-        {
-            propertyPath += propertyPaths[i];
-            if (i < propertyPaths.Length - 2)
-            {
-                propertyPath += ".";
-            }
-        }
-
+        string propertyPath = GetParentPropertyPath(eventData.changedProperty);
         SerializedProperty property = eventData.changedProperty.serializedObject.FindProperty(propertyPath);
         if(property == null)
         {
@@ -71,8 +64,15 @@ public class BlackboardReferenceDataDrawer : PropertyDrawer
             return;
         }
 
+        ObjectField objectField = GetObjectFieldForType(data.GetExpectedType(), property);
+        fieldToProperty[objectField] = property;
+
+        root.Add(objectField);
+    }
+
+    public ObjectField GetObjectFieldForType(Type constraintType, SerializedProperty property) 
+    {
         ObjectField objectField = new ObjectField();
-        Type constraintType = data.GetExpectedType();
         if (constraintType.IsInterface)
         {
             objectField.objectType = typeof(Object);
@@ -82,13 +82,52 @@ public class BlackboardReferenceDataDrawer : PropertyDrawer
             objectField.objectType = constraintType;
         }
 
+        SerializedProperty objectReferenceProperty = property.FindPropertyRelative(objectReferencePropertyName);
         objectField.label = constraintType.Name;
         objectField.allowSceneObjects = true;
-        objectField.value = data.GetReference();
         objectField.name = objectFieldName;
-        objectField.bindingPath = property.FindPropertyRelative("objectReference").propertyPath;
+        objectField.RegisterValueChangedCallback(SetObjectReference);
+        objectField.bindingPath = objectReferenceProperty.propertyPath;
         objectField.Bind(property.serializedObject);
 
-        root.Add(objectField);
+        return objectField;
+    }
+
+    public string GetParentPropertyPath(SerializedProperty property)
+    {
+        string[] propertyPaths = property.propertyPath.Split(".");
+        string propertyPath = "";
+        for (int i = 0; i < propertyPaths.Length - 1; i++)
+        {
+            propertyPath += propertyPaths[i];
+            if (i < propertyPaths.Length - 2)
+            {
+                propertyPath += ".";
+            }
+        }
+
+        return propertyPath;
+    }
+
+    public void SetObjectReference(ChangeEvent<Object> eventData)
+    {
+        ObjectField field = eventData.currentTarget as ObjectField;
+        if (field == null)
+        {
+            return;
+        }
+
+        SerializedProperty property = fieldToProperty[field];
+        if (property == null)
+        {
+            return;
+        }
+
+        BoardReferenceData data = (BoardReferenceData)property.boxedValue;
+        if (eventData.newValue != null && !data.SetReference(eventData.newValue))
+        {
+            Debug.LogError($"Given value was not valid - {eventData.newValue}");
+            field.value = null;
+        }
     }
 }

@@ -6,6 +6,6 @@ namespace GameAI
 {
     public interface IBlackboardVerifier
     {
-        public bool IsBlackboardValidForState(Blackboard data);
+        public bool IsBlackboardValidForState(BlackboardBase data);
     }
 }

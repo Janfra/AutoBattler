@@ -13,9 +13,9 @@ namespace GameAI
             return desireTarget == other.Target;
         }
 
-        public virtual void InitReferences(Blackboard data) { }
+        public virtual void InitReferences(BlackboardBase data) { }
 
-        public virtual bool IsBlackboardValidForState(Blackboard data)
+        public virtual bool IsBlackboardValidForState(BlackboardBase data)
         {
             if (!IsValid())
             {

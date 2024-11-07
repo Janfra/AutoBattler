@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace ModularData
 {
+    [CreateAssetMenu(fileName = "New BlackboardDE Target Reference", menuName = "ScriptableObjects/BlackboardReferenceType/BlackboardDE Target")]
     public class BlackboardDETargetReferenceType : BlackboardInterfaceReferenceType<IBlackboardDITarget>
     {
         public override Type GetDataObjectType()
