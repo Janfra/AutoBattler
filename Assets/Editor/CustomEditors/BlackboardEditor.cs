@@ -36,7 +36,7 @@ public class BlackboardEditor : CustomUIElementsEditor<Blackboard>
     public void CreateObjectFields(VisualElement root)
     {
         BoardReferenceData[] referencesConstraints = editorTarget.GetDataContainersCopy();
-        if (referencesConstraints.Length <= 0)
+        if (referencesConstraints == null || referencesConstraints.Length <= 0)
         {
             return;
         }

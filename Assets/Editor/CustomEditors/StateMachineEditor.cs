@@ -7,7 +7,7 @@ public class ConditionStateMachineEditor : CustomGUIEditorWithWindow
 {
     public override void OnOpenEditor()
     {
-        CustomGUIEditorWindow.OpenWindow((ConditionStateMachine)target, "State Machine Editor");
+        CustomGUIEditorWindow.OpenWindow((ConditionStateMachine)target, "Conditional State Machine Editor");
     }
 }
 
@@ -16,6 +16,6 @@ public class DesireStateMachineEditor : CustomGUIEditorWithWindow
 {
     public override void OnOpenEditor()
     {
-        CustomGUIEditorWindow.OpenWindow((DesireStateMachine)target, "State Machine Editor");
+        CustomGUIEditorWindow.OpenWindow((DesireStateMachine)target, "Desire State Machine Editor");
     }
 }

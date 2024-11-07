@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement name="Blackboard" style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="Exposed References" parse-escape-sequences="true" display-tooltip-when-elided="true" style="align-items: center; align-self: center; margin-bottom: 5px; -unity-text-align: middle-center; font-size: 16px; -unity-font-style: bold;" />
+        <uie:PropertyField binding-path="referencesData" name="Constraints" label="Expected References" focusable="false" />
+    </ui:VisualElement>
+</ui:UXML>
