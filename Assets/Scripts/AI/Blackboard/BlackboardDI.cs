@@ -31,6 +31,7 @@ namespace GameAI
             }
         }
 
+        [NonReorderable]
         [SerializeField]
         protected List<BlackboardTargetData> targets;
 

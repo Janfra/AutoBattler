@@ -5,13 +5,16 @@
     margin-left: 5px;
     color: rgb(0, 0, 0);
     -unity-background-image-tint-color: rgb(255, 255, 255);
+    transition-duration: 0.2s;
 }
 
 .UnitOption:hover {
     -unity-background-image-tint-color: rgb(255, 255, 255);
-    font-size: 16.5px;
+    font-size: 15px;
+    transition-duration: 0.2s;
 }
 
 .UnitOption:focus {
-    font-size: 16px;
+    font-size: 15.5px;
+    transition-duration: 0.2s;
 }

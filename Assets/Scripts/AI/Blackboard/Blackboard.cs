@@ -91,17 +91,6 @@ namespace GameAI
         {
             return referencesData;
         }
-
-        public bool SetReferenceAt(int index, Object reference)
-        {
-            if (referencesData.Length <= index)
-            {
-                Debug.LogError("Given index outside of references range");
-                return false;
-            }
-
-            return referencesData[index].SetReference(reference);
-        }
     }
 
     public abstract class BlackboardBase : MonoBehaviour
