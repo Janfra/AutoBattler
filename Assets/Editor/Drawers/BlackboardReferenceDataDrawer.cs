@@ -126,7 +126,7 @@ public class BlackboardReferenceDataDrawer : PropertyDrawer
         BoardReferenceData data = (BoardReferenceData)property.boxedValue;
         if (eventData.newValue != null && !data.SetReference(eventData.newValue))
         {
-            Debug.LogError($"Given value was not valid - {eventData.newValue}");
+            Debug.LogError($"Attempted to set invalid value to blackboard reference - Expected: {data.GetExpectedType().Name} Received: {eventData.newValue.GetType().Name}");
             field.value = null;
         }
     }
