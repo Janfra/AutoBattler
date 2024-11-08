@@ -214,6 +214,69 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &544607650
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 544607652}
+  - component: {fileID: 544607651}
+  - component: {fileID: 544607653}
+  m_Layer: 5
+  m_Name: GameUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &544607651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544607650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: a46e5c0a85d5a0346813af272af57f38, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 39b5a0c71ffeb304cbb3a3f8abcaae96, type: 3}
+  m_SortingOrder: 0
+--- !u!4 &544607652
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544607650}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &544607653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544607650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ba9dbcbfa0ee4046bfbae5340cca409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameUI: {fileID: 544607651}
+  unitOptionUI: {fileID: 9197481963319205126, guid: 8524f930ed98bd841afb0e94fd574a79, type: 3}
 --- !u!1 &1674759183
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,9 +322,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43bfedd2968fb9643bb2dc3ef24704f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entryState: {fileID: 11400000, guid: a321a25e888c44644bb05d20485d1cde, type: 2}
+  entryState: {fileID: 0}
   availableStates:
-  - {fileID: 11400000, guid: 897bd58c6b84bb943af8466f99888c34, type: 2}
+  - {fileID: 0}
   blackboard: {fileID: 0}
 --- !u!114 &1674759188
 MonoBehaviour:
@@ -330,3 +393,4 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 1876595664}
   - {fileID: 1674759185}
+  - {fileID: 544607652}

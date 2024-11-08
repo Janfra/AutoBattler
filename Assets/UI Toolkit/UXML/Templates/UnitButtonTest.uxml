@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/USS/UnitOption.uss?fileID=7433441132597879392&amp;guid=f8f9141116e49384fa5701c2b5689d08&amp;type=3#UnitOption" />
+    <ui:Button text="Unit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Button" class="UnitOption" style="min-width: 0; min-height: 0; white-space: normal;" />
+</ui:UXML>

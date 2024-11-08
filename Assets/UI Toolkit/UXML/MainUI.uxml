@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="UnitButtonTest" src="project://database/Assets/UI%20Toolkit/UXML/Templates/UnitButtonTest.uxml?fileID=9197481963319205126&amp;guid=8524f930ed98bd841afb0e94fd574a79&amp;type=3#UnitButtonTest" />
+    <Style src="project://database/Assets/UI%20Toolkit/USS/UnitOption.uss?fileID=7433441132597879392&amp;guid=f8f9141116e49384fa5701c2b5689d08&amp;type=3#UnitOption" />
+    <ui:VisualElement name="Root" style="flex-grow: 1; justify-content: center;">
+        <ui:VisualElement name="BottomContainer" style="flex-grow: 1; align-items: center; justify-content: center; align-self: center; background-color: rgb(0, 0, 0); width: 100%; height: 10%; max-height: 10%; max-width: 100%; top: 90%; border-top-color: rgb(255, 255, 255); border-right-color: rgba(0, 0, 0, 0); border-top-width: 2px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; transform-origin: bottom; position: absolute; flex-wrap: wrap; overflow: visible;">
+            <ui:Label tabindex="-1" text="Units" parse-escape-sequences="true" display-tooltip-when-elided="true" style="align-self: flex-start; align-items: flex-start; margin-top: 0; padding-top: 0; padding-bottom: 0; justify-content: flex-start; top: -23px; white-space: normal; -unity-text-outline-color: rgba(0, 0, 0, 0.65); -unity-text-outline-width: 0.4px; color: rgb(255, 255, 255); -unity-font-style: bold; -unity-text-align: upper-left; font-size: 18px; transform-origin: left top; position: absolute; text-shadow: -1px 1px 6px rgb(0, 0, 0);" />
+            <ui:GroupBox name="UnitGroupContainer" style="align-items: center; justify-content: center; align-self: center; -unity-font-style: bold; width: 100%; -unity-text-outline-color: rgba(65, 65, 65, 0.21); -unity-text-outline-width: 0; color: rgb(255, 255, 255); margin-top: 0; margin-bottom: 0; margin-right: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 100%; flex-direction: row; overflow: hidden;">
+                <ui:Instance template="UnitButtonTest" name="UnitButtonTest">
+                    <AttributeOverrides element-name="Button" text="Static Unit Test" />
+                </ui:Instance>
+            </ui:GroupBox>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

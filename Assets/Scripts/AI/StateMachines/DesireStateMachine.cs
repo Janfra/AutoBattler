@@ -79,7 +79,7 @@ namespace GameAI
 
             foreach (StateDesire desire in availableStates)
             {
-                if (!desire.IsValid())
+                if (!desire || !desire.IsValid())
                 {
                     continue;
                 }
