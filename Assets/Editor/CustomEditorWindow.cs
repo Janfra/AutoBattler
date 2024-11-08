@@ -18,12 +18,18 @@ namespace MyCustomEditor
 
             CustomGUIEditorWindow window = GetWindow<CustomGUIEditorWindow>(windowName);
             window.serializedObject = new SerializedObject(windowTarget);
+            window.targetObject = windowTarget;
         }
 
 
 
         private void OnGUI()
         {
+            if (serializedObject == null && targetObject != null)
+            {
+                serializedObject = new SerializedObject(targetObject);
+            }
+
             Draw(serializedObject, true);
             ApplyChanges();
         }

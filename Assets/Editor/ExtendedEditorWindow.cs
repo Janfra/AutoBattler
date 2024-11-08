@@ -1,19 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class ExtendedEditorWindow : EditorWindow
 {
     protected SerializedObject serializedObject;
     protected SerializedProperty currentProperty;
 
+    [SerializeField]
+    protected Object targetObject;  
     private string selectedPropertyPath;
     protected SerializedProperty selectedProperty;
-
+    
     protected void Draw(SerializedObject serializedObject, bool drawChildren)
     {
         if(serializedObject == null)
@@ -22,6 +23,11 @@ public class ExtendedEditorWindow : EditorWindow
         }
 
         currentProperty = serializedObject.GetIterator();
+        if (currentProperty == null)
+        {
+            return;
+        }
+
         if (currentProperty.depth == -1)
         {
             if (!currentProperty.Next(true))
@@ -29,6 +35,7 @@ public class ExtendedEditorWindow : EditorWindow
                 return;
             }
         }
+
         SerializedProperty propertyCopy = currentProperty.Copy();
   
         if (propertyCopy.isArray)
@@ -146,6 +153,11 @@ public class ExtendedEditorWindow : EditorWindow
 
     protected void ApplyChanges()
     {
+        if (serializedObject == null)
+        {
+            return;
+        }
+
         serializedObject.ApplyModifiedProperties();
     }
 }
