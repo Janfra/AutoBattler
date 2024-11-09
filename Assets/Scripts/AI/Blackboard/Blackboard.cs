@@ -77,7 +77,7 @@ namespace GameAI
                 return new BoardReferenceData();
             }
 
-            constraint = (BlackboardReferenceType)ScriptableObject.CreateInstance(constraint.GetType().Name);
+            constraint = ScriptableObject.CreateInstance<BlackboardReferenceType>();
             return this;
         }
     }

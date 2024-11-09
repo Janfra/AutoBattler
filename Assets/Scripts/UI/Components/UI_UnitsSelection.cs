@@ -1,77 +1,108 @@
+using ModularData;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[Serializable]
-public class UI_UnitsSelection
+namespace AutoBattler.UI
 {
-    [SerializeField]
-    private VisualTreeAsset unitOptionVisualTreeAsset;
-
-    private List<UI_UnitOption> unitOptions = new List<UI_UnitOption>();
-    private VisualElement unitUIContainer;
-
-    public void Initialise(UIDocument uiGameObject)
+    [Serializable]
+    public class UI_UnitsSelection
     {
-        if (uiGameObject == null)
+        [SerializeField]
+        private VisualTreeAsset unitOptionVisualTreeAsset;
+        [SerializeField]
+        private SharedUnitSelection unitSelection;
+
+        [SerializeField]
+        private UnitData test;
+
+        private List<UI_UnitOption> unitOptions = new List<UI_UnitOption>();
+        private VisualElement unitUIContainer;
+
+        public void Initialise(UIDocument uiGameObject)
         {
-            throw new ArgumentNullException($"{GetType().Name} component was given a null {typeof(UIDocument).Name} on {nameof(Initialise)}, unable to add Unit Options UI to screen.");
+            if (uiGameObject == null)
+            {
+                throw new ArgumentNullException($"{GetType().Name} component was given a null {typeof(UIDocument).Name} on {nameof(Initialise)}, unable to add Unit Options UI to screen.");
+            }
+
+            if (unitOptionVisualTreeAsset == null)
+            {
+                throw new NullReferenceException($"{uiGameObject.name} has a {GetType().Name} component with a null Visual Tree Asset on {nameof(Initialise)}, unable to create Unit Options UI");
+            }
+
+            unitUIContainer = uiGameObject.rootVisualElement.Q<VisualElement>("UnitGroupContainer");
+            CreateUnitOption(test);
+
+            unitSelection.OnValueChanged += TestChange;
         }
 
-        if (unitOptionVisualTreeAsset == null)
+        private void CreateUnitOption(UnitData newUnitData)
         {
-            throw new NullReferenceException($"{uiGameObject.name} has a {GetType().Name} component with a null Visual Tree Asset on {nameof(Initialise)}, unable to create Unit Options UI");
+            VisualElement root = unitOptionVisualTreeAsset.Instantiate();
+            UI_UnitOption option = new UI_UnitOption(root, newUnitData, SetSelectedUnit);
+            unitUIContainer.Add(option.UiRoot);
+            unitOptions.Add(option);
         }
 
-        unitUIContainer = uiGameObject.rootVisualElement.Q<VisualElement>("UnitGroupContainer");
-        AddUnitOption("Testo");
-    }
-
-    private void AddUnitOption(string unitName)
-    {
-        VisualElement root = unitOptionVisualTreeAsset.Instantiate();
-        UI_UnitOption option = new UI_UnitOption(root, unitName);
-        unitUIContainer.Add(option.UiRoot);
-        unitOptions.Add(option);
-    }
-}
-
-[Serializable]
-public class UI_UnitOption
-{
-    const string UI_BUTTON_NAME = "Button";
-    const string ROOT_NAME_PREFIX = "Unit Selection Button for ";
-
-    public VisualElement UiRoot { get => uiRoot; }
-    private VisualElement uiRoot;
-    private Button selectionButton;
-    private string unitName;
-
-    public UI_UnitOption(VisualElement uiRoot, string unitName)
-    {
-        if (uiRoot == null)
+        private void SetSelectedUnit(UnitData selectedUnitData)
         {
-            throw new ArgumentNullException($"Trying to construct {GetType().Name} with a null UI Visual Element.");
+            unitSelection.Value = selectedUnitData;
         }
 
-        this.uiRoot = uiRoot;
-        this.unitName = unitName;
-
-        uiRoot.name = ROOT_NAME_PREFIX + unitName;
-        selectionButton = uiRoot.Q<Button>(UI_BUTTON_NAME);
-        selectionButton.clicked += OnSelectUnit;
-        selectionButton.text = unitName;
+        private void TestChange()
+        {
+            Debug.Log($"{unitSelection.Value.UnitName} has been updated as selected in shared selection");
+        }
     }
 
-    public void OnSelectUnit()
+    [Serializable]
+    public class UI_UnitOption
     {
-        Debug.Log($"Selected unit {unitName}");
-    }
+        const string UI_BUTTON_NAME = "Button";
+        const string ROOT_NAME_PREFIX = "Unit Selection Button for ";
 
-    public void Unsubscribe()
-    {
-        Debug.Log($"Unsubscribed UI unit selection for {unitName}");
-        selectionButton.clicked -= OnSelectUnit;
+        public delegate void OnSelected(UnitData selectedUnitData);
+
+        public VisualElement UiRoot { get => uiRoot; }
+        private VisualElement uiRoot;
+        private Button selectionButton;
+        private UnitData unitData;
+        private OnSelected onSelected;
+
+        public UI_UnitOption(VisualElement uiRoot, UnitData unitData, OnSelected onSelected)
+        {
+            if (uiRoot == null)
+            {
+                throw new ArgumentNullException($"Trying to construct {GetType().Name} with a null UI Visual Element.");
+            }
+
+            this.uiRoot = uiRoot;
+            this.unitData = unitData;
+            this.onSelected = onSelected;
+
+            uiRoot.name = ROOT_NAME_PREFIX + unitData.UnitName;
+            selectionButton = uiRoot.Q<Button>(UI_BUTTON_NAME);
+            selectionButton.clicked += OnSelectUnit;
+            selectionButton.text = unitData.UnitName;
+        }
+
+        public void OnSelectUnit()
+        {
+            Debug.Log($"Selected unit {unitData.UnitName}");
+            if (onSelected == null)
+            {
+                throw new NullReferenceException($"{GetType().Name} has been selected but the selection listener is null, unable to complete unit selection.");
+            }
+
+            onSelected.Invoke(unitData);
+        }
+
+        public void Unsubscribe()
+        {
+            Debug.Log($"Unsubscribed UI unit selection for {unitData.UnitName}");
+            selectionButton.clicked -= OnSelectUnit;
+        }
     }
 }

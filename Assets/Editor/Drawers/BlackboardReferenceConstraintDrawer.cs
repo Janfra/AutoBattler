@@ -14,7 +14,7 @@ public class BlackboardReferenceConstraintDrawer : PropertyDrawer
     public override VisualElement CreatePropertyGUI(SerializedProperty property)
     {
         BlackboardReferenceConstraintAttribute constraintAttribute = attribute as BlackboardReferenceConstraintAttribute;
-        BlackboardReferenceType constraint = ScriptableObject.CreateInstance(constraintAttribute.constraintType) as BlackboardReferenceType;
+        BlackboardReferenceType constraint = ScriptableObject.CreateInstance<BlackboardReferenceType>();
         if (constraint == null)
         {
             throw new NullReferenceException("Constraint given to the Blackboard Reference Constraint Attribute is not a Blackboard Reference Type - BlackboardReferenceConstraintDrawer.CreatePropertyGUI");

@@ -1,21 +1,24 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[RequireComponent(typeof(UIDocument))]
-public class UI_Game : MonoBehaviour
+namespace AutoBattler.UI
 {
-    [SerializeField]
-    private UIDocument uiGameObject;
-    [SerializeField]
-    private UI_UnitsSelection unitsSelectionUI = new UI_UnitsSelection();
-
-    private void Awake()
+    [RequireComponent(typeof(UIDocument))]
+    public class UI_Game : MonoBehaviour
     {
-        if (uiGameObject == null)
-        {
-            uiGameObject = GetComponent<UIDocument>();
-        }
+        [SerializeField]
+        private UIDocument uiGameObject;
+        [SerializeField]
+        private UI_UnitsSelection unitsSelectionUI = new UI_UnitsSelection();
 
-        unitsSelectionUI.Initialise(uiGameObject);
+        private void Awake()
+        {
+            if (uiGameObject == null)
+            {
+                uiGameObject = GetComponent<UIDocument>();
+            }
+
+            unitsSelectionUI.Initialise(uiGameObject);
+        }
     }
 }

@@ -278,6 +278,8 @@ MonoBehaviour:
   uiGameObject: {fileID: 544607651}
   unitsSelectionUI:
     unitOptionVisualTreeAsset: {fileID: 9197481963319205126, guid: 8524f930ed98bd841afb0e94fd574a79, type: 3}
+    unitSelection: {fileID: 11400000, guid: 1565567b5713c6246b64033ce1ff39fc, type: 2}
+    test: {fileID: 11400000, guid: bcb2c81bc8f0e8d46b9802b3da379cbc, type: 2}
 --- !u!1 &1674759183
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,6 +353,7 @@ GameObject:
   - component: {fileID: 1876595664}
   - component: {fileID: 1876595665}
   - component: {fileID: 1876595663}
+  - component: {fileID: 1876595666}
   m_Layer: 0
   m_Name: BattleArena
   m_TagString: Untagged
@@ -402,6 +405,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {fileID: 1876595663}
   ArenaUnitsToBe: []
+--- !u!114 &1876595666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876595662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28b5bcddd38fc5743b4c5a34b92be375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

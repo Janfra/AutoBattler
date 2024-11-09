@@ -1,9 +1,8 @@
 {
-    "name": "Runtime",
+    "name": "Runtime.GameData",
     "rootNamespace": "",
     "references": [
-        "GUID:f66e7f3f73c204c459c1f86ca97e3380",
-        "GUID:51d00e271242c1848b02123607b972fa"
+        "GUID:f66e7f3f73c204c459c1f86ca97e3380"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
