@@ -275,8 +275,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ba9dbcbfa0ee4046bfbae5340cca409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameUI: {fileID: 544607651}
-  unitOptionUI: {fileID: 9197481963319205126, guid: 8524f930ed98bd841afb0e94fd574a79, type: 3}
+  uiGameObject: {fileID: 544607651}
+  unitsSelectionUI:
+    unitOptionVisualTreeAsset: {fileID: 9197481963319205126, guid: 8524f930ed98bd841afb0e94fd574a79, type: 3}
 --- !u!1 &1674759183
 GameObject:
   m_ObjectHideFlags: 0
