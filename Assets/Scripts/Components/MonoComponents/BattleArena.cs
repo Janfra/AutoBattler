@@ -8,13 +8,19 @@ namespace AutoBattler
     {
         [SerializeField]
         private BattleGrid grid;
-
-        #region Units Section
-
         [SerializeField]
-        private List<string> ArenaUnitsToBe;
+        private UnitCreation unitCreation;
 
-        #endregion
+        public void TrySpawnUnitAt(Vector2 position)
+        {
+            Vector2 spawnPosition;
+            if(!grid.TryGetPositionClosestTilePosition(position, out spawnPosition))
+            {
+                return;
+            }
+
+            unitCreation.TrySpawnSelectedUnitAt(position);
+        }
 
         public BattleGrid GetGrid()
         {

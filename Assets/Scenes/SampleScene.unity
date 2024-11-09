@@ -351,9 +351,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1876595664}
+  - component: {fileID: 1876595666}
   - component: {fileID: 1876595665}
   - component: {fileID: 1876595663}
-  - component: {fileID: 1876595666}
+  - component: {fileID: 1876595667}
   m_Layer: 0
   m_Name: BattleArena
   m_TagString: Untagged
@@ -404,7 +405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: {fileID: 1876595663}
-  ArenaUnitsToBe: []
+  unitCreation: {fileID: 1876595667}
 --- !u!114 &1876595666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,6 +418,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28b5bcddd38fc5743b4c5a34b92be375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerArena: {fileID: 1876595665}
+--- !u!114 &1876595667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876595662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f887ead7a5094a440aab3d57dd313370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedUnit: {fileID: 11400000, guid: 1565567b5713c6246b64033ce1ff39fc, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

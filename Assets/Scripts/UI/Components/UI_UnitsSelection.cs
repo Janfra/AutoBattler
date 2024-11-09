@@ -34,8 +34,6 @@ namespace AutoBattler.UI
 
             unitUIContainer = uiGameObject.rootVisualElement.Q<VisualElement>("UnitGroupContainer");
             CreateUnitOption(test);
-
-            unitSelection.OnValueChanged += TestChange;
         }
 
         private void CreateUnitOption(UnitData newUnitData)
@@ -49,11 +47,6 @@ namespace AutoBattler.UI
         private void SetSelectedUnit(UnitData selectedUnitData)
         {
             unitSelection.Value = selectedUnitData;
-        }
-
-        private void TestChange()
-        {
-            Debug.Log($"{unitSelection.Value.UnitName} has been updated as selected in shared selection");
         }
     }
 
