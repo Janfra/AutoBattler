@@ -43,7 +43,7 @@ namespace AutoBattler
 
         private void OnInteract(InputAction.CallbackContext context)
         {
-            playerArena.TrySpawnUnitAt(GetMouseWorldPosition());
+            playerArena.TrySpawnSelectedUnitAt(GetMouseWorldPosition());
         }
 
         public Vector2 GetMouseWorldPosition()

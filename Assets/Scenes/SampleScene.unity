@@ -289,9 +289,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1674759185}
-  - component: {fileID: 1674759188}
   - component: {fileID: 1674759192}
+  - component: {fileID: 1674759188}
   - component: {fileID: 1674759187}
+  - component: {fileID: 1674759193}
   - component: {fileID: 1674759189}
   - component: {fileID: 1674759191}
   - component: {fileID: 1674759190}
@@ -348,8 +349,8 @@ MonoBehaviour:
   referencesData:
   - constraint: {fileID: 11400000, guid: 22a88bced6ff16d48b70cfb3de9ce922, type: 2}
     objectReference: {fileID: 1674759189}
-  - constraint: {fileID: 11400000, guid: 41d685a88bb6f1241975654672a6d52b, type: 2}
-    objectReference: {fileID: 1674759192}
+  - constraint: {fileID: 11400000, guid: 6839a9029df2c1b4d9d5ca2f7879bdb1, type: 2}
+    objectReference: {fileID: 1674759193}
 --- !u!114 &1674759189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,8 +427,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitData: {fileID: 11400000, guid: bcb2c81bc8f0e8d46b9802b3da379cbc, type: 2}
-  unitSpeed: {fileID: 11400000, guid: 07693638d5818c04ba1a13492175fece, type: 2}
-  unitMaxSpeed: {fileID: 11400000, guid: 263f05b07533d7342ad1f80341d04dac, type: 2}
+  unitMovement: {fileID: 1674759189}
+  arenaData: {fileID: 1674759193}
+--- !u!114 &1674759193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674759183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1fa4bcbdf329ad449c6d8e9eed12afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   enemyUnits: {fileID: 11400000, guid: 167a1b055e2de2d4d9cbff9b19a7a352, type: 2}
   friendlyUnits: {fileID: 11400000, guid: bd617475f24cb0a4197cf442baea3fae, type: 2}
 --- !u!1 &1876595662
@@ -463,6 +476,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileAssetData: {fileID: 11400000, guid: 16037921caddc3c4c8e0a807fd1477b7, type: 2}
+  tileLayer:
+    serializedVersion: 2
+    m_Bits: 64
   gridSize: {x: 5, y: 5}
   tileOffset: {x: 0.05, y: 0.05}
 --- !u!4 &1876595664

@@ -17,6 +17,7 @@ namespace AutoBattler
         [SerializeField]
         private ArenaBattleUnitsData teamBUnits;
 
+        public bool HasSelectedUnit => selectedUnit.Value != null;
         private bool canInstantiateUnit;
 
         private void Awake()
@@ -25,16 +26,16 @@ namespace AutoBattler
             selectedUnit.OnValueChanged += OnUnitSelectionUpdate;
         }
 
-        public void TrySpawnSelectedUnitAt(Vector2 position)
+        public void TrySpawnSelectedUnitAt(BattleTile spawningTile)
         {
             if (!canInstantiateUnit)
             {
                 return;
             }
 
-            Debug.Log($"Spawning unit {selectedUnit.Value.UnitName} at {position}");
+            Debug.Log($"Spawning unit {selectedUnit.Value.UnitName} at {spawningTile.name}");
             GameObject test = new GameObject("Test");
-            test.transform.position = position;
+            test.transform.position = spawningTile.transform.position;
             BattleUnitData data = new BattleUnitData(test.transform, ScriptableObject.CreateInstance<UnitData>());
             teamBUnits.AddValue(data);  
 

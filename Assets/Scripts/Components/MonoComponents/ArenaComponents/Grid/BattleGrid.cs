@@ -9,6 +9,9 @@ namespace AutoBattler
         [SerializeField]
         protected TileAssetData tileAssetData;
         [SerializeField]
+        private LayerMask tileLayer;
+
+        [SerializeField]
         protected Vector2 gridSize = Vector2.one;
         [SerializeField]
         protected Vector2 tileOffset = Vector2.zero;
@@ -61,15 +64,22 @@ namespace AutoBattler
             return true;
         }
 
-        public bool TryGetPositionClosestTilePosition(Vector2 position, out Vector2 tilePosition)
+        public bool TryGetPositionTile(Vector2 position, out BattleTile tile)
         {
-            tilePosition = Vector2.zero;
+            tile = null;
             if (!IsPositionWithinGrid(position))
             {
                 return false;
             }
 
-            return true;
+            const float TILE_CHECK_RANGE = 0.1f;
+            RaycastHit2D hit = Physics2D.Raycast(position, Vector2.down, TILE_CHECK_RANGE, tileLayer.value);
+            if (hit)
+            {
+                tile = hit.collider.GetComponent<BattleTile>();
+                return tile;
+            }
+            return false;
         }
 
         private void SpawnGrid()

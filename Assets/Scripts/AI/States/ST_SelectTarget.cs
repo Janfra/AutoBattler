@@ -10,20 +10,20 @@ namespace GameAI
     public class ST_SelectTarget : State
     {
         [SerializeField]
-        private BattleUnitReferenceType battleUnitType;
+        private ArenaDataReferenceType arenaDataType;
         [SerializeField]
         private MovementReferenceType movementType;
         private List<BattleUnitData> possibleTargets = new List<BattleUnitData>();
 
         public override bool IsBlackboardValidForState(BlackboardBase data)
         {
-            return data.ContainsKey(movementType) && data.ContainsKey(battleUnitType);
+            return data.ContainsKey(movementType) && data.ContainsKey(arenaDataType);
         }
 
         public override void StateEntered()
         {
             possibleTargets.Clear();
-            BattleUnit unit = blackboard.TryGetValue<BattleUnit>(battleUnitType, null);
+            ArenaData unit = blackboard.TryGetValue<ArenaData>(arenaDataType, null);
             BattleUnitData[] enemyUnits = unit.GetEnemyUnitsData();
             unit.SubscribeToNewEnemyEvent(UpdateTargets);
 
@@ -38,7 +38,7 @@ namespace GameAI
 
         public override void StateExited()
         {
-            BattleUnit unit = blackboard.TryGetValue<BattleUnit>(battleUnitType, null);
+            ArenaData unit = blackboard.TryGetValue<ArenaData>(arenaDataType, null);
             unit.UnsubscribeToNewEnemyEvent(UpdateTargets);
         }
 
@@ -81,7 +81,7 @@ namespace GameAI
 
         private void UpdateTargets()
         {
-            BattleUnit unit = blackboard.TryGetValue<BattleUnit>(battleUnitType, null);
+            ArenaData unit = blackboard.TryGetValue<ArenaData>(arenaDataType, null);
             possibleTargets.Add(unit.GetLatestEnemyAdded());
             Debug.Log("Enemy added to targets");
         }

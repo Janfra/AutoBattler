@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5bbc89ea24a0ff45b2c1918d0f57f62, type: 3}
-  m_Name: Select Enemy
+  m_Script: {fileID: 11500000, guid: bf9154b954f5d304db5087a789593f01, type: 3}
+  m_Name: Arena Data Reference
   m_EditorClassIdentifier: 
-  arenaDataType: {fileID: 11400000, guid: 6839a9029df2c1b4d9d5ca2f7879bdb1, type: 2}
-  movementType: {fileID: 11400000, guid: 22a88bced6ff16d48b70cfb3de9ce922, type: 2}

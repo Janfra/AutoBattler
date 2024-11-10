@@ -11,15 +11,20 @@ namespace AutoBattler
         [SerializeField]
         private UnitCreation unitCreation;
 
-        public void TrySpawnUnitAt(Vector2 position)
+        public void TrySpawnSelectedUnitAt(Vector2 position)
         {
-            Vector2 spawnPosition;
-            if(!grid.TryGetPositionClosestTilePosition(position, out spawnPosition))
+            if (!unitCreation.HasSelectedUnit)
             {
                 return;
             }
 
-            unitCreation.TrySpawnSelectedUnitAt(position);
+            BattleTile tile;
+            if(!grid.TryGetPositionTile(position, out tile))
+            {
+                return;
+            }
+
+            unitCreation.TrySpawnSelectedUnitAt(tile);
         }
 
         public BattleGrid GetGrid()
