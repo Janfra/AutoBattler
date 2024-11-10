@@ -1,4 +1,3 @@
-using Codice.CM.SEIDInfo;
 using ModularData;
 using System;
 using System.Collections;
@@ -8,37 +7,83 @@ using UnityEngine;
 namespace GameAI
 {
     [CreateAssetMenu(fileName = "New Select Target State", menuName = "ScriptableObjects/State/Select Target")]
-    public class ST_SelectTarget : State, IBlackboardDITarget
+    public class ST_SelectTarget : State
     {
         [SerializeField]
-        private FloatReferenceType test1;
-
+        private BattleUnitReferenceType battleUnitType;
         [SerializeField]
-        private FloatReferenceType test2;
-
-        [SerializeField]
-        private FloatReferenceType test3;
-
+        private MovementReferenceType movementType;
+        private List<BattleUnitData> possibleTargets = new List<BattleUnitData>();
 
         public override bool IsBlackboardValidForState(BlackboardBase data)
         {
-            return data.ContainsKey(test1) && data.ContainsKey(test2) && data.ContainsKey(test3);
+            return data.ContainsKey(movementType) && data.ContainsKey(battleUnitType);
+        }
+
+        public override void StateEntered()
+        {
+            possibleTargets.Clear();
+            BattleUnit unit = blackboard.TryGetValue<BattleUnit>(battleUnitType, null);
+            BattleUnitData[] enemyUnits = unit.GetEnemyUnitsData();
+            unit.SubscribeToNewEnemyEvent(UpdateTargets);
+
+            if (enemyUnits.Length == 0)
+            {
+                Debug.Log("There are no enemies to select target");
+                    return;
+            }
+
+            possibleTargets.AddRange(enemyUnits);
+        }
+
+        public override void StateExited()
+        {
+            BattleUnit unit = blackboard.TryGetValue<BattleUnit>(battleUnitType, null);
+            unit.UnsubscribeToNewEnemyEvent(UpdateTargets);
         }
 
         public override void RunState()
         {
+            if (possibleTargets.Count <= 0)
+            {
+                return;
+            }
 
+            Movement unitMovement = blackboard.TryGetValue<Movement>(movementType, null);
+            if (unitMovement == null)
+            {
+                return;
+            }
+
+            Vector2 unitPosition = unitMovement.transform.position;
+            float minDistance = Mathf.Infinity;
+            Vector2 targetPosition = unitPosition;
+
+            for (int i = possibleTargets.Count - 1; i >= 0; i--)
+            {
+                if (possibleTargets[i].transform == null)
+                {
+                    possibleTargets.RemoveAt(i);
+                    continue;
+                }
+
+                Vector2 enemyTargetPosition = possibleTargets[i].transform.position;
+                float sqrDistance = (enemyTargetPosition - unitPosition).sqrMagnitude;
+                if (sqrDistance < minDistance)
+                {
+                    minDistance = sqrDistance;
+                    targetPosition = enemyTargetPosition;
+                }
+            }
+
+            unitMovement.SetMovementTarget(targetPosition);
         }
 
-        public void SetBlackboardReferences(LinkedReferenceTypes references)
+        private void UpdateTargets()
         {
-            IBlackboardDITarget.SetReferencesBasedOnType(ref references, ref test1);
-            IBlackboardDITarget.SetReferencesBasedOnType(ref references, ref test2);
-            IBlackboardDITarget.SetReferencesBasedOnType(ref references, ref test3);
-
-            Debug.Log(test1);
-            Debug.Log(test2);
-            Debug.Log(test3);
+            BattleUnit unit = blackboard.TryGetValue<BattleUnit>(battleUnitType, null);
+            possibleTargets.Add(unit.GetLatestEnemyAdded());
+            Debug.Log("Enemy added to targets");
         }
     }
 }

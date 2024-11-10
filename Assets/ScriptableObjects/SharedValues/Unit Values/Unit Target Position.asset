@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b84e25f7ff3d4cd4284178e1d1c46399, type: 3}
-  m_Name: New Int Reference
+  m_Script: {fileID: 11500000, guid: 479fa0afe050f684cb6543d021a161e6, type: 3}
+  m_Name: Unit Target Position
   m_EditorClassIdentifier: 
+  value: {x: 0, y: 0}

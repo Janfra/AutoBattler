@@ -1,6 +1,7 @@
 using ModularData;
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using UnityEngine;
 
 namespace AutoBattler
@@ -9,6 +10,13 @@ namespace AutoBattler
     {
         [SerializeField]
         private SharedUnitSelection selectedUnit;
+        
+        [SerializeField]
+        private ArenaBattleUnitsData teamAUnits;
+
+        [SerializeField]
+        private ArenaBattleUnitsData teamBUnits;
+
         private bool canInstantiateUnit;
 
         private void Awake()
@@ -25,6 +33,11 @@ namespace AutoBattler
             }
 
             Debug.Log($"Spawning unit {selectedUnit.Value.UnitName} at {position}");
+            GameObject test = new GameObject("Test");
+            test.transform.position = position;
+            BattleUnitData data = new BattleUnitData(test.transform, ScriptableObject.CreateInstance<UnitData>());
+            teamBUnits.AddValue(data);  
+
             selectedUnit.Value = null;
         }
 

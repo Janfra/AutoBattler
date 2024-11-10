@@ -27,6 +27,51 @@ namespace ModularData
         private ValueType value;
     }
 
+    public abstract class SharedList<ValueType> : ScriptableObject
+    {
+        public delegate void valueAdded();
+        public delegate void valueElementChanged(ValueType newValue, int valueIndex);
+        public event valueAdded OnValueAdded;
+        public event valueElementChanged OnValueElementChanged;
+
+        public int Count => value.Count;
+
+        public ValueType GetValueAtIndex(int index)
+        {
+            if (index >= value.Count)
+            {
+                return default;
+            }
+
+            return value[index];
+        }
+
+        public void SetValueAtIndex(int index, ValueType newValue)
+        {
+            if (index >= value.Count)
+            {
+                return;
+            }
+
+            value[index] = newValue;
+            OnValueElementChanged?.Invoke(newValue, index);
+        }
+
+        public void AddValue(ValueType newValue)
+        {
+            value.Add(newValue);
+            OnValueAdded?.Invoke();
+        }
+
+        public ValueType[] ToArray()
+        {
+            return value.ToArray();
+        }
+
+        [SerializeField]
+        private List<ValueType> value;
+    }
+
     public abstract class SharedLockableValue<ValueType> : ScriptableObject
     {
         public struct LockHandle
