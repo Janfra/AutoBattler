@@ -12,14 +12,12 @@ namespace GameAI
         public override void Initialize(TargetSelectionData data)
         {
             base.Initialize(data);
-
-            possibleTargets.Clear();
             BattleUnitData[] enemyUnits = selectionData.arenaData.GetEnemyUnitsData();
             selectionData.arenaData.SubscribeToNewEnemyEvent(UpdateTargets);
 
             if (enemyUnits.Length == 0)
             {
-                Debug.Log("There are no enemies to select target");
+                Debug.LogError("There are no enemies to select target");
                 return;
             }
 
@@ -57,6 +55,12 @@ namespace GameAI
             return target.transform != null;
         }
 
+        public override void OnStateExited()
+        {
+            selectionData.arenaData.UnsubscribeToNewEnemyEvent(UpdateTargets);
+            possibleTargets.Clear();
+            selectionData = new TargetSelectionData();
+        }
 
         private void UpdateTargets()
         {

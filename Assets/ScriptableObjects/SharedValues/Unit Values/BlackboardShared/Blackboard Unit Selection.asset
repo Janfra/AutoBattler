@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 479fa0afe050f684cb6543d021a161e6, type: 3}
-  m_Name: Unit Target Position
+  m_Script: {fileID: 11500000, guid: 2fd54af80e74f024d8371ad0d56a3995, type: 3}
+  m_Name: Blackboard Unit Selection
   m_EditorClassIdentifier: 
-  shouldReset: 1
-  value: {x: -2, y: -2}
+  shouldReset: 0
+  value:
+    unitData: {fileID: 0}
+    transform: {fileID: 0}

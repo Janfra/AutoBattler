@@ -9,7 +9,7 @@ namespace AutoBattler
     public class UnitCreation : MonoBehaviour
     {
         [SerializeField]
-        private SharedUnitSelection selectedUnit;
+        private SharedUnitDefinitionSelection selectedUnit;
         
         [SerializeField]
         private ArenaBattleUnitsData teamAUnits;

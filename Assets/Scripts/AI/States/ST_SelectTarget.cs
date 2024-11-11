@@ -12,12 +12,12 @@ namespace GameAI
         [SerializeField]
         private ArenaDataReferenceType arenaDataType;
         [SerializeField]
-        private MovementReferenceType movementType;
+        private BattleUnitDataReferenceType selectedUnitType;
         private STS_SelectClosestEnemy selectionTask = new STS_SelectClosestEnemy();
 
         public override bool IsBlackboardValidForState(BlackboardBase data)
         {
-            return data.ContainsKey(movementType) && data.ContainsKey(arenaDataType);
+            return data.ContainsKey(selectedUnitType) && data.ContainsKey(arenaDataType);
         }
 
         public override void StateEntered()
@@ -32,17 +32,12 @@ namespace GameAI
             selectionTask.Initialize(selectionData);
         }
 
-        public override void StateExited()
-        {
-            selectionTask.OnStateExited();
-        }
-
         public override void RunState()
         {
-            MovementComponent unitMovement = blackboard.TryGetValue<MovementComponent>(movementType, null);
-            if (unitMovement == null)
+            SharedBattleUnitData sharedSelectionData = blackboard.TryGetValue<SharedBattleUnitData>(selectedUnitType, null);
+            if (sharedSelectionData == null)
             {
-                return;
+                throw new NullReferenceException($"Unable to select a target in {GetType().Name} state, shared data container has not been set. - Object Name: {blackboard.name}");
             }
 
             BattleUnitData targetData;
@@ -51,7 +46,12 @@ namespace GameAI
                 return;
             }
 
-            unitMovement.SetMovementTarget(targetData.transform.position);
+            sharedSelectionData.Value = targetData;
+        }
+
+        public override void StateExited()
+        {
+            selectionTask.OnStateExited();
         }
     }
 }

@@ -11,6 +11,10 @@ using UnityEngine.UIElements;
 [CustomPropertyDrawer(typeof(SharedReference<>), true)]
 public class SharedReferenceDrawer : PropertyDrawer
 {
+    const string IsInternalValueName = "isInternal";
+    const string InternalValueName = "internalValue";
+    const string SharedValueName = "sharedValue";
+
     SerializedProperty rootProperty;
     VisualElement container;
     PropertyField valueField;
@@ -21,12 +25,12 @@ public class SharedReferenceDrawer : PropertyDrawer
         rootProperty = property;
 
         SetHorizontalContainer();
-        SerializedProperty isConstantProperty = rootProperty.FindPropertyRelative("IsConstant");
-        PropertyField isConstantField = SetupConstantField(isConstantProperty);
-        SetupValueField(isConstantProperty.boolValue);
+        SerializedProperty isInternalProperty = rootProperty.FindPropertyRelative(IsInternalValueName);
+        PropertyField isInternalField = SetupInternalField(isInternalProperty);
+        SetupValueField(isInternalProperty.boolValue);
 
-        isConstantField.label = property.displayName;
-        container.Add(isConstantField);
+        isInternalField.label = property.displayName;
+        container.Add(isInternalField);
         container.Add(valueField);
         root.Add(container);
         return root;
@@ -39,32 +43,32 @@ public class SharedReferenceDrawer : PropertyDrawer
         container.style.flexDirection = FlexDirection.Row;
     }
 
-    public PropertyField SetupConstantField(SerializedProperty isConstantProperty)
+    public PropertyField SetupInternalField(SerializedProperty isInternalProperty)
     {
-        PropertyField isConstantField = new PropertyField();
-        isConstantField.bindingPath = isConstantProperty.propertyPath;
-        isConstantField.RegisterValueChangeCallback(OnConstantTypeChanged);
-        isConstantField.tooltip = "Toggle sets whether to use a constant or a shared reference";
+        PropertyField isInternalField = new PropertyField();
+        isInternalField.bindingPath = isInternalProperty.propertyPath;
+        isInternalField.RegisterValueChangeCallback(OnInternalTypeChanged);
+        isInternalField.tooltip = "Toggle sets whether to use a constant or a shared reference";
 
-        return isConstantField;
+        return isInternalField;
     }
 
-    public SerializedProperty SetupValueField(bool isConstant) 
+    public SerializedProperty SetupValueField(bool isInternal) 
     {
         valueField = new PropertyField();
         valueField.style.flexGrow = 1;
-        return SetValueField(isConstant);
+        return SetValueField(isInternal);
     }
 
-    public SerializedProperty SetValueField(bool isConstant)
+    public SerializedProperty SetValueField(bool isInternal)
     {
-        string propertyRelativeName = isConstant ? "ConstantValue" : "SharedValue";
+        string propertyRelativeName = isInternal ? InternalValueName : SharedValueName;
         SerializedProperty selectedProperty = rootProperty.FindPropertyRelative(propertyRelativeName);
         valueField.bindingPath = selectedProperty.propertyPath;
         return selectedProperty;
     }
 
-    public void OnConstantTypeChanged(SerializedPropertyChangeEvent eventCallback)
+    public void OnInternalTypeChanged(SerializedPropertyChangeEvent eventCallback)
     {
         if (valueField == null)
         {

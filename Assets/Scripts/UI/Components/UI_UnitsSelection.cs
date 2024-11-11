@@ -12,7 +12,7 @@ namespace AutoBattler.UI
         [SerializeField]
         private VisualTreeAsset unitOptionVisualTreeAsset;
         [SerializeField]
-        private SharedUnitSelection unitSelection;
+        private SharedUnitDefinitionSelection unitSelection;
 
         [SerializeField]
         private UnitDefinition test;

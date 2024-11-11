@@ -294,6 +294,8 @@ GameObject:
   - component: {fileID: 1674759187}
   - component: {fileID: 1674759193}
   - component: {fileID: 1674759189}
+  - component: {fileID: 1674759195}
+  - component: {fileID: 1674759194}
   - component: {fileID: 1674759191}
   - component: {fileID: 1674759190}
   m_Layer: 0
@@ -347,10 +349,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   referencesData:
-  - constraint: {fileID: 11400000, guid: 22a88bced6ff16d48b70cfb3de9ce922, type: 2}
-    objectReference: {fileID: 1674759189}
   - constraint: {fileID: 11400000, guid: 6839a9029df2c1b4d9d5ca2f7879bdb1, type: 2}
     objectReference: {fileID: 1674759193}
+  - constraint: {fileID: 11400000, guid: 22a88bced6ff16d48b70cfb3de9ce922, type: 2}
+    objectReference: {fileID: 1674759189}
+  - constraint: {fileID: 11400000, guid: a127a200167188b4ab1081a9f4d49afc, type: 2}
+    objectReference: {fileID: 1674759194}
+  - constraint: {fileID: 11400000, guid: be3a7b2cd365fa440a93027ae2685981, type: 2}
+    objectReference: {fileID: 11400000, guid: 75e6f32a5bdb39846b75ebe2211192f1, type: 2}
 --- !u!114 &1674759189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,13 +373,13 @@ MonoBehaviour:
   TargetReachedEvent: {fileID: 11400000, guid: 6fd592e4eb219bb47a7ac3714983d81a, type: 2}
   movementStats:
     speed:
-      IsConstant: 0
-      ConstantValue: 5
-      SharedValue: {fileID: 11400000, guid: 07693638d5818c04ba1a13492175fece, type: 2}
+      isInternal: 1
+      internalValue: 0
+      sharedValue: {fileID: 0}
     maxSpeed:
-      IsConstant: 0
-      ConstantValue: 5
-      SharedValue: {fileID: 11400000, guid: 263f05b07533d7342ad1f80341d04dac, type: 2}
+      isInternal: 1
+      internalValue: 0
+      sharedValue: {fileID: 0}
   targetData:
     hasTarget: 0
     targetPosition: {fileID: 11400000, guid: 5b7965b02bcd0e740b4f8abbc33a973e, type: 2}
@@ -428,6 +434,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitData: {fileID: 11400000, guid: bcb2c81bc8f0e8d46b9802b3da379cbc, type: 2}
   unitMovement: {fileID: 1674759189}
+  unitAttack: {fileID: 1674759194}
+  unitHealth: {fileID: 1674759195}
   arenaData: {fileID: 1674759193}
 --- !u!114 &1674759193
 MonoBehaviour:
@@ -443,6 +451,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyUnits: {fileID: 11400000, guid: 167a1b055e2de2d4d9cbff9b19a7a352, type: 2}
   friendlyUnits: {fileID: 11400000, guid: bd617475f24cb0a4197cf442baea3fae, type: 2}
+--- !u!114 &1674759194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674759183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95dadfedfe9e8b945baa20dcd3f49015, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage:
+    isInternal: 1
+    internalValue: 0
+    sharedValue: {fileID: 0}
+  attackSpeed:
+    isInternal: 1
+    internalValue: 0
+    sharedValue: {fileID: 0}
+--- !u!114 &1674759195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674759183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734d09bc8825ee047bf06e920ca3ecdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth:
+    isInternal: 1
+    internalValue: 0
+    sharedValue: {fileID: 0}
+  health:
+    isInternal: 1
+    internalValue: 0
+    sharedValue: {fileID: 0}
 --- !u!1 &1876595662
 GameObject:
   m_ObjectHideFlags: 0

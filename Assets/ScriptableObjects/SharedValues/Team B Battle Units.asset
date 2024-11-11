@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9c21f115b59ea448bc7982175322ef9, type: 3}
   m_Name: Team B Battle Units
   m_EditorClassIdentifier: 
+  shouldReset: 1
   value: []

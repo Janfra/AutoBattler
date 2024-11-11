@@ -12,5 +12,7 @@ public class BattleUnit : MonoBehaviour
     [SerializeField]
     private AttackComponent unitAttack;
     [SerializeField]
+    private HealthComponent unitHealth;
+    [SerializeField]
     private ArenaData arenaData;
 }

@@ -1,18 +1,23 @@
+using ModularData;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthComponent : MonoBehaviour
+public class HealthComponent : MonoBehaviour, IAttackable
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private IntReference maxHealth;
+    [SerializeField]
+    private IntReference health;
+
+    private void Awake()
     {
-        
+        health.Value = maxHealth.Value;
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool IsAttackable => health > 0;
+    public void ReceiveAttack(AttackData attackData)
     {
-        
+        health.Value -= attackData.damage;
     }
 }

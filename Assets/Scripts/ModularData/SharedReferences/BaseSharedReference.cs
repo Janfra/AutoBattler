@@ -12,7 +12,8 @@ namespace ModularData
         public event valueChanged OnValueChanged;
 
 #if UNITY_EDITOR
-        public bool shouldReset;
+        [SerializeField]
+        private bool shouldReset;
         public void CheckReset()
         {
             if (shouldReset)
@@ -52,7 +53,8 @@ namespace ModularData
         public int Count => value.Count;
 
 #if UNITY_EDITOR
-        public bool shouldReset;
+        [SerializeField]
+        private bool shouldReset;
         public void CheckReset()
         {
             if (shouldReset)
@@ -168,21 +170,18 @@ namespace ModularData
     public abstract class SharedReference<ValueType>
     {
         [SerializeField]
-        private bool IsConstant = true;
+        private bool isInternal = true;
         [SerializeField]
-        protected ValueType ConstantValue;
+        protected ValueType internalValue;
         [SerializeField]
-        protected SharedValue<ValueType> SharedValue;
+        protected SharedValue<ValueType> sharedValue;
 
         public virtual ValueType Value 
         {
-            get { return IsConstant ? ConstantValue : SharedValue.Value; }
+            get { return isInternal ? internalValue : sharedValue.Value; }
             set
             {
-                if (!IsConstant)
-                {
-                    SharedValue.Value = value;
-                }
+                sharedValue.Value = value;
             }
         }
 
