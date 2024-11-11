@@ -22,8 +22,16 @@ namespace AutoBattler
 
         private void Awake()
         {
+            teamAUnits.CheckReset();
+            teamBUnits.CheckReset();
             canInstantiateUnit = false;
             selectedUnit.OnValueChanged += OnUnitSelectionUpdate;
+        }
+
+        private void OnApplicationQuit()
+        {
+            teamAUnits.CheckReset();
+            teamBUnits.CheckReset();
         }
 
         public void TrySpawnSelectedUnitAt(BattleTile spawningTile)

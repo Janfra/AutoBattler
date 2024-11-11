@@ -13,7 +13,7 @@ namespace GameAI
         private ArenaDataReferenceType arenaDataType;
         [SerializeField]
         private MovementReferenceType movementType;
-        private List<BattleUnitData> possibleTargets = new List<BattleUnitData>();
+        private STS_SelectClosestEnemy selectionTask = new STS_SelectClosestEnemy();
 
         public override bool IsBlackboardValidForState(BlackboardBase data)
         {
@@ -22,68 +22,36 @@ namespace GameAI
 
         public override void StateEntered()
         {
-            possibleTargets.Clear();
-            ArenaData unit = blackboard.TryGetValue<ArenaData>(arenaDataType, null);
-            BattleUnitData[] enemyUnits = unit.GetEnemyUnitsData();
-            unit.SubscribeToNewEnemyEvent(UpdateTargets);
-
-            if (enemyUnits.Length == 0)
-            {
-                Debug.Log("There are no enemies to select target");
-                    return;
-            }
-
-            possibleTargets.AddRange(enemyUnits);
-        }
-
-        public override void StateExited()
-        {
-            ArenaData unit = blackboard.TryGetValue<ArenaData>(arenaDataType, null);
-            unit.UnsubscribeToNewEnemyEvent(UpdateTargets);
-        }
-
-        public override void RunState()
-        {
-            if (possibleTargets.Count <= 0)
+            ArenaData arenaData = blackboard.TryGetValue<ArenaData>(arenaDataType, null);
+            if (arenaData == null)
             {
                 return;
             }
 
+            TargetSelectionData selectionData = new TargetSelectionData(arenaData, arenaData.transform);
+            selectionTask.Initialize(selectionData);
+        }
+
+        public override void StateExited()
+        {
+            selectionTask.OnStateExited();
+        }
+
+        public override void RunState()
+        {
             Movement unitMovement = blackboard.TryGetValue<Movement>(movementType, null);
             if (unitMovement == null)
             {
                 return;
             }
 
-            Vector2 unitPosition = unitMovement.transform.position;
-            float minDistance = Mathf.Infinity;
-            Vector2 targetPosition = unitPosition;
-
-            for (int i = possibleTargets.Count - 1; i >= 0; i--)
+            BattleUnitData targetData;
+            if (!selectionTask.TryGetSelectedTarget(out targetData))
             {
-                if (possibleTargets[i].transform == null)
-                {
-                    possibleTargets.RemoveAt(i);
-                    continue;
-                }
-
-                Vector2 enemyTargetPosition = possibleTargets[i].transform.position;
-                float sqrDistance = (enemyTargetPosition - unitPosition).sqrMagnitude;
-                if (sqrDistance < minDistance)
-                {
-                    minDistance = sqrDistance;
-                    targetPosition = enemyTargetPosition;
-                }
+                return;
             }
 
-            unitMovement.SetMovementTarget(targetPosition);
-        }
-
-        private void UpdateTargets()
-        {
-            ArenaData unit = blackboard.TryGetValue<ArenaData>(arenaDataType, null);
-            possibleTargets.Add(unit.GetLatestEnemyAdded());
-            Debug.Log("Enemy added to targets");
+            unitMovement.SetMovementTarget(targetData.transform.position);
         }
     }
 }

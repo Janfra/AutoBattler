@@ -11,6 +11,21 @@ namespace ModularData
         public delegate void valueChanged();
         public event valueChanged OnValueChanged;
 
+#if UNITY_EDITOR
+        public bool shouldReset;
+        public void CheckReset()
+        {
+            if (shouldReset)
+            {
+                Reset();
+            }
+        }
+        private void Reset()
+        {
+            value = default;
+        }
+#endif
+
         public ValueType Value {
             get { return value; }
             set 
@@ -35,6 +50,21 @@ namespace ModularData
         public event valueElementChanged OnValueElementChanged;
 
         public int Count => value.Count;
+
+#if UNITY_EDITOR
+        public bool shouldReset;
+        public void CheckReset()
+        {
+            if (shouldReset)
+            {
+                Reset();
+            }
+        }
+        private void Reset()
+        {
+            value.Clear();
+        }
+#endif
 
         public ValueType GetValueAtIndex(int index)
         {
@@ -61,6 +91,11 @@ namespace ModularData
         {
             value.Add(newValue);
             OnValueAdded?.Invoke();
+        }
+
+        public void Clear()
+        {
+            value.Clear();
         }
 
         public ValueType[] ToArray()
