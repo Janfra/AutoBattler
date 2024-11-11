@@ -5,12 +5,15 @@ using UnityEngine;
 
 namespace GameAI
 {
-    [CreateAssetMenu(fileName = "New Select State Desire", menuName = "ScriptableObjects/Desires/States/Select Target")]
-    public class STD_SelectTarget : StateDesire
+    [CreateAssetMenu(fileName = "New Move To Range Desire", menuName = "ScriptableObjects/Desires/States/Move To Range")]
+    public class STD_MoveToRange : StateDesire
     {
+        [SerializeField]
+        private FloatReference rangeFromTarget;
         [SerializeField]
         private BattleUnitDataReferenceType selectedUnitType;
         private SharedBattleUnitData selectedUnitData;
+        private Transform ownerTransform;
 
         public override bool IsValid()
         {
@@ -29,13 +32,27 @@ namespace GameAI
             {
                 throw new System.NullReferenceException($"Unable to calculate desire for {GetType().Name} desire, selected unit container has not been set. - Object name: {data.name}");
             }
+
+            ownerTransform = data.transform;
         }
 
         protected override void CalculateDesire()
         {
-            // If valid is already valid, no need to select a new target
-            int needTargetValue = selectedUnitData.Value.IsValid() ? 0 : 1;
-            desireValue = bias * needTargetValue;
+            BattleUnitData selectedUnit = selectedUnitData.Value;
+            if (!selectedUnit.IsValid())
+            {
+                desireValue = 0;
+                return;
+            }
+
+            Vector2 distance = selectedUnit.transform.position - ownerTransform.position;
+            float maxRangeSqr = rangeFromTarget.Value;
+            maxRangeSqr *= maxRangeSqr;
+
+            // for now just yes or no for testing
+            bool isOutOfRange = distance.sqrMagnitude > maxRangeSqr;
+            float distanceValue = isOutOfRange ? 1 : 0;
+            desireValue = bias * distanceValue;
         }
     }
 }

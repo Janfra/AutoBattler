@@ -10,7 +10,7 @@ namespace GameAI
     {
         public bool IsSameTarget(StateDesire other)
         {
-            return desireTarget == other.Target;
+            return Target == other.Target;
         }
 
         public virtual void InitReferences(BlackboardBase data) { }

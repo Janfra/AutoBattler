@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ea3eac66937c244699de60e9a5e8742, type: 3}
   m_Name: Unit Definition Selection
   m_EditorClassIdentifier: 
-  shouldReset: 0
+  shouldReset: 1
   value: {fileID: 0}

@@ -12,7 +12,7 @@ namespace GameAI
         [SerializeField]
         protected int bias = 1;
         [SerializeField]
-        protected T desireTarget;
+        private T desireTarget;
         public T Target { get => desireTarget; }
 
         protected float desireValue = 0.0f;
@@ -27,7 +27,7 @@ namespace GameAI
 
         public virtual bool IsValid()
         {
-            return (desireTarget != null);
+            return desireTarget != null;
         }
     }
 }

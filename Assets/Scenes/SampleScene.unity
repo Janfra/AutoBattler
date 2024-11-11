@@ -334,7 +334,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entryState: {fileID: 11400000, guid: b684ff04e2d425d4c9525e786a31f765, type: 2}
   availableStates:
-  - {fileID: 11400000, guid: 04ab9aa32deda6846ac9b8e464c3b21a, type: 2}
+  - {fileID: 11400000, guid: ce31f5477818e0e4c9ff9d6486701433, type: 2}
+  - {fileID: 11400000, guid: 9944ebe9cdc3c6547acdadfb6f58ef19, type: 2}
   blackboard: {fileID: 1674759188}
 --- !u!114 &1674759188
 MonoBehaviour:
@@ -373,13 +374,13 @@ MonoBehaviour:
   TargetReachedEvent: {fileID: 11400000, guid: 6fd592e4eb219bb47a7ac3714983d81a, type: 2}
   movementStats:
     speed:
-      isInternal: 1
+      isInternal: 0
       internalValue: 0
-      sharedValue: {fileID: 0}
+      sharedValue: {fileID: 11400000, guid: 07693638d5818c04ba1a13492175fece, type: 2}
     maxSpeed:
-      isInternal: 1
+      isInternal: 0
       internalValue: 0
-      sharedValue: {fileID: 0}
+      sharedValue: {fileID: 11400000, guid: 263f05b07533d7342ad1f80341d04dac, type: 2}
   targetData:
     hasTarget: 0
     targetPosition: {fileID: 11400000, guid: 5b7965b02bcd0e740b4f8abbc33a973e, type: 2}

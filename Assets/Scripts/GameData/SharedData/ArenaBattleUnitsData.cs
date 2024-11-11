@@ -15,6 +15,11 @@ public struct BattleUnitData
         this.unitData = unitData;
         transform = unitPosition;    
     }
+
+    public bool IsValid()
+    {
+        return transform != null;
+    }
 }
 
 [CreateAssetMenu(fileName = "New Arena Units Data", menuName = "ScriptableObjects/SharedValues/Arena Units Data")]

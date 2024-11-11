@@ -181,7 +181,14 @@ namespace ModularData
             get { return isInternal ? internalValue : sharedValue.Value; }
             set
             {
-                sharedValue.Value = value;
+                if (isInternal)
+                {
+                    internalValue = value;
+                }
+                else
+                {
+                    sharedValue.Value = value;
+                }
             }
         }
 

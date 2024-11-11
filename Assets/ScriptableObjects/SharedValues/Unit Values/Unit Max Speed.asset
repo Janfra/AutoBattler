@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c16cf76dba54e0d499af3da9f17f23ca, type: 3}
   m_Name: Unit Max Speed
   m_EditorClassIdentifier: 
+  shouldReset: 1
   value: 5

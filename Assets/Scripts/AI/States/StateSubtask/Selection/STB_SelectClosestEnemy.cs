@@ -17,7 +17,7 @@ namespace GameAI
 
             if (enemyUnits.Length == 0)
             {
-                Debug.LogError("There are no enemies to select target");
+                Debug.LogWarning("There are no enemies to select target");
                 return;
             }
 

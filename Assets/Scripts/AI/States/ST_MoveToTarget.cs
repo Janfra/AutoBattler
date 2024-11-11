@@ -39,6 +39,11 @@ namespace GameAI
         public override void RunState()
         {
             BattleUnitData selectedUnit = selectedUnitData.Value;
+            if (!selectedUnit.IsValid())
+            {
+                return;
+            }
+
             movementComponent.SetMovementTarget(selectedUnit.transform.position);
         }
 
