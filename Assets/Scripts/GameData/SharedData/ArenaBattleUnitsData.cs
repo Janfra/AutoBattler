@@ -7,10 +7,10 @@ using UnityEngine;
 [Serializable]
 public struct BattleUnitData
 {
-    public UnitData unitData;
+    public UnitDefinition unitData;
     public Transform transform;
 
-    public BattleUnitData(Transform unitPosition, UnitData unitData)
+    public BattleUnitData(Transform unitPosition, UnitDefinition unitData)
     {
         this.unitData = unitData;
         transform = unitPosition;    

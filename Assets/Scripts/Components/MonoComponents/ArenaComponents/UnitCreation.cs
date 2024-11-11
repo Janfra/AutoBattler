@@ -44,7 +44,7 @@ namespace AutoBattler
             Debug.Log($"Spawning unit {selectedUnit.Value.UnitName} at {spawningTile.name}");
             GameObject test = new GameObject("Test");
             test.transform.position = spawningTile.transform.position;
-            BattleUnitData data = new BattleUnitData(test.transform, ScriptableObject.CreateInstance<UnitData>());
+            BattleUnitData data = new BattleUnitData(test.transform, ScriptableObject.CreateInstance<UnitDefinition>());
             teamBUnits.AddValue(data);  
 
             selectedUnit.Value = null;

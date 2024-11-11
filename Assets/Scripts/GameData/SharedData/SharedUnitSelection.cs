@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ModularData
 {
     [CreateAssetMenu(fileName = "New Shared Unit Data", menuName = "ScriptableObjects/SharedValues/Unit Data")]
-    public class SharedUnitSelection : SharedValue<UnitData>
+    public class SharedUnitSelection : SharedValue<UnitDefinition>
     {
     }
 }

@@ -10,12 +10,12 @@ namespace ModularData
     {
         public override Type GetDataObjectType()
         {
-            return typeof(Movement);
+            return typeof(MovementComponent);
         }
 
         public override bool IsObjectValid(UnityEngine.Object checkObject)
         {
-            return checkObject is Movement;
+            return checkObject is MovementComponent;
         }
     }
 }

@@ -6,9 +6,11 @@ using UnityEngine;
 public class BattleUnit : MonoBehaviour
 {
     [SerializeField]
-    private UnitData unitData;
+    private UnitDefinition unitData;
     [SerializeField]
-    private Movement unitMovement;
+    private MovementComponent unitMovement;
+    [SerializeField]
+    private AttackComponent unitAttack;
     [SerializeField]
     private ArenaData arenaData;
 }

@@ -29,7 +29,7 @@ public struct MovementTargetData
     public float sqrDistanceToTarget;
 }
 
-public class Movement : MonoBehaviour
+public class MovementComponent : MonoBehaviour
 {
     const float TARGET_DISTANCE_THRESHOLD = 0.09f;
 

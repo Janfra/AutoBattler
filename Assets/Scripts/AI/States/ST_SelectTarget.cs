@@ -39,7 +39,7 @@ namespace GameAI
 
         public override void RunState()
         {
-            Movement unitMovement = blackboard.TryGetValue<Movement>(movementType, null);
+            MovementComponent unitMovement = blackboard.TryGetValue<MovementComponent>(movementType, null);
             if (unitMovement == null)
             {
                 return;

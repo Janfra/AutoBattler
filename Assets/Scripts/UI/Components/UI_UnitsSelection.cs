@@ -15,7 +15,7 @@ namespace AutoBattler.UI
         private SharedUnitSelection unitSelection;
 
         [SerializeField]
-        private UnitData test;
+        private UnitDefinition test;
 
         private List<UI_UnitOption> unitOptions = new List<UI_UnitOption>();
         private VisualElement unitUIContainer;
@@ -36,7 +36,7 @@ namespace AutoBattler.UI
             CreateUnitOption(test);
         }
 
-        private void CreateUnitOption(UnitData newUnitData)
+        private void CreateUnitOption(UnitDefinition newUnitData)
         {
             VisualElement root = unitOptionVisualTreeAsset.Instantiate();
             UI_UnitOption option = new UI_UnitOption(root, newUnitData, SetSelectedUnit);
@@ -44,7 +44,7 @@ namespace AutoBattler.UI
             unitOptions.Add(option);
         }
 
-        private void SetSelectedUnit(UnitData selectedUnitData)
+        private void SetSelectedUnit(UnitDefinition selectedUnitData)
         {
             unitSelection.Value = selectedUnitData;
         }
@@ -56,15 +56,15 @@ namespace AutoBattler.UI
         const string UI_BUTTON_NAME = "Button";
         const string ROOT_NAME_PREFIX = "Unit Selection Button for ";
 
-        public delegate void OnSelected(UnitData selectedUnitData);
+        public delegate void OnSelected(UnitDefinition selectedUnitData);
 
         public VisualElement UiRoot { get => uiRoot; }
         private VisualElement uiRoot;
         private Button selectionButton;
-        private UnitData unitData;
+        private UnitDefinition unitData;
         private OnSelected onSelected;
 
-        public UI_UnitOption(VisualElement uiRoot, UnitData unitData, OnSelected onSelected)
+        public UI_UnitOption(VisualElement uiRoot, UnitDefinition unitData, OnSelected onSelected)
         {
             if (uiRoot == null)
             {
