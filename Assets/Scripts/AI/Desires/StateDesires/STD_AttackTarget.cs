@@ -5,9 +5,11 @@ using UnityEngine;
 
 namespace GameAI
 {
-    [CreateAssetMenu(fileName = "New Select State Desire", menuName = "ScriptableObjects/Desires/States/Select Target")]
-    public class STD_SelectTarget : StateDesire
+    [CreateAssetMenu(fileName = "New Attack Target Desire", menuName = "ScriptableObjects/Desires/States/Attack Target")]
+    public class STD_AttackTarget : StateDesire
     {
+        [SerializeField]
+        private FloatReference attackRange;
         [SerializeField]
         private BattleUnitDataReferenceType selectedUnitType;
         private SharedBattleUnitData selectedUnitData;
@@ -33,10 +35,15 @@ namespace GameAI
 
         protected override void CalculateDesire()
         {
-            // If valid is already valid, no need to select a new target
             BattleUnitData selectedUnit = selectedUnitData.Value;
-            int needTargetValue = selectedUnit.IsValid() && selectedUnit.IsAttackable() ? 0 : 1;
-            desireValue = bias * needTargetValue;
+            if (!selectedUnit.IsAttackable() || !selectedUnit.IsValid())
+            {
+                desireValue = 0;
+            }
+
+            // just attack if attackable for prototype
+            float attackValue = 1;
+            desireValue = bias * attackValue;
         }
     }
 }

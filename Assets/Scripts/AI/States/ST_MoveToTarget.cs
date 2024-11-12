@@ -6,7 +6,6 @@ using UnityEngine;
 namespace GameAI
 {
     [CreateAssetMenu(fileName = "New Move To Target State", menuName = "ScriptableObjects/State/Move To Target")]
-
     public class ST_MoveToTarget : State
     {
         [SerializeField]

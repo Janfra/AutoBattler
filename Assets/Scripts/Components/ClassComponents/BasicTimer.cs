@@ -26,26 +26,34 @@ public class BasicTimer
 
     // Ticks the state timer until it reaches the target duration.
     // Returns: Has the timer duration been reached
-    public virtual bool IsTimerTickOnTarget()
+    public virtual bool IsTimerTickOnTarget(bool consumeCallbacks = true)
     {
         currentTime += Time.deltaTime;
         bool targetReached = currentTime >= targetDuration;
         if (targetReached)
         {
             currentTime = 0.0f;
-            ConsumeTimerCallback();
+
+            if (consumeCallbacks)
+            {
+                ConsumeTimerCallback();
+            }
+            else
+            {
+                timerCallback?.Invoke();
+            }
         }
         return targetReached;
     }
 
+    public void ResetProgress()
+    {
+        currentTime = 0.0f;
+    }
+
     protected void ConsumeTimerCallback()
     {
-        if (timerCallback == null)
-        {
-            return;
-        }
-
-        timerCallback.Invoke();
+        timerCallback?.Invoke();
         timerCallback = null;
     }
 
@@ -57,5 +65,10 @@ public class BasicTimer
     public void UnsubscribeToCallback(TimerCallback callback) 
     {
         timerCallback -= callback; 
+    }
+
+    public void ClearCallback()
+    {
+        timerCallback = null;
     }
 }

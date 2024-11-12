@@ -37,18 +37,19 @@ namespace GameAI
 
             for (int i = possibleTargets.Count - 1; i >= 0; i--)
             {
-                if (possibleTargets[i].transform == null)
+                BattleUnitData possibleTarget = possibleTargets[i];
+                if (!possibleTarget.IsValid() || !possibleTarget.IsAttackable())
                 {
                     possibleTargets.RemoveAt(i);
                     continue;
                 }
 
-                Vector2 enemyTargetPosition = possibleTargets[i].transform.position;
+                Vector2 enemyTargetPosition = possibleTarget.transform.position;
                 float sqrDistance = (enemyTargetPosition - unitPosition).sqrMagnitude;
                 if (sqrDistance < minDistance)
                 {
                     minDistance = sqrDistance;
-                    target = possibleTargets[i];
+                    target = possibleTarget;
                 }
             }
 

@@ -336,6 +336,7 @@ MonoBehaviour:
   availableStates:
   - {fileID: 11400000, guid: ce31f5477818e0e4c9ff9d6486701433, type: 2}
   - {fileID: 11400000, guid: 9944ebe9cdc3c6547acdadfb6f58ef19, type: 2}
+  - {fileID: 11400000, guid: bbd83e8101cb15848833c396031eccaa, type: 2}
   blackboard: {fileID: 1674759188}
 --- !u!114 &1674759188
 MonoBehaviour:
@@ -466,11 +467,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage:
     isInternal: 1
-    internalValue: 0
+    internalValue: 1
     sharedValue: {fileID: 0}
   attackSpeed:
     isInternal: 1
-    internalValue: 0
+    internalValue: 1
     sharedValue: {fileID: 0}
 --- !u!114 &1674759195
 MonoBehaviour:
