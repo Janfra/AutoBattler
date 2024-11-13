@@ -6,26 +6,32 @@ using UnityEngine;
 
 namespace AutoBattler
 {
+    [RequireComponent(typeof(BattleGrid), typeof(UnitManager))]
     public class BattleArena : MonoBehaviour
     {
         [SerializeField]
         private BattleGrid grid;
         [SerializeField]
-        private UnitCreation unitCreation;
+        private UnitManager unitManager;
 
         private BattleTile[] debugPath;
 
-        private void Start()
-        {   
-            // Testing pathfind requester
-            GraphNodeHandle startTest = new GraphNodeHandle(0);
-            GraphNodeHandle endTest = new GraphNodeHandle(24);
-            debugPath = grid.GetPathfindRequester().GetPathFromTo(startTest, endTest);
+        private void Awake()
+        {
+            if (grid == null)
+            {
+                grid = GetComponent<BattleGrid>();
+            }
+
+            if (unitManager == null)
+            {
+                unitManager = GetComponent<UnitManager>();
+            }
         }
 
         public void TrySpawnSelectedUnitAt(Vector2 position)
         {
-            if (!unitCreation.HasSelectedUnit)
+            if (!unitManager.HasSelectedUnit)
             {
                 return;
             }
@@ -36,7 +42,10 @@ namespace AutoBattler
                 return;
             }
 
-            unitCreation.TrySpawnSelectedUnitAt(tile);
+            // Testing pathfind requester
+            GraphNodeHandle startTest = new GraphNodeHandle(12);
+            debugPath = grid.GetPathfindRequester().GetPathFromTo(startTest, tile.pathfindHandler);
+            unitManager.TrySpawnSelectedUnitAt(tile, grid.GetPathfindRequester());
         }
 
         public BattleGrid GetGrid()

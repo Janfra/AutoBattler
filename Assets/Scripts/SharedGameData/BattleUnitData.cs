@@ -6,13 +6,13 @@ using UnityEngine;
 [Serializable]
 public class BattleUnitData
 {
-    public UnitDefinition unitData;
+    public UnitDefinition unitDefinition;
     public Transform transform;
     public IAttackable attackable;
 
-    public BattleUnitData(Transform unitPosition, IAttackable attackable, UnitDefinition unitData)
+    public BattleUnitData(Transform unitPosition, IAttackable attackable, UnitDefinition unitDefinition)
     {
-        this.unitData = unitData;
+        this.unitDefinition = unitDefinition;
         this.attackable = attackable;
         transform = unitPosition;
     }

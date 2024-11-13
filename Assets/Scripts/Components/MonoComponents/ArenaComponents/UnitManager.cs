@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace AutoBattler
 {
-    public class UnitCreation : MonoBehaviour
+    public class UnitManager : MonoBehaviour
     {
         [SerializeField]
         private SharedUnitDefinitionSelection selectedUnit;
@@ -19,6 +19,7 @@ namespace AutoBattler
 
         public bool HasSelectedUnit => selectedUnit.Value != null;
         private bool canInstantiateUnit;
+        private Transform unitsContainer;
 
         private void Awake()
         {
@@ -41,6 +42,9 @@ namespace AutoBattler
 
             canInstantiateUnit = false;
             selectedUnit.OnValueChanged += OnUnitSelectionUpdate;
+
+            unitsContainer = new GameObject("Unit Container").transform;
+            unitsContainer.parent = transform;
         }
 
         private void OnApplicationQuit()
@@ -49,7 +53,7 @@ namespace AutoBattler
             teamBUnits.CheckReset();
         }
 
-        public void TrySpawnSelectedUnitAt(BattleTile spawningTile)
+        public void TrySpawnSelectedUnitAt(BattleTile spawningTile, PathfindRequester pathfindRequester)
         {
             if (!canInstantiateUnit)
             {
@@ -57,13 +61,12 @@ namespace AutoBattler
             }
 
             Debug.Log($"Spawning unit {selectedUnit.Value.UnitName} at {spawningTile.name}");
-            GameObject test = new GameObject("Test");
-            HealthComponent testHp = test.AddComponent<HealthComponent>();
-            testHp.SetMaxHealth(5);
-            test.transform.position = spawningTile.transform.position;
-
-            ExtendedBattleUnitData data = new ExtendedBattleUnitData(test.transform, testHp, ScriptableObject.CreateInstance<UnitDefinition>(), spawningTile.pathfindHandler);
-            teamBUnits.AddValue(data);  
+            ExtendedUnitDefinition unitDefinition = selectedUnit.Value as ExtendedUnitDefinition;
+            BattleUnit unit = Instantiate(unitDefinition.UnitPrefab, spawningTile.transform);
+            unit.transform.parent = unitsContainer;
+            ExtendedBattleUnitData unitData = new ExtendedBattleUnitData(unit.transform, unit.Health, unitDefinition, spawningTile.pathfindHandler);
+            unit.Initialise(unitData, pathfindRequester, teamBUnits, teamAUnits);
+            teamAUnits.AddValue(unitData);  
             selectedUnit.Value = null;
         }
 

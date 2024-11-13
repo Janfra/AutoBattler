@@ -1,3 +1,4 @@
+using AutoBattler;
 using GameAI;
 using ModularData;
 using System.Collections;
@@ -14,6 +15,18 @@ public class BattleUnit : MonoBehaviour
     private AttackComponent unitAttack;
     [SerializeField]
     private HealthComponent unitHealth;
+    public HealthComponent Health => unitHealth;
+
     [SerializeField]
     private ArenaData arenaData;
+    [SerializeField]
+    private SpriteRenderer sprite;
+
+    public void Initialise(ExtendedBattleUnitData unitData, PathfindRequester pathfindRequester, ArenaBattleUnitsData enemyUnits, ArenaBattleUnitsData friendlyUnits)
+    {
+        this.unitData = unitData;
+        unitMovement.SetPathfindNode(unitData.unitPathfindHandle);
+        arenaData.Initialise(pathfindRequester, enemyUnits, friendlyUnits);
+        sprite.sprite = unitData.unitDefinition.Sprite;
+    }
 }

@@ -8,9 +8,9 @@ public class AttackComponent : MonoBehaviour
     [SerializeField]
     private IntReference damage;
     [SerializeField]
-    private IntReference attackSpeed;
+    private FloatReference attackSpeed;
 
-    public int GetAttackSpeed()
+    public float GetAttackSpeed()
     {
         return attackSpeed.Value;
     }

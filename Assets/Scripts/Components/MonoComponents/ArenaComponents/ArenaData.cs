@@ -12,6 +12,13 @@ public class ArenaData : MonoBehaviour
     [SerializeField]
     private ArenaBattleUnitsData friendlyUnits;
 
+    public void Initialise(PathfindRequester pathfindRequester, ArenaBattleUnitsData enemyUnits, ArenaBattleUnitsData friendlyUnits)
+    {
+        this.pathfindRequester = pathfindRequester;
+        this.enemyUnits = enemyUnits;
+        this.friendlyUnits = friendlyUnits;
+    }
+
     public BattleUnitData[] GetEnemyUnitsData()
     {
         return enemyUnits.ToArray();
