@@ -22,8 +22,23 @@ namespace AutoBattler
 
         private void Awake()
         {
+            if (teamAUnits == null)
+            {
+                throw new System.NullReferenceException($"{nameof(teamAUnits)} reference is null in {GetType().Name} component. - Object Name: {name}");
+            }
             teamAUnits.CheckReset();
+
+            if (teamBUnits == null)
+            {
+                throw new System.NullReferenceException($"{nameof(teamBUnits)} reference is null in {GetType().Name} component. - Object Name: {name}");
+            }
             teamBUnits.CheckReset();
+
+            if (selectedUnit == null)
+            {
+                throw new System.NullReferenceException($"{nameof(selectedUnit)} reference is null in {GetType().Name} component. - Object Name: {name}");
+            }
+
             canInstantiateUnit = false;
             selectedUnit.OnValueChanged += OnUnitSelectionUpdate;
         }
@@ -46,8 +61,8 @@ namespace AutoBattler
             HealthComponent testHp = test.AddComponent<HealthComponent>();
             testHp.SetMaxHealth(5);
             test.transform.position = spawningTile.transform.position;
-            
-            BattleUnitData data = new BattleUnitData(test.transform, testHp, ScriptableObject.CreateInstance<UnitDefinition>());
+
+            ExtendedBattleUnitData data = new ExtendedBattleUnitData(test.transform, testHp, ScriptableObject.CreateInstance<UnitDefinition>(), spawningTile.pathfindHandler);
             teamBUnits.AddValue(data);  
             selectedUnit.Value = null;
         }

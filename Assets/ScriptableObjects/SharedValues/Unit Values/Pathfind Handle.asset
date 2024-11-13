@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 194866914b0c9bb46a311ddb5942f922, type: 3}
-  m_Name: Move To Selected Enemy
+  m_Script: {fileID: 11500000, guid: a97f544da0b5508439c73e1b9362c345, type: 3}
+  m_Name: Pathfind Handle
   m_EditorClassIdentifier: 
-  movementType: {fileID: 11400000, guid: 845cf932e300f9941a2b95fbe9690d89, type: 2}
-  selectedUnitType: {fileID: 11400000, guid: be3a7b2cd365fa440a93027ae2685981, type: 2}
+  shouldReset: 0

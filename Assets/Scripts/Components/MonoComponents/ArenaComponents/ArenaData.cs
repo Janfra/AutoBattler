@@ -1,9 +1,12 @@
+using AutoBattler;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ArenaData : MonoBehaviour
 {
+    [SerializeField]
+    private PathfindRequester pathfindRequester;
     [SerializeField]
     private ArenaBattleUnitsData enemyUnits;
     [SerializeField]
@@ -34,7 +37,7 @@ public class ArenaData : MonoBehaviour
     {
         if (enemyUnits == null || enemyUnits.Count == 0)
         {
-            return new BattleUnitData();
+            return null;
         }
 
         return enemyUnits.GetValueAtIndex(enemyUnits.Count - 1);

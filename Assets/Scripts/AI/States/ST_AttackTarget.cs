@@ -69,7 +69,7 @@ namespace GameAI
 
         private void RemoveTarget()
         {
-            selectedUnitData.Value = new BattleUnitData();
+            selectedUnitData.Value = null;
         }
     }
 }

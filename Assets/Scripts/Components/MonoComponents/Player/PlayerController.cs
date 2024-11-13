@@ -17,6 +17,11 @@ namespace AutoBattler
 
         private void OnEnable()
         {
+            if (playerControls == null)
+            {
+                playerControls = new AutoBattlerInput();
+            }
+
             interact = playerControls.Player.Interact;
             interact.Enable();
             interact.performed += OnInteract;
@@ -37,7 +42,10 @@ namespace AutoBattler
 
         private void Awake()
         {
-            playerControls = new AutoBattlerInput();
+            if (playerControls == null)
+            {
+                playerControls = new AutoBattlerInput();
+            }
             cam = Camera.main;
         }
 

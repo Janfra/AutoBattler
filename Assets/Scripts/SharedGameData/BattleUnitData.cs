@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public struct BattleUnitData
+public class BattleUnitData
 {
     public UnitDefinition unitData;
     public Transform transform;

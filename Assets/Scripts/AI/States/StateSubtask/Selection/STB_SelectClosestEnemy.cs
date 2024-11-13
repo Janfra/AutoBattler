@@ -26,7 +26,7 @@ namespace GameAI
 
         public override bool TryGetSelectedTarget(out BattleUnitData target)  
         {
-            target = new BattleUnitData();
+            target = null;
             if (possibleTargets.Count <= 0)
             {
                 return false;
@@ -53,7 +53,7 @@ namespace GameAI
                 }
             }
 
-            return target.transform != null;
+            return target != null && target.transform != null;
         }
 
         public override void OnStateExited()

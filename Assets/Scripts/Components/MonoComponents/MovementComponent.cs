@@ -121,17 +121,22 @@ public class MovementComponent : MonoBehaviour
         return false;
     }
 
-    private void SetVelocityToTarget()
-    {
-        float speedModifier = movementStats.speed.Value * Time.deltaTime;
-        velocity = targetData.directionToTarget * speedModifier;
-    }
-
     protected void UpdateTargetData()
     {
         Vector2 distance = targetData.targetPosition.Value - GetPosition2D();
         targetData.sqrDistanceToTarget = distance.sqrMagnitude;
         targetData.directionToTarget = distance.normalized;
+    }
+
+    protected Vector2 GetPosition2D()
+    {
+        return (Vector2)transform.position;
+    }
+
+    private void SetVelocityToTarget()
+    {
+        float speedModifier = movementStats.speed.Value * Time.deltaTime;
+        velocity = targetData.directionToTarget * speedModifier;
     }
 
     private bool HasTargetBeenReached()
@@ -152,10 +157,5 @@ public class MovementComponent : MonoBehaviour
         {
             TargetReachedEvent.Invoke();
         }
-    }
-
-    protected Vector2 GetPosition2D()
-    {
-        return (Vector2)transform.position;
     }
 }

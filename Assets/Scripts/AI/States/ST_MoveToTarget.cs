@@ -9,11 +9,11 @@ namespace GameAI
     public class ST_MoveToTarget : State
     {
         [SerializeField]
-        private MovementReferenceType movementType;
+        private PathfindMovementReferenceType movementType;
         [SerializeField]
         private BattleUnitDataReferenceType selectedUnitType;
         private SharedBattleUnitData selectedUnitData;
-        private MovementComponent movementComponent;
+        private PathfindMovementComponent movementComponent;
 
         public override bool IsBlackboardValidForState(BlackboardBase data)
         {
@@ -28,7 +28,7 @@ namespace GameAI
                 throw new System.NullReferenceException($"Unable to get selected target in {GetType().Name} state, shared data container has not been set. - Object Name: {blackboard.name}");
             }
 
-            movementComponent = blackboard.TryGetValue<MovementComponent>(movementType, null);
+            movementComponent = blackboard.TryGetValue<PathfindMovementComponent>(movementType, null);
             if (movementComponent == null)
             {
                 throw new System.NullReferenceException($"Unable to move to target in {GetType().Name} state, movement component is null. - Object Name: {blackboard.name}");

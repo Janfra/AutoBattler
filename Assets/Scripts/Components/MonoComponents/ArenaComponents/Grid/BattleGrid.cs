@@ -1,9 +1,37 @@
+using GameAI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace AutoBattler
 {
+    public class PathfindRequester
+    {
+        public delegate BattleTile GetTile(int index);
+        private Graph graphReference;
+        private GetTile tileGetter;
+
+        public PathfindRequester(Graph graphReference, GetTile tileGetter)
+        {
+            this.graphReference = graphReference;
+            this.tileGetter = tileGetter;
+        }
+
+        public BattleTile[] GetPathFromTo(GraphNodeHandle startNode, GraphNodeHandle endNode)
+        {
+            List<BattleTile> pathTiles = new List<BattleTile>();
+            int[] pathIndexes = graphReference.GetIndexPathDijkstra(startNode, endNode);
+
+            foreach (int index in pathIndexes)
+            {
+                pathTiles.Add(tileGetter.Invoke(index));
+            }
+
+            return pathTiles.ToArray();
+        }
+    }
+
     public class BattleGrid : MonoBehaviour
     {
         [SerializeField]
@@ -12,13 +40,18 @@ namespace AutoBattler
         private LayerMask tileLayer;
 
         [SerializeField]
-        protected Vector2 gridSize = Vector2.one;
+        protected Vector2Int gridSize = Vector2Int.one;
         [SerializeField]
         protected Vector2 tileOffset = Vector2.zero;
+        [SerializeField]
+        private Graph pathfind = new Graph();
+        private PathfindRequester pathfindRequester;
 
         protected List<BattleTile> tiles = new List<BattleTile>();
         private Vector2[] cornerPositions = new Vector2[4];
         private bool canCheckGridArea = false;
+
+        private Vector3[] debugPath;
 
         private void Awake()
         {
@@ -82,6 +115,16 @@ namespace AutoBattler
             return false;
         }
 
+        public Vector2Int GetGridSize()
+        {
+            return gridSize;
+        }
+
+        public PathfindRequester GetPathfindRequester()
+        {
+            return pathfindRequester;
+        }
+
         private void SpawnGrid()
         {
             if (tiles.Count > 0)
@@ -100,6 +143,7 @@ namespace AutoBattler
                 throw new System.NullReferenceException($"Referenced Tile Asset Data ({tileAssetData.name}) inside Battle Grid component is invalid. Ensure that values have been properly set - Object Name: {name}");
             }
 
+            pathfind.LoadNodes(gridSize.x, gridSize.y);
             GameObject gridContainer = new GameObject("Tiles Container");
             gridContainer.transform.parent = transform;
             gridContainer.transform.position = transform.position;
@@ -108,6 +152,7 @@ namespace AutoBattler
             float xPositionCenteringOffset = -(tileAssetData.Width * (gridSize.x - 1)) * 0.5f;
             float yPositionCenteringOffset = -(tileAssetData.Height * (gridSize.y - 1)) * 0.5f;
             int cornerIndexCount = 0;
+            int tileIndex = 0;
 
             for (int width = 0; width < Mathf.Abs(gridSize.x); width++)
             {
@@ -130,8 +175,24 @@ namespace AutoBattler
                     {
                         cornerIndexCount++;
                     }
+
+                    GraphNodeHandle handler = pathfind.GetNodeHandleAt(tileIndex);
+                    if (handler != null)
+                    {
+                        pathfind.SetNodePosition(handler, tileInstance.transform);
+                        tileInstance.pathfindHandler = handler;
+                    }
+                    tileIndex++;
                 }
             }
+
+            // Use private index getter specifically under the assumption that every graph node must have a backing tile
+            pathfindRequester = new PathfindRequester(pathfind, GetTileAtIndex);
+        }
+
+        private BattleTile GetTileAtIndex(int index)
+        {
+            return tiles[index];
         }
 
         private bool TrySetCornerPosition(Vector2 tileGridPosition, Vector2 tilePosition, int cornerIndex)
@@ -194,6 +255,8 @@ namespace AutoBattler
             Gizmos.DrawLine(b, c);
             Gizmos.DrawLine(c, d);
             Gizmos.DrawLine(d, a);
+
+            Graph.OnGizmosDrawPath(debugPath);
         }
     }
 
