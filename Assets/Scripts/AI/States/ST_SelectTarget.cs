@@ -20,6 +20,17 @@ namespace GameAI
             return data.ContainsKey(selectedUnitType) && data.ContainsKey(arenaDataType);
         }
 
+        public override void OnReplaceReferences(ReferenceReplacer replacer)
+        {
+            if (replacer.HasBeenReplaced(this))
+            {
+                return;
+            }
+
+            replacer.SetReference(ref arenaDataType);
+            replacer.SetReference(ref selectedUnitType);
+        }
+
         public override void StateEntered()
         {
             ArenaData arenaData = blackboard.TryGetValue<ArenaData>(arenaDataType, null);

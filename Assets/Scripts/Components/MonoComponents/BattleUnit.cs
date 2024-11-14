@@ -13,6 +13,7 @@ public class BattleUnit : MonoBehaviour
     private PathfindMovementComponent unitMovement;
     [SerializeField]
     private AttackComponent unitAttack;
+
     [SerializeField]
     private HealthComponent unitHealth;
     public HealthComponent Health => unitHealth;
@@ -21,6 +22,7 @@ public class BattleUnit : MonoBehaviour
     private ArenaData arenaData;
     [SerializeField]
     private SpriteRenderer sprite;
+
 
     public void Initialise(ExtendedBattleUnitData unitData, PathfindRequester pathfindRequester, ArenaBattleUnitsData enemyUnits, ArenaBattleUnitsData friendlyUnits)
     {

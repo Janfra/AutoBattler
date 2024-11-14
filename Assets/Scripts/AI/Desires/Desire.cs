@@ -12,7 +12,7 @@ namespace GameAI
         [SerializeField]
         protected int bias = 1;
         [SerializeField]
-        private T desireTarget;
+        protected T desireTarget;
         public T Target { get => desireTarget; }
 
         protected float desireValue = 0.0f;

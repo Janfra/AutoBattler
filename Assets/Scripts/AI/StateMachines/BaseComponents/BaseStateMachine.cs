@@ -8,7 +8,7 @@ using UnityEngine;
 namespace GameAI
 {
     [Serializable]
-    public abstract class BaseStateMachine<StateContainer> : MonoBehaviour
+    public abstract class BaseStateMachine<StateContainer> : MonoBehaviour, IUniqueBlackboardReferencer
     {
         [SerializeField]
         protected State entryState;
@@ -19,6 +19,24 @@ namespace GameAI
 
         protected StateContainer currentStateData;
         protected bool isEnabled = false;
+
+        public virtual void OnReplaceReferences(ReferenceReplacer replacer)
+        {
+            if (replacer.HasBeenReplaced(this))
+            {
+                return;
+            }
+
+            blackboard.OnReplaceReferences(replacer);
+            entryState.OnReplaceReferences(replacer);
+            foreach (var state in availableStates)
+            {
+                if (state is IUniqueBlackboardReferencer referencer)
+                {
+                    referencer.OnReplaceReferences(replacer);
+                }
+            }
+        }
 
         private void Start()
         {

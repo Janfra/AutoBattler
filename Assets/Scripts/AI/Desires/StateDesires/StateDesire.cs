@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GameAI
 {
     [Serializable]
-    public abstract class StateDesire : Desire<State>, IBlackboardVerifier
+    public abstract class StateDesire : Desire<State>, IBlackboardVerifier, IUniqueBlackboardReferencer
     {
         public bool IsSameTarget(StateDesire other)
         {
@@ -24,6 +24,21 @@ namespace GameAI
             }
 
             return Target.IsBlackboardValidForState(data);
+        }
+
+        public virtual void CreateInstances() 
+        {
+            desireTarget = ScriptableObject.Instantiate(Target);
+        }
+
+        public virtual void OnReplaceReferences(ReferenceReplacer replacer) 
+        {
+            if (replacer.HasBeenReplaced(this))
+            {
+                return;
+            }
+
+            Target.OnReplaceReferences(replacer);
         }
     }
 }

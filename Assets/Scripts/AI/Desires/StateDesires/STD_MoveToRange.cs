@@ -20,6 +20,12 @@ namespace GameAI
             return base.IsValid() && selectedUnitType != null;
         }
 
+        public override void OnReplaceReferences(ReferenceReplacer replacer)
+        {
+            base.OnReplaceReferences(replacer);
+            replacer.SetReference(ref selectedUnitType);
+        }
+
         public override bool IsBlackboardValidForState(BlackboardBase data)
         {
             return base.IsBlackboardValidForState(data) && data.ContainsKey(selectedUnitType);

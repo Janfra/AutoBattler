@@ -93,7 +93,7 @@ namespace GameAI
         }
     }
 
-    public abstract class BlackboardBase : MonoBehaviour
+    public abstract class BlackboardBase : MonoBehaviour, IUniqueBlackboardReferencer
     {
         private Dictionary<BlackboardReferenceType, Object> sharedData = new Dictionary<BlackboardReferenceType, Object>();
 
@@ -105,7 +105,6 @@ namespace GameAI
             }
 
             PopulateBlackboard();
-            
         }
 
         public object this[BlackboardReferenceType key]
@@ -172,5 +171,15 @@ namespace GameAI
         protected virtual void BeforeInit() { }
 
         protected virtual void AfterInit() { }
+
+        public void OnReplaceReferences(ReferenceReplacer replacer)
+        {
+            if (replacer.HasBeenReplaced(this))
+            {
+                return;
+            }
+
+            replacer.SetBlackboardReferences(ref sharedData);
+        }
     }
 }

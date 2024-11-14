@@ -1,3 +1,4 @@
+using ModularData;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace GameAI
 {
-    public abstract class State : ScriptableObject, IBlackboardVerifier
+    public abstract class State : ScriptableObject, IBlackboardVerifier, IUniqueBlackboardReferencer
     {
         protected BlackboardBase blackboard;
 
@@ -24,6 +25,8 @@ namespace GameAI
         public virtual void StateEntered() { }
 
         public virtual void StateExited() { }
+
+        public abstract void OnReplaceReferences(ReferenceReplacer replacer);
     }
 
     public abstract class TimedState : State

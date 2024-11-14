@@ -17,6 +17,9 @@ namespace AutoBattler
         [SerializeField]
         private ArenaBattleUnitsData teamBUnits;
 
+        [SerializeField]
+        private ExtendedUnitDefinition extendedUnit;
+
         public bool HasSelectedUnit => selectedUnit.Value != null;
         private bool canInstantiateUnit;
         private Transform unitsContainer;
@@ -53,7 +56,13 @@ namespace AutoBattler
             teamBUnits.CheckReset();
         }
 
-        public void TrySpawnSelectedUnitAt(BattleTile spawningTile, PathfindRequester pathfindRequester)
+        public void SetSelectedUnit()
+        {
+            selectedUnit.Value = extendedUnit;
+            canInstantiateUnit = true;
+        }
+        
+        public void TrySpawnSelectedUnitAt(BattleTile spawningTile, PathfindRequester pathfindRequester, bool isTeamA = true)
         {
             if (!canInstantiateUnit)
             {
@@ -65,8 +74,18 @@ namespace AutoBattler
             BattleUnit unit = Instantiate(unitDefinition.UnitPrefab, spawningTile.transform);
             unit.transform.parent = unitsContainer;
             ExtendedBattleUnitData unitData = new ExtendedBattleUnitData(unit.transform, unit.Health, unitDefinition, spawningTile.pathfindHandler);
-            unit.Initialise(unitData, pathfindRequester, teamBUnits, teamAUnits);
-            teamAUnits.AddValue(unitData);  
+
+            if (isTeamA)
+            {
+                unit.Initialise(unitData, pathfindRequester, teamBUnits, teamAUnits);
+                teamAUnits.AddValue(unitData);
+            }
+            else
+            {
+                unit.Initialise(unitData, pathfindRequester, teamAUnits, teamBUnits);
+                teamBUnits.AddValue(unitData);
+            }
+
             selectedUnit.Value = null;
         }
 

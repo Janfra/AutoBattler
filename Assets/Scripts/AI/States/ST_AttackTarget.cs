@@ -21,6 +21,17 @@ namespace GameAI
             return data.ContainsKey(selectedUnitType) && data.ContainsKey(attackType);
         }
 
+        public override void OnReplaceReferences(ReferenceReplacer replacer)
+        {
+            if (replacer.HasBeenReplaced(this))
+            {
+                return;
+            }
+
+            replacer.SetReference(ref attackType);
+            replacer.SetReference(ref selectedUnitType);
+        }
+
         public override void StateEntered()
         {
             selectedUnitData = blackboard.TryGetValue<SharedBattleUnitData>(selectedUnitType, null);

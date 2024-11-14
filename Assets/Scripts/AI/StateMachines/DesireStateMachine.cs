@@ -1,3 +1,4 @@
+using ModularData;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,30 @@ namespace GameAI
     public class DesireStateMachine : BaseStateMachine<StateDesire>
     {
         protected Dictionary<State, StateDesire> stateRetriever = new Dictionary<State, StateDesire>();
+
+        private void Awake()
+        {
+            State originalState = entryState;
+            bool foundMatch = false;
+            for (int i = 0; i < availableStates.Length; i++)
+            {
+                StateDesire originalDesire = availableStates[i];
+                if (originalDesire.Target == originalState)
+                {
+                    foundMatch = true;
+                }
+
+                StateDesire uniqueDesire = ScriptableObject.Instantiate(originalDesire);
+                availableStates[i] = uniqueDesire;
+                availableStates[i].CreateInstances();
+
+                if (foundMatch)
+                {
+                    entryState = uniqueDesire.Target;
+                    foundMatch = false;
+                }
+            }
+        }
 
         public override void AttemptToTransition()
         {
@@ -81,6 +106,7 @@ namespace GameAI
             {
                 if (!desire || !desire.IsValid())
                 {
+                    Debug.LogError("desire is invalid");
                     continue;
                 }
 
