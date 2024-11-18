@@ -10,8 +10,13 @@ namespace GameAI
     {
         protected Dictionary<State, StateDesire> stateRetriever = new Dictionary<State, StateDesire>();
 
-        private void Awake()
+        public override void OnReplaceReferences(ReferenceReplacer replacer)
         {
+            if (replacer.HasBeenReplaced(this))
+            {
+                return;
+            }
+
             State originalState = entryState;
             bool foundMatch = false;
             for (int i = 0; i < availableStates.Length; i++)
@@ -22,7 +27,7 @@ namespace GameAI
                     foundMatch = true;
                 }
 
-                StateDesire uniqueDesire = ScriptableObject.Instantiate(originalDesire);
+                StateDesire uniqueDesire = Instantiate(originalDesire);
                 availableStates[i] = uniqueDesire;
                 availableStates[i].CreateInstances();
 
@@ -30,6 +35,16 @@ namespace GameAI
                 {
                     entryState = uniqueDesire.Target;
                     foundMatch = false;
+                }
+            }
+
+            blackboard.OnReplaceReferences(replacer);
+            entryState.OnReplaceReferences(replacer);
+            foreach (var state in availableStates)
+            {
+                if (state is IUniqueBlackboardReferencer referencer)
+                {
+                    referencer.OnReplaceReferences(replacer);
                 }
             }
         }

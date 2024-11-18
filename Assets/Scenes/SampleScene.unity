@@ -377,7 +377,7 @@ MonoBehaviour:
   selectedUnit: {fileID: 11400000, guid: 1565567b5713c6246b64033ce1ff39fc, type: 2}
   teamAUnits: {fileID: 11400000, guid: bd617475f24cb0a4197cf442baea3fae, type: 2}
   teamBUnits: {fileID: 11400000, guid: 167a1b055e2de2d4d9cbff9b19a7a352, type: 2}
-  extendedUnit: {fileID: 11400000, guid: 75450e0808ba2d74b853686cc61ef1ce, type: 2}
+  enemyUnitTest: {fileID: 11400000, guid: 75450e0808ba2d74b853686cc61ef1ce, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

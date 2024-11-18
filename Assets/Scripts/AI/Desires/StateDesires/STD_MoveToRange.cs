@@ -45,7 +45,7 @@ namespace GameAI
         protected override void CalculateDesire()
         {
             BattleUnitData selectedUnit = selectedUnitData.Value;
-            if (!selectedUnit.IsValid())
+            if (selectedUnit == null || !selectedUnit.IsValid())
             {
                 desireValue = 0;
                 return;

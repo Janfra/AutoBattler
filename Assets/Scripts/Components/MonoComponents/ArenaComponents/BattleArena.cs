@@ -31,11 +31,8 @@ namespace AutoBattler
 
         private void Start()
         {
-            GraphNodeHandle startTest = new GraphNodeHandle(12);
-            GraphNodeHandle endTest = new GraphNodeHandle(3);
-            BattleTile[] tiles = grid.GetPathfindRequester().GetPathFromTo(startTest, endTest);
             unitManager.SetSelectedUnit();
-            unitManager.TrySpawnSelectedUnitAt(tiles[0], grid.GetPathfindRequester(), false);   
+            unitManager.TrySpawnSelectedUnitAt(grid.GetRandomTile(), grid.GetPathfindRequester(), false);   
         }
 
         public void TrySpawnSelectedUnitAt(Vector2 position)

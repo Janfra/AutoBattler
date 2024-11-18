@@ -17,7 +17,7 @@ namespace ModularData
         [SerializeField]
         private List<BlackboardReferenceType> uniqueReferences;
 
-        private void Start()
+        private void Awake()
         {
             if (blackboard == null)
             {
@@ -34,6 +34,7 @@ namespace ModularData
 
             ReferenceReplacer replacer = new ReferenceReplacer(referenceReplacements);
             blackboard.OnReplaceReferences(replacer);
+            Debug.Log($"Replaced references in blackboard for: {blackboard.name}");
             foreach (var referencer in uniqueReferencers)
             {
                 IUniqueBlackboardReferencer referencerObject = referencer.GetReference() as IUniqueBlackboardReferencer;

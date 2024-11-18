@@ -1,13 +1,27 @@
+using GameAI;
 using ModularData;
 using System.Collections;
 using System.Collections.Generic;
-using System.Dynamic;
 using UnityEngine;
 
 namespace AutoBattler
 {
     public class UnitManager : MonoBehaviour
     {
+        protected struct SpawnData
+        {
+            public ExtendedUnitDefinition unitDefinition;
+            public BattleTile spawnTile;
+            public PathfindRequester pathfind;
+            public ArenaBattleUnitsData friendlyUnits;
+            public ArenaBattleUnitsData enemyUnits;
+
+            public GraphNodeHandle GetPathfindNode()
+            {
+                return spawnTile.pathfindHandler;
+            }
+        }
+
         [SerializeField]
         private SharedUnitDefinitionSelection selectedUnit;
         
@@ -18,7 +32,7 @@ namespace AutoBattler
         private ArenaBattleUnitsData teamBUnits;
 
         [SerializeField]
-        private ExtendedUnitDefinition extendedUnit;
+        private ExtendedUnitDefinition enemyUnitTest;
 
         public bool HasSelectedUnit => selectedUnit.Value != null;
         private bool canInstantiateUnit;
@@ -58,7 +72,7 @@ namespace AutoBattler
 
         public void SetSelectedUnit()
         {
-            selectedUnit.Value = extendedUnit;
+            selectedUnit.Value = enemyUnitTest;
             canInstantiateUnit = true;
         }
         
@@ -69,24 +83,39 @@ namespace AutoBattler
                 return;
             }
 
-            Debug.Log($"Spawning unit {selectedUnit.Value.UnitName} at {spawningTile.name}");
-            ExtendedUnitDefinition unitDefinition = selectedUnit.Value as ExtendedUnitDefinition;
-            BattleUnit unit = Instantiate(unitDefinition.UnitPrefab, spawningTile.transform);
-            unit.transform.parent = unitsContainer;
-            ExtendedBattleUnitData unitData = new ExtendedBattleUnitData(unit.transform, unit.Health, unitDefinition, spawningTile.pathfindHandler);
+            if (spawningTile == null || pathfindRequester == null)
+            {
+                throw new System.ArgumentNullException($"While trying to spawn an unit, {GetType().Name} was given null parameters in {nameof(TrySpawnSelectedUnitAt)} method - Object Name: {name}");
+            }
 
+            Debug.Log($"Spawning unit {selectedUnit.Value.UnitName} at {spawningTile.name}");
+            SpawnData spawnData = new SpawnData();
+            spawnData.unitDefinition = selectedUnit.Value as ExtendedUnitDefinition;
+            spawnData.pathfind = pathfindRequester;
+            spawnData.spawnTile = spawningTile;
             if (isTeamA)
             {
-                unit.Initialise(unitData, pathfindRequester, teamBUnits, teamAUnits);
-                teamAUnits.AddValue(unitData);
+                spawnData.friendlyUnits = teamAUnits;
+                spawnData.enemyUnits = teamBUnits;
             }
             else
             {
-                unit.Initialise(unitData, pathfindRequester, teamAUnits, teamBUnits);
-                teamBUnits.AddValue(unitData);
+                spawnData.friendlyUnits = teamBUnits;
+                spawnData.enemyUnits = teamAUnits;
             }
 
+            SpawnUnit(spawnData);
             selectedUnit.Value = null;
+        }
+
+        private void SpawnUnit(SpawnData data)
+        {
+            BattleUnit unit = Instantiate(data.unitDefinition.UnitPrefab, data.spawnTile.transform);
+            ExtendedBattleUnitData unitData = new ExtendedBattleUnitData(unit.transform, unit.Health, data.unitDefinition, data.GetPathfindNode());
+            unit.Initialise(unitData, data.pathfind, data.enemyUnits, data.friendlyUnits);
+            data.friendlyUnits.AddValue(unitData);
+            unit.transform.parent = unitsContainer;
+            unit.name = $"Unit {data.unitDefinition.name} #{data.friendlyUnits.Count} - {data.friendlyUnits.name}";
         }
 
         private void OnUnitSelectionUpdate()

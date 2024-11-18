@@ -2,6 +2,7 @@ using GameAI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 namespace AutoBattler
@@ -123,6 +124,14 @@ namespace AutoBattler
         public PathfindRequester GetPathfindRequester()
         {
             return pathfindRequester;
+        }
+
+        public BattleTile GetRandomTile()
+        {
+            if (tiles.Count <= 0) return null;
+
+            int randomIndex = RandomNumberGenerator.GetInt32(tiles.Count);
+            return tiles[randomIndex];
         }
 
         private void SpawnGrid()

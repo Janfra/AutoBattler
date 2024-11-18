@@ -23,7 +23,6 @@ public class BattleUnit : MonoBehaviour
     [SerializeField]
     private SpriteRenderer sprite;
 
-
     public void Initialise(ExtendedBattleUnitData unitData, PathfindRequester pathfindRequester, ArenaBattleUnitsData enemyUnits, ArenaBattleUnitsData friendlyUnits)
     {
         this.unitData = unitData;

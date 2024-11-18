@@ -37,9 +37,11 @@ public class HealthComponent : MonoBehaviour, IAttackable
     public void ReceiveAttack(AttackData attackData)
     {
         health.Value -= attackData.damage;
-        if (health.Value < 0)
+        if (health.Value <= 0)
         {
             Destroyed?.Invoke();
+            Destroyed = null;
+            gameObject.SetActive(false);
         }
     }
 }

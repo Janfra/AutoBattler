@@ -94,6 +94,11 @@ namespace GameAI
                 item.Key.SetBlackboardReferences(item.Value);
             }
         }
+
+        protected override void SetDataContainers(BoardReferenceData[] newContainers)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public interface IBlackboardDITarget

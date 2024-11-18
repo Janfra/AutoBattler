@@ -16,6 +16,13 @@ namespace GameAI
         [SerializeField]
         private Object objectReference;
 
+        public BoardReferenceData(BlackboardReferenceType constraint, Object objectReference)
+        {
+            this.constraint = constraint;
+            this.objectReference = null;
+            SetReference(objectReference);
+        }
+
         public Object GetReference()
         {
             return objectReference;
@@ -91,13 +98,23 @@ namespace GameAI
         {
             return referencesData;
         }
+
+        protected override void SetDataContainers(BoardReferenceData[] newContainers)
+        {
+            referencesData = newContainers;
+        }
     }
 
     public abstract class BlackboardBase : MonoBehaviour, IUniqueBlackboardReferencer
     {
+        public delegate void OnReplace(BoardReferenceData[] newContainers);
+        public delegate void Populated();
+
+        public event Populated OnPopulated;
+
         private Dictionary<BlackboardReferenceType, Object> sharedData = new Dictionary<BlackboardReferenceType, Object>();
 
-        private void Awake()
+        private void Start()
         {
             if (sharedData == null)
             {
@@ -165,12 +182,20 @@ namespace GameAI
                 }
             }
 
+            OnPopulated?.Invoke();
+
             AfterInit();
         }
 
         protected virtual void BeforeInit() { }
 
         protected virtual void AfterInit() { }
+
+        /// <summary>
+        /// Purely for replacing references for interface before the blackboard is populated
+        /// </summary>
+        /// <param name="newContainers"></param>
+        protected abstract void SetDataContainers(BoardReferenceData[] newContainers);
 
         public void OnReplaceReferences(ReferenceReplacer replacer)
         {
@@ -179,7 +204,14 @@ namespace GameAI
                 return;
             }
 
-            replacer.SetBlackboardReferences(ref sharedData);
+            if (sharedData.Count == 0)
+            {
+                replacer.SetBlackboardContainers(this, SetDataContainers);
+            }
+            else
+            {
+                replacer.SetBlackboardReferences(ref sharedData);
+            }
         }
     }
 }

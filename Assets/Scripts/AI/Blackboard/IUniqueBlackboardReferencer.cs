@@ -15,6 +15,36 @@ namespace GameAI
             this.referenceReplaceData = referenceReplaceData;
         }
 
+        public void SetBlackboardContainers(BlackboardBase blackboard, BlackboardBase.OnReplace containerSetter)
+        {
+            if (blackboard == null || containerSetter == null)
+            {
+                return;
+            }
+
+            BoardReferenceData[] referenceContainers = blackboard.GetDataContainersCopy();
+
+            for (int i = 0; i < referenceContainers.Length; i++)
+            {
+                BoardReferenceData referenceData = referenceContainers[i];
+                BlackboardReferenceType key = referenceData.GetReferenceTypeConstraint();
+
+                if (ContainsReference(key))
+                {
+                    Object reference = referenceData.GetReference();
+                    if (reference is ScriptableObject)
+                    {
+                        reference = ScriptableObject.Instantiate(reference);
+                        reference.name += " as Unique";
+                    }
+
+                    referenceContainers[i] = new BoardReferenceData(referenceReplaceData[key], reference);
+                }
+            }
+
+            containerSetter.Invoke(referenceContainers);
+        }
+
         // Redo the dictionary for now
         public void SetBlackboardReferences(ref Dictionary<BlackboardReferenceType, Object> sharedData)
         {
@@ -25,7 +55,17 @@ namespace GameAI
             {
                 if (ContainsReference(item.Key))
                 {
-                    objectCopies.Push(item.Value);
+                    if (item.Value is ScriptableObject)
+                    {
+                        Debug.Log("instantiating");
+                        var uniqueReference = ScriptableObject.Instantiate(item.Value);
+                        uniqueReference.name += " as Unique";
+                        objectCopies.Push(uniqueReference);
+                    }
+                    else
+                    {
+                        objectCopies.Push(item.Value);
+                    }
                     keyToRemove.Push(item.Key);
                 }
             }

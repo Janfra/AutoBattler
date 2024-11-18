@@ -41,6 +41,12 @@ namespace GameAI
         {
             // If valid is already valid, no need to select a new target
             BattleUnitData selectedUnit = selectedUnitData.Value;
+            if (selectedUnit == null)
+            {
+                desireValue = bias * 1;
+                return;
+            }
+
             int needTargetValue = selectedUnit.IsValid() && selectedUnit.IsAttackable() ? 0 : 1;
             desireValue = bias * needTargetValue;
         }

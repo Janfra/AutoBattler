@@ -40,6 +40,12 @@ namespace GameAI
                 throw new System.NullReferenceException($"Unable to target enemy to attack in {GetType().Name} state, shared data container has not been set. - Object Name: {blackboard.name}");
             }
 
+            if (!selectedUnitData.Value.IsValid())
+            {
+                Debug.LogWarning($"{GetType().Name} state does not have a valid attackable to target - Object Name: {blackboard.name}");
+                return;
+            }
+
             attackComponent = blackboard.TryGetValue<AttackComponent>(attackType, null);
             if (selectedUnitData == null)
             {
@@ -61,7 +67,10 @@ namespace GameAI
         public override void StateExited()
         {
             timer.UnsubscribeToCallback(AttackTarget);
-            selectedUnitData.Value.attackable.Destroyed -= RemoveTarget;
+            if (selectedUnitData.Value != null && selectedUnitData.Value.attackable != null)
+            {
+                selectedUnitData.Value.attackable.Destroyed -= RemoveTarget;
+            }
             selectedUnitData = null;
             attackComponent = null;
         }

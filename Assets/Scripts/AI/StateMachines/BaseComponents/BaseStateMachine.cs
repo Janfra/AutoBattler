@@ -38,16 +38,14 @@ namespace GameAI
             }
         }
 
-        private void Start()
+        private void Awake()
         {
-            BakeData();
-            if (entryState == null)
+            if (!blackboard)
             {
-                return;
+                throw new NullReferenceException();
             }
 
-            SetState(entryState);
-            isEnabled = true;
+            blackboard.OnPopulated += OnBlackboardReady;
         }
 
         private void Update()
@@ -68,5 +66,19 @@ namespace GameAI
         public abstract void AttemptToTransition();
 
         public virtual void BakeData() { }
+
+        protected void OnBlackboardReady()
+        {
+            BakeData();
+            if (entryState == null)
+            {
+                return;
+            }
+
+            SetState(entryState);
+            isEnabled = true;
+
+            blackboard.OnPopulated -= OnBlackboardReady;
+        }
     }
 }
