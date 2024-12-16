@@ -1,4 +1,5 @@
 using AutoBattler;
+using GameAI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,11 @@ public class ArenaData : MonoBehaviour
         this.pathfindRequester = pathfindRequester;
         this.enemyUnits = enemyUnits;
         this.friendlyUnits = friendlyUnits;
+    }
+
+    public BattleTile GetTileFromNode(GraphNodeHandle node)
+    {
+        return pathfindRequester.GetTileFromNode(node);
     }
 
     public BattleUnitData[] GetEnemyUnitsData()

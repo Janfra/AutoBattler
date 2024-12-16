@@ -140,5 +140,10 @@ namespace GameAI
                 stateRetriever.Add(stateData.State, stateData);
             }
         }
+
+        protected override string GetCurrentStateName()
+        {
+            return currentStateData.State.name;
+        }
     }
 }

@@ -1,3 +1,4 @@
+using AutoBattler;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using UnityEngine;
 
 namespace GameAI
 {
+    [Serializable]
     public class GraphNodeHandle
     {
         const int INVALID_HANDLE_INDEX = -1;
@@ -374,11 +376,21 @@ namespace GameAI
             return GetReverseIndexPathFromRoute(startNodeHandler.Handle, targetNodeHandler.Handle, route);
         }
 
-        static public void OnGizmosDrawPath(Vector3[] debugPath)
+        static public void OnGizmosDrawPath(BattleTile[] debugPath, Color color)
+        {
+            Vector3[] path = new Vector3[debugPath.Length];
+            for (int i = 0; i < debugPath.Length; i++)
+            {
+                path[i] = debugPath[i].transform.position;
+            }
+            OnGizmosDrawPath(path, color);
+        }
+
+        static public void OnGizmosDrawPath(Vector3[] debugPath, Color color)
         {
             if (debugPath != null)
             {
-                Gizmos.color = Color.red;
+                Gizmos.color = color;
                 List<Vector3> path = new List<Vector3>();
 
                 for (int i = 0; i < debugPath.Length; i++)
@@ -465,7 +477,6 @@ namespace GameAI
                 }
             }
 
-            path.Reverse();
             return path.ToArray();
         }
 

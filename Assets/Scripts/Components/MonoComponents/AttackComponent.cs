@@ -20,6 +20,16 @@ public class AttackComponent : MonoBehaviour
         return damage.Value;
     }
 
+    public void SetDamage(int newDamage)
+    {
+        damage.Value = newDamage;
+    }
+
+    public void SetDamage(SharedValue<int> newDamage)
+    {
+        damage.SharedValueReference = newDamage;
+    }
+
     public bool TryAttack(IAttackable target)
     {
         if (target == null)

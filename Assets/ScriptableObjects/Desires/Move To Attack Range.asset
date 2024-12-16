@@ -16,6 +16,8 @@ MonoBehaviour:
   desireTarget: {fileID: 11400000, guid: 044a591531ae3ca4aa69e0ce599215e5, type: 2}
   rangeFromTarget:
     isInternal: 1
-    internalValue: 2
+    internalValue: 1.2
     sharedValue: {fileID: 0}
+  battleUnitType: {fileID: 11400000, guid: 41d685a88bb6f1241975654672a6d52b, type: 2}
   selectedUnitType: {fileID: 11400000, guid: be3a7b2cd365fa440a93027ae2685981, type: 2}
+  arenaDataType: {fileID: 11400000, guid: 6839a9029df2c1b4d9d5ca2f7879bdb1, type: 2}

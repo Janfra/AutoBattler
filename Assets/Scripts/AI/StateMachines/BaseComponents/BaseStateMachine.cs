@@ -20,6 +20,15 @@ namespace GameAI
         protected StateContainer currentStateData;
         protected bool isEnabled = false;
 
+        private bool isTransitionLocked;
+
+#if UNITY_EDITOR
+        [SerializeField]
+        protected bool isDebugActive;
+        [SerializeField]
+        protected TextMesh debugText;
+#endif
+
         public virtual void OnReplaceReferences(ReferenceReplacer replacer)
         {
             if (replacer.HasBeenReplaced(this))
@@ -53,8 +62,22 @@ namespace GameAI
             if (isEnabled && currentStateData != null)
             {
                 RunCurrentState();
-                AttemptToTransition();
+
+                if (!isTransitionLocked)
+                {
+                    AttemptToTransition();
+                }
+
+                if (isDebugActive)
+                {
+                    debugText.text = GetCurrentStateName();
+                }
             }
+        }
+
+        public void SetLockTransition(bool isLocked)
+        {
+            isTransitionLocked = isLocked;
         }
 
         public abstract bool TryGetStateDataFromState(State targetState, out StateContainer stateData);
@@ -64,6 +87,8 @@ namespace GameAI
         public abstract void RunCurrentState();
 
         public abstract void AttemptToTransition();
+
+        protected abstract string GetCurrentStateName();
 
         public virtual void BakeData() { }
 

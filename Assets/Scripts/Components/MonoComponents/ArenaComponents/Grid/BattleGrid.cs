@@ -19,17 +19,53 @@ namespace AutoBattler
             this.tileGetter = tileGetter;
         }
 
-        public BattleTile[] GetPathFromTo(GraphNodeHandle startNode, GraphNodeHandle endNode)
+        public BattleTile[] GetPathFromTo(GraphNodeHandle startNode, GraphNodeHandle endNode, bool isEndOnTarget = false)
         {
+            if (startNode == null || !startNode.IsValid() || endNode == null || !endNode.IsValid())
+            {
+                return null;
+            }
+
             List<BattleTile> pathTiles = new List<BattleTile>();
             int[] pathIndexes = graphReference.GetIndexPathDijkstra(startNode, endNode);
 
             foreach (int index in pathIndexes)
             {
+                if (startNode.Handle == index)
+                {
+                    continue;
+                }
+
                 pathTiles.Add(tileGetter.Invoke(index));
             }
 
+            if (pathTiles.Count == 0)
+            {
+                return null;
+            }
+
+            if (pathTiles[0].pathfindHandler == startNode)
+            {
+                Debug.LogError("First waypoint is the start");
+                pathTiles.Reverse();
+            }
+
+            if (!isEndOnTarget)
+            {
+                pathTiles.RemoveAt(0);
+            }
+
             return pathTiles.ToArray();
+        }
+
+        public BattleTile GetTileFromNode(GraphNodeHandle node)
+        {
+            if (node == null || !node.IsValid())
+            {
+                return null;
+            }
+
+            return tileGetter.Invoke(node.Handle);
         }
     }
 
@@ -265,7 +301,7 @@ namespace AutoBattler
             Gizmos.DrawLine(c, d);
             Gizmos.DrawLine(d, a);
 
-            Graph.OnGizmosDrawPath(debugPath);
+            Graph.OnGizmosDrawPath(debugPath, Color.white);
         }
     }
 

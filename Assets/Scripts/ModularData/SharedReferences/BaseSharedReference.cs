@@ -175,8 +175,16 @@ namespace ModularData
         protected ValueType internalValue;
         [SerializeField]
         protected SharedValue<ValueType> sharedValue;
+      
+        public SharedValue<ValueType> SharedValueReference
+        {
+            set
+            {
+                UpdateSharedValueReference(value);
+            }
+        }
 
-        public virtual ValueType Value 
+        public virtual ValueType Value
         {
             get { return isInternal ? internalValue : sharedValue.Value; }
             set
@@ -190,6 +198,13 @@ namespace ModularData
                     sharedValue.Value = value;
                 }
             }
+        }
+
+        public void UpdateSharedValueReference(SharedValue<ValueType> newSharedValue)
+        {
+            if (isInternal) return;
+
+            sharedValue = newSharedValue;
         }
 
         public override string ToString()

@@ -32,7 +32,9 @@ namespace AutoBattler
         private void Start()
         {
             unitManager.SetSelectedUnit();
-            unitManager.TrySpawnSelectedUnitAt(grid.GetRandomTile(), grid.GetPathfindRequester(), false);   
+            BattleTile tile;
+            grid.TryGetPositionTile(Vector2.zero, out tile);
+            unitManager.TrySpawnSelectedUnitAt(tile, grid.GetPathfindRequester(), false);   
         }
 
         public void TrySpawnSelectedUnitAt(Vector2 position)
@@ -63,12 +65,7 @@ namespace AutoBattler
         {
             if (debugPath != null)
             {
-                Vector3[] path = new Vector3[debugPath.Length];
-                for (int i = 0; i < debugPath.Length; i++)
-                {
-                    path[i] = debugPath[i].transform.position;
-                }
-                Graph.OnGizmosDrawPath(path);
+                Graph.OnGizmosDrawPath(debugPath, Color.white);
             }
         }
     }

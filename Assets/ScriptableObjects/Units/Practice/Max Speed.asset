@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 479fa0afe050f684cb6543d021a161e6, type: 3}
-  m_Name: Unit Target Position
+  m_Script: {fileID: 11500000, guid: c16cf76dba54e0d499af3da9f17f23ca, type: 3}
+  m_Name: Max Speed
   m_EditorClassIdentifier: 
-  shouldReset: 1
-  value: {x: -2, y: -2}
+  shouldReset: 0
+  value: 0

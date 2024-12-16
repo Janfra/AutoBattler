@@ -1,4 +1,5 @@
 using ModularData;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,23 +45,38 @@ namespace GameAI
             {
                 throw new System.NullReferenceException($"Unable to move to target in {GetType().Name} state, movement component is null. - Object Name: {blackboard.name}");
             }
+
+            movementComponent.OnTargetReached += CanUpdateTarget;
+            SetMovementTarget();
         }
 
         public override void RunState()
         {
-            BattleUnitData selectedUnit = selectedUnitData.Value;
+            // Currently driven by events instead of frame update
+        }
+
+        public override void StateExited()
+        {
+            movementComponent.OnTargetReached -= CanUpdateTarget;
+            movementComponent.ClearMovementTarget();
+            selectedUnitData = null;
+            movementComponent = null;
+        }
+
+        private void SetMovementTarget()
+        {
+            ExtendedBattleUnitData selectedUnit = selectedUnitData.Value as ExtendedBattleUnitData;
             if (!selectedUnit.IsValid())
             {
                 return;
             }
 
-            movementComponent.SetMovementTarget(selectedUnit.transform.position);
+            movementComponent.SetPathfindTarget(selectedUnit.unitPathfindHandle.Value);
         }
 
-        public override void StateExited()
+        private void CanUpdateTarget()
         {
-            selectedUnitData = null;
-            movementComponent = null;
+            SetMovementTarget();
         }
     }
 }

@@ -279,7 +279,7 @@ MonoBehaviour:
   unitsSelectionUI:
     unitOptionVisualTreeAsset: {fileID: 9197481963319205126, guid: 8524f930ed98bd841afb0e94fd574a79, type: 3}
     unitSelection: {fileID: 11400000, guid: 1565567b5713c6246b64033ce1ff39fc, type: 2}
-    test: {fileID: 11400000, guid: 75450e0808ba2d74b853686cc61ef1ce, type: 2}
+    test: {fileID: 11400000, guid: 7f7c810ef4a4b384085ceb05d6ea170f, type: 2}
 --- !u!1 &1876595662
 GameObject:
   m_ObjectHideFlags: 0
