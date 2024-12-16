@@ -13,9 +13,9 @@ namespace ModularData
 
         [BlackboardReferenceConstraint(typeof(IUniqueBlackboardReferenceType))]
         [SerializeField]
-        private List<BoardReferenceData> uniqueReferencers;
+        private List<DynamicReference> uniqueReferencers;
         [SerializeField]
-        private List<BlackboardReferenceType> uniqueReferences;
+        private List<DynamicReferenceType> uniqueReferences;
 
         private void Awake()
         {
@@ -24,10 +24,10 @@ namespace ModularData
                 return;
             }
 
-            Dictionary<BlackboardReferenceType, BlackboardReferenceType> referenceReplacements = new Dictionary<BlackboardReferenceType, BlackboardReferenceType>();
+            Dictionary<DynamicReferenceType, DynamicReferenceType> referenceReplacements = new Dictionary<DynamicReferenceType, DynamicReferenceType>();
             foreach (var reference in uniqueReferences)
             {
-                BlackboardReferenceType uniqueReference = Instantiate(reference);
+                DynamicReferenceType uniqueReference = Instantiate(reference);
                 uniqueReference.name = reference.name + " as Unique";
                 referenceReplacements.Add(reference, uniqueReference);
             }

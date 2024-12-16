@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace ModularData
 {
-    [CreateAssetMenu(fileName = "New Interface Reference", menuName = "ScriptableObjects/BlackboardReferenceType/Unique Blackboard Referencer", order = 1)]
-    public class IUniqueBlackboardReferenceType : BlackboardInterfaceReferenceType<IUniqueBlackboardReferencer>
+    [CreateAssetMenu(fileName = "New BlackboardDE Target Reference", menuName = "ScriptableObjects/DynamicReferenceType/BlackboardDE Target")]
+    public class BlackboardDETargetReferenceType : DynamicInterfaceReferenceType<IBlackboardDITarget>
     {
         public override Type GetDataObjectType()
         {
-            return typeof(IUniqueBlackboardReferencer);
+            return typeof(IBlackboardDITarget);
         }
 
         public override bool IsObjectValid(UnityEngine.Object checkObject)
@@ -20,4 +20,3 @@ namespace ModularData
         }
     }
 }
-

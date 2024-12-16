@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace ModularData
 {
-    [CreateAssetMenu(fileName = "New Interface Reference", menuName = "ScriptableObjects/BlackboardReferenceType/DesireValuer", order = 2)]
-    public class IDesireValuerReferenceType : BlackboardInterfaceReferenceType<IDesireValuer>
+    [CreateAssetMenu(fileName = "New Interface Reference", menuName = "ScriptableObjects/DynamicReferenceType/DesireValuer", order = 2)]
+    public class IDesireValuerReferenceType : DynamicInterfaceReferenceType<IDesireValuer>
     {
         public override Type GetDataObjectType()
         {

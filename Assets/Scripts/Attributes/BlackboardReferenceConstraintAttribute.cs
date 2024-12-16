@@ -11,9 +11,9 @@ public class BlackboardReferenceConstraintAttribute : PropertyAttribute
 
     public BlackboardReferenceConstraintAttribute(Type constraintType, bool isSceneObjectsOnly = false)
     {
-        if (!typeof(BlackboardReferenceType).IsAssignableFrom(constraintType))
+        if (!typeof(DynamicReferenceType).IsAssignableFrom(constraintType))
         {
-            Debug.LogError("Blackboard Reference Constraint Attribute must be of BlackboardReferenceType type or its children");
+            Debug.LogError("Blackboard Reference Constraint Attribute must be of DynamicReferenceType type or its children");
             return;
         }
 

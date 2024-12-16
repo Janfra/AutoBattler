@@ -6,100 +6,17 @@ using Object = UnityEngine.Object;
 
 namespace GameAI
 {
-    [Serializable]
-    public struct BoardReferenceData
-    {
-        [SerializeField]
-        private BlackboardReferenceType constraint;
-
-        [ReadOnlyInspector]
-        [SerializeField]
-        private Object objectReference;
-
-        public BoardReferenceData(BlackboardReferenceType constraint, Object objectReference)
-        {
-            this.constraint = constraint;
-            this.objectReference = null;
-            SetReference(objectReference);
-        }
-
-        public Object GetReference()
-        {
-            return objectReference;
-        }
-
-        public bool HasValidConstraint()
-        {
-            return constraint != null;
-        }
-
-        public bool HasValidReference()
-        {
-            return objectReference != null;
-        }
-
-        public bool SetReference(Object reference)
-        {
-            if (reference == null)
-            {
-                return false;
-            }
-
-            if (!constraint.IsObjectValid(reference))
-            {
-                return false;
-            }
-
-            objectReference = reference;
-            return true;
-        }
-
-        public Type GetExpectedType()
-        {
-            if (!HasValidConstraint())
-            {
-                return null;
-            }
-
-            return constraint.GetDataObjectType();
-        }
-
-        public BlackboardReferenceType GetReferenceTypeConstraint()
-        {
-            return constraint;
-        }
-        
-        public void ValidateReference()
-        {
-            if (!constraint || !constraint.IsObjectValid(objectReference))
-            {
-                objectReference = null;
-            }
-        }
-
-        public BoardReferenceData GetWithUniqueConstraint()
-        {
-            if(constraint == null)
-            {
-                return new BoardReferenceData();
-            }
-
-            constraint = ScriptableObject.CreateInstance<BlackboardReferenceType>();
-            return this;
-        }
-    }
-
     public class Blackboard : BlackboardBase
     {
         [SerializeField]
-        private BoardReferenceData[] referencesData;
+        private DynamicReference[] referencesData;
 
-        public override BoardReferenceData[] GetDataContainersCopy()
+        public override DynamicReference[] GetDataContainersCopy()
         {
             return referencesData;
         }
 
-        protected override void SetDataContainers(BoardReferenceData[] newContainers)
+        protected override void SetDataContainers(DynamicReference[] newContainers)
         {
             referencesData = newContainers;
         }
@@ -107,32 +24,32 @@ namespace GameAI
 
     public abstract class BlackboardBase : MonoBehaviour, IUniqueBlackboardReferencer
     {
-        public delegate void OnReplace(BoardReferenceData[] newContainers);
+        public delegate void OnReplace(DynamicReference[] newContainers);
         public delegate void Populated();
 
         public event Populated OnPopulated;
 
-        private Dictionary<BlackboardReferenceType, Object> sharedData = new Dictionary<BlackboardReferenceType, Object>();
+        private Dictionary<DynamicReferenceType, Object> sharedData = new Dictionary<DynamicReferenceType, Object>();
 
         private void Start()
         {
             if (sharedData == null)
             {
-                sharedData = new Dictionary<BlackboardReferenceType, Object>();
+                sharedData = new Dictionary<DynamicReferenceType, Object>();
             }
 
             PopulateBlackboard();
         }
 
-        public object this[BlackboardReferenceType key]
+        public object this[DynamicReferenceType key]
         {
             get => !sharedData.ContainsKey(key) ? null : sharedData[key];
             protected set => sharedData[key] = (Object)value;
         }
 
-        public bool ContainsKey(BlackboardReferenceType key) => sharedData.ContainsKey(key);
+        public bool ContainsKey(DynamicReferenceType key) => sharedData.ContainsKey(key);
 
-        public T TryGetValue<T>(BlackboardReferenceType key, T defaultValue)
+        public T TryGetValue<T>(DynamicReferenceType key, T defaultValue)
         {
             if (!ContainsKey(key))
             {
@@ -147,9 +64,9 @@ namespace GameAI
             return defaultValue;
         }
 
-        public abstract BoardReferenceData[] GetDataContainersCopy();
+        public abstract DynamicReference[] GetDataContainersCopy();
 
-        public void AddReference(BoardReferenceData newReference)
+        public void AddReference(DynamicReference newReference)
         {
             if (newReference.HasValidReference())
             {
@@ -161,12 +78,12 @@ namespace GameAI
         {
             BeforeInit();
 
-            foreach (BoardReferenceData referenceData in GetDataContainersCopy())
+            foreach (DynamicReference referenceData in GetDataContainersCopy())
             {
                 referenceData.ValidateReference();
                 if (referenceData.HasValidReference())
                 {
-                    BlackboardReferenceType constraintType = referenceData.GetReferenceTypeConstraint();
+                    DynamicReferenceType constraintType = referenceData.GetReferenceTypeConstraint();
                     if (sharedData.ContainsKey(constraintType))
                     {
                         Debug.LogWarning("Same blackboard constraint key given more than once, keeping the first seen");
@@ -195,7 +112,7 @@ namespace GameAI
         /// Purely for replacing references for interface before the blackboard is populated
         /// </summary>
         /// <param name="newContainers"></param>
-        protected abstract void SetDataContainers(BoardReferenceData[] newContainers);
+        protected abstract void SetDataContainers(DynamicReference[] newContainers);
 
         public void OnReplaceReferences(ReferenceReplacer replacer)
         {

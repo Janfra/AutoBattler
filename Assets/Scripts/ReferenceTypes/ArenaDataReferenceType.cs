@@ -5,17 +5,17 @@ using UnityEngine;
 
 namespace ModularData
 {
-    [CreateAssetMenu(fileName = "New Int Reference", menuName = "ScriptableObjects/BlackboardReferenceType/Int")]
-    public class IntReferenceType : BlackboardReferenceType
+    [CreateAssetMenu(fileName = "New Arena Data Reference", menuName = "ScriptableObjects/DynamicReferenceType/Arena Data")]
+    public class ArenaDataReferenceType : DynamicReferenceType
     {
         public override Type GetDataObjectType()
         {
-            return typeof(SharedInt);
+            return typeof(ArenaData);
         }
 
         public override bool IsObjectValid(UnityEngine.Object checkObject)
         {
-            return checkObject is SharedInt;
+            return checkObject is ArenaData;
         }
     }
 }

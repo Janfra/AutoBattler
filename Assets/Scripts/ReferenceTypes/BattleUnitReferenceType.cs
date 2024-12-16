@@ -5,17 +5,17 @@ using UnityEngine;
 
 namespace ModularData
 {
-    [CreateAssetMenu(fileName = "New Movement Reference", menuName = "ScriptableObjects/BlackboardReferenceType/Movement")]
-    public class MovementReferenceType : BlackboardReferenceType
+    [CreateAssetMenu(fileName = "New Battle Unit Reference", menuName = "ScriptableObjects/DynamicReferenceType/Battle Unit")]
+    public class BattleUnitReferenceType : DynamicReferenceType
     {
         public override Type GetDataObjectType()
         {
-            return typeof(MovementComponent);
+            return typeof(BattleUnit);
         }
 
         public override bool IsObjectValid(UnityEngine.Object checkObject)
         {
-            return checkObject is MovementComponent;
+            return checkObject is BattleUnit;
         }
     }
 }

@@ -1,4 +1,5 @@
 using GameAI;
+using ModularData;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,12 +9,12 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
-[CustomPropertyDrawer(typeof(BoardReferenceData))]
+[CustomPropertyDrawer(typeof(DynamicReference))]
 public class BlackboardReferenceDataDrawer : PropertyDrawer
 {
     public const string constraintFieldName = "ConstraintField";
     public const string objectFieldName = "ObjectField";
-    public const string constraintPropertyName = "constraint";
+    public const string constraintPropertyName = "referenceType";
     public const string objectReferencePropertyName = "objectReference";
     Dictionary<IEventHandler, SerializedProperty> fieldToProperty = new Dictionary<IEventHandler, SerializedProperty>();
 
@@ -43,7 +44,7 @@ public class BlackboardReferenceDataDrawer : PropertyDrawer
         ObjectField objectField = root.Q<ObjectField>(objectFieldName);
         if(objectField != null)
         {
-            BoardReferenceData data = (BoardReferenceData)property.boxedValue;
+            DynamicReference data = (DynamicReference)property.boxedValue;
             if (!data.HasValidConstraint() || objectField.objectType != data.GetExpectedType())
             {
                 objectField.RemoveFromHierarchy();
@@ -58,7 +59,7 @@ public class BlackboardReferenceDataDrawer : PropertyDrawer
 
     public void CreateObjectField(SerializedProperty property, VisualElement root)
     {
-        BoardReferenceData data = (BoardReferenceData)property.boxedValue;
+        DynamicReference data = (DynamicReference)property.boxedValue;
         if (!data.HasValidConstraint())
         {
             return;
@@ -123,7 +124,7 @@ public class BlackboardReferenceDataDrawer : PropertyDrawer
             return;
         }
 
-        BoardReferenceData data = (BoardReferenceData)property.boxedValue;
+        DynamicReference data = (DynamicReference)property.boxedValue;
         if (eventData.newValue != null && !data.SetReference(eventData.newValue))
         {
             Debug.LogError($"Attempted to set invalid value to blackboard reference - Expected: {data.GetExpectedType().Name} Received: {eventData.newValue.GetType().Name}");

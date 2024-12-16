@@ -5,17 +5,17 @@ using UnityEngine;
 
 namespace ModularData
 {
-    [CreateAssetMenu(fileName = "New Arena Data Reference", menuName = "ScriptableObjects/BlackboardReferenceType/Arena Data")]
-    public class ArenaDataReferenceType : BlackboardReferenceType
+    [CreateAssetMenu(fileName = "New Movement Reference", menuName = "ScriptableObjects/DynamicReferenceType/Movement")]
+    public class MovementReferenceType : DynamicReferenceType
     {
         public override Type GetDataObjectType()
         {
-            return typeof(ArenaData);
+            return typeof(MovementComponent);
         }
 
         public override bool IsObjectValid(UnityEngine.Object checkObject)
         {
-            return checkObject is ArenaData;
+            return checkObject is MovementComponent;
         }
     }
 }

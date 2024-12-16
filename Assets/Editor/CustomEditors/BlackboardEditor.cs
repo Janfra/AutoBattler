@@ -35,14 +35,14 @@ using GameAI;
 
 //    public void CreateObjectFields(VisualElement root)
 //    {
-//        BoardReferenceData[] referencesConstraints = editorTarget.GetDataContainersCopy();
+//        DynamicReference[] referencesConstraints = editorTarget.GetDataContainersCopy();
 //        if (referencesConstraints == null || referencesConstraints.Length <= 0)
 //        {
 //            return;
 //        }
 
 //        int index = 0;
-//        foreach (BoardReferenceData constraint in referencesConstraints)
+//        foreach (DynamicReference constraint in referencesConstraints)
 //        {
 //            if (!constraint.HasValidConstraint())
 //            {

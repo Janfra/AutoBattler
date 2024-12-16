@@ -5,17 +5,17 @@ using UnityEngine;
 
 namespace ModularData
 {
-    [CreateAssetMenu(fileName = "New Battle Unit Reference", menuName = "ScriptableObjects/BlackboardReferenceType/Battle Unit")]
-    public class BattleUnitReferenceType : BlackboardReferenceType
+    [CreateAssetMenu(fileName = "New Int Reference", menuName = "ScriptableObjects/DynamicReferenceType/Int")]
+    public class IntReferenceType : DynamicReferenceType
     {
         public override Type GetDataObjectType()
         {
-            return typeof(BattleUnit);
+            return typeof(SharedInt);
         }
 
         public override bool IsObjectValid(UnityEngine.Object checkObject)
         {
-            return checkObject is BattleUnit;
+            return checkObject is SharedInt;
         }
     }
 }

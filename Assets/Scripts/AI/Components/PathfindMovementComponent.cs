@@ -110,7 +110,6 @@ namespace GameAI
         {
             hasReachedTarget = true;
             ownerPathfindNode.Value = currentTargetTile.pathfindHandler;
-            Debug.Log($"REACHED {name} - {currentTargetTile.pathfindHandler.Handle}");
         }
 
         private void StopAndClearMovementCoroutine()

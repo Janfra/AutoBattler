@@ -7,10 +7,10 @@ namespace GameAI
 {
     public class ReferenceReplacer
     {
-        private Dictionary<BlackboardReferenceType, BlackboardReferenceType> referenceReplaceData;
+        private Dictionary<DynamicReferenceType, DynamicReferenceType> referenceReplaceData;
         private List<IUniqueBlackboardReferencer> replaced = new List<IUniqueBlackboardReferencer>();
 
-        public ReferenceReplacer(Dictionary<BlackboardReferenceType, BlackboardReferenceType> referenceReplaceData) 
+        public ReferenceReplacer(Dictionary<DynamicReferenceType, DynamicReferenceType> referenceReplaceData) 
         {
             this.referenceReplaceData = referenceReplaceData;
         }
@@ -22,12 +22,12 @@ namespace GameAI
                 return;
             }
 
-            BoardReferenceData[] referenceContainers = blackboard.GetDataContainersCopy();
+            DynamicReference[] referenceContainers = blackboard.GetDataContainersCopy();
 
             for (int i = 0; i < referenceContainers.Length; i++)
             {
-                BoardReferenceData referenceData = referenceContainers[i];
-                BlackboardReferenceType key = referenceData.GetReferenceTypeConstraint();
+                DynamicReference referenceData = referenceContainers[i];
+                DynamicReferenceType key = referenceData.GetReferenceTypeConstraint();
 
                 if (ContainsReference(key))
                 {
@@ -38,7 +38,7 @@ namespace GameAI
                         reference.name += " as Unique";
                     }
 
-                    referenceContainers[i] = new BoardReferenceData(referenceReplaceData[key], reference);
+                    referenceContainers[i] = new DynamicReference(referenceReplaceData[key], reference);
                 }
             }
 
@@ -46,9 +46,9 @@ namespace GameAI
         }
 
         // Redo the dictionary for now
-        public void SetBlackboardReferences(ref Dictionary<BlackboardReferenceType, Object> sharedData)
+        public void SetBlackboardReferences(ref Dictionary<DynamicReferenceType, Object> sharedData)
         {
-            Stack<BlackboardReferenceType> keyToRemove = new Stack<BlackboardReferenceType>();
+            Stack<DynamicReferenceType> keyToRemove = new Stack<DynamicReferenceType>();
             Stack<Object> objectCopies = new Stack<Object>();
 
             foreach (var item in sharedData)
@@ -72,13 +72,13 @@ namespace GameAI
 
             while (keyToRemove.Count > 0)
             {
-                BlackboardReferenceType currentKey = keyToRemove.Pop();
+                DynamicReferenceType currentKey = keyToRemove.Pop();
                 sharedData[referenceReplaceData[currentKey]] = objectCopies.Pop();
                 sharedData.Remove(currentKey);
             }
         }
     
-        public void SetReference<T>(ref T original) where T : BlackboardReferenceType
+        public void SetReference<T>(ref T original) where T : DynamicReferenceType
         {
             if (!ContainsReference(original)) return;
             if (referenceReplaceData[original] is T t)
@@ -104,7 +104,7 @@ namespace GameAI
             }
         }
 
-        private bool ContainsReference(BlackboardReferenceType referenceType)
+        private bool ContainsReference(DynamicReferenceType referenceType)
         {
             return referenceReplaceData.ContainsKey(referenceType);
         }

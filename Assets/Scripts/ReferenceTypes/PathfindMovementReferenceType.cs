@@ -6,8 +6,8 @@ using GameAI;
 
 namespace ModularData
 {
-    [CreateAssetMenu(fileName = "New Pathfind Movement Reference", menuName = "ScriptableObjects/BlackboardReferenceType/Pathfind Movement")]
-    public class PathfindMovementReferenceType : BlackboardReferenceType
+    [CreateAssetMenu(fileName = "New Pathfind Movement Reference", menuName = "ScriptableObjects/DynamicReferenceType/Pathfind Movement")]
+    public class PathfindMovementReferenceType : DynamicReferenceType
     {
         public override Type GetDataObjectType()
         {

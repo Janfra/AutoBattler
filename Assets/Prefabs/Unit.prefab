@@ -78,16 +78,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   referencesData:
-  - constraint: {fileID: 11400000, guid: 6839a9029df2c1b4d9d5ca2f7879bdb1, type: 2}
+  - referenceType: {fileID: 11400000, guid: 6839a9029df2c1b4d9d5ca2f7879bdb1, type: 2}
     objectReference: {fileID: 5962563251829866934}
-  - constraint: {fileID: 11400000, guid: 845cf932e300f9941a2b95fbe9690d89, type: 2}
-    objectReference: {fileID: 8221352700508311453}
-  - constraint: {fileID: 11400000, guid: a127a200167188b4ab1081a9f4d49afc, type: 2}
-    objectReference: {fileID: 6681417383073306200}
-  - constraint: {fileID: 11400000, guid: be3a7b2cd365fa440a93027ae2685981, type: 2}
-    objectReference: {fileID: 11400000, guid: 75e6f32a5bdb39846b75ebe2211192f1, type: 2}
-  - constraint: {fileID: 11400000, guid: 41d685a88bb6f1241975654672a6d52b, type: 2}
+  - referenceType: {fileID: 11400000, guid: 41d685a88bb6f1241975654672a6d52b, type: 2}
     objectReference: {fileID: 7749235412225715080}
+  - referenceType: {fileID: 11400000, guid: 845cf932e300f9941a2b95fbe9690d89, type: 2}
+    objectReference: {fileID: 8221352700508311453}
+  - referenceType: {fileID: 11400000, guid: a127a200167188b4ab1081a9f4d49afc, type: 2}
+    objectReference: {fileID: 6681417383073306200}
+  - referenceType: {fileID: 11400000, guid: be3a7b2cd365fa440a93027ae2685981, type: 2}
+    objectReference: {fileID: 11400000, guid: 75e6f32a5bdb39846b75ebe2211192f1, type: 2}
 --- !u!114 &8582049202693186265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blackboard: {fileID: 3571175390502909745}
   uniqueReferencers:
-  - constraint: {fileID: 0}
+  - referenceType: {fileID: 0}
     objectReference: {fileID: 8663045226548674072}
   uniqueReferences:
   - {fileID: 11400000, guid: 6839a9029df2c1b4d9d5ca2f7879bdb1, type: 2}
@@ -168,7 +168,7 @@ MonoBehaviour:
       sharedValue: {fileID: 11400000, guid: 263f05b07533d7342ad1f80341d04dac, type: 2}
   targetData:
     hasTarget: 0
-    targetPosition: {fileID: 11400000, guid: 5b7965b02bcd0e740b4f8abbc33a973e, type: 2}
+    targetPosition: {x: 0, y: 0}
     directionToTarget: {x: 0, y: 0}
     sqrDistanceToTarget: 0
   ownerPathfindNode: {fileID: 11400000, guid: d8946e5633294b441b58c4083bed1abe, type: 2}

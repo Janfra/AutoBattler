@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace ModularData
 {
-    [CreateAssetMenu(fileName = "New Float Reference", menuName = "ScriptableObjects/BlackboardReferenceType/Float")]
-    public class FloatReferenceType : BlackboardReferenceType
+    [CreateAssetMenu(fileName = "New Float Reference", menuName = "ScriptableObjects/DynamicReferenceType/Float")]
+    public class FloatReferenceType : DynamicReferenceType
     {
         public override Type GetDataObjectType()
         {

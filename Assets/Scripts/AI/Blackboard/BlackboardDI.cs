@@ -9,7 +9,7 @@ namespace GameAI
 {
     public struct LinkedReferenceTypes
     {
-        public List<BlackboardReferenceType> linkedReferences;
+        public List<DynamicReferenceType> linkedReferences;
     }
 
     public class BlackboardDI : BlackboardBase
@@ -17,12 +17,12 @@ namespace GameAI
         [Serializable]
         public struct BlackboardTargetData
         {
-            public BoardReferenceData reference;
+            public DynamicReference reference;
 
             public bool makeUnique;
 
             [BlackboardReferenceConstraint(typeof(BlackboardDETargetReferenceType))]
-            public List<BoardReferenceData> linkedTargets;
+            public List<DynamicReference> linkedTargets;
 
             public BlackboardTargetData GetWithUniqueKey()
             {
@@ -35,9 +35,9 @@ namespace GameAI
         [SerializeField]
         protected List<BlackboardTargetData> targets;
 
-        public override BoardReferenceData[] GetDataContainersCopy()
+        public override DynamicReference[] GetDataContainersCopy()
         {
-            List<BoardReferenceData> data = new List<BoardReferenceData>();
+            List<DynamicReference> data = new List<DynamicReference>();
             foreach(BlackboardTargetData targetData in targets)
             {
                 data.Add(targetData.reference);
@@ -64,7 +64,7 @@ namespace GameAI
             Dictionary<IBlackboardDITarget, LinkedReferenceTypes> linkedReferencesPerObject = new Dictionary<IBlackboardDITarget, LinkedReferenceTypes>();
             foreach (BlackboardTargetData targetData in targets)
             {
-                foreach (BoardReferenceData linkedTarget in targetData.linkedTargets)
+                foreach (DynamicReference linkedTarget in targetData.linkedTargets)
                 {
                     IBlackboardDITarget targetInterface = linkedTarget.GetReference() as IBlackboardDITarget;
                     if (targetInterface == null)
@@ -80,7 +80,7 @@ namespace GameAI
                     else
                     {
                         LinkedReferenceTypes linkedReferenceTypes = new LinkedReferenceTypes();
-                        linkedReferenceTypes.linkedReferences = new List<BlackboardReferenceType>
+                        linkedReferenceTypes.linkedReferences = new List<DynamicReferenceType>
                         {
                             targetData.reference.GetReferenceTypeConstraint()
                         };
@@ -95,7 +95,7 @@ namespace GameAI
             }
         }
 
-        protected override void SetDataContainers(BoardReferenceData[] newContainers)
+        protected override void SetDataContainers(DynamicReference[] newContainers)
         {
             throw new NotImplementedException();
         }
@@ -104,7 +104,7 @@ namespace GameAI
     public interface IBlackboardDITarget
     {
         public void SetBlackboardReferences(LinkedReferenceTypes references);
-        static protected void SetReferencesBasedOnType<T>(ref LinkedReferenceTypes references, ref T targetField) where T : BlackboardReferenceType
+        static protected void SetReferencesBasedOnType<T>(ref LinkedReferenceTypes references, ref T targetField) where T : DynamicReferenceType
         {
             for (int i = 0; i < references.linkedReferences.Count; i++)
             {

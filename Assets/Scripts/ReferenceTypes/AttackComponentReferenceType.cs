@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace ModularData
 {
-    [CreateAssetMenu(fileName = "New Attack Component Reference", menuName = "ScriptableObjects/BlackboardReferenceType/Attack Component")]
-    public class AttackComponentReferenceType : BlackboardReferenceType
+    [CreateAssetMenu(fileName = "New Attack Component Reference", menuName = "ScriptableObjects/DynamicReferenceType/Attack Component")]
+    public class AttackComponentReferenceType : DynamicReferenceType
     {
         public override Type GetDataObjectType()
         {
