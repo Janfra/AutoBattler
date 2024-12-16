@@ -21,7 +21,7 @@ namespace GameAI
             return data.ContainsKey(movementType) && data.ContainsKey(selectedUnitType);
         }
 
-        public override void OnReplaceReferences(ReferenceReplacer replacer)
+        public override void OnReplaceReferences(BlackboardReferenceReplacer replacer)
         {
             if (replacer.HasBeenReplaced(this))
             {

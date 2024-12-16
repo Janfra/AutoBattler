@@ -5,14 +5,10 @@ using UnityEngine;
 
 namespace GameAI
 {
-    public class ReferenceReplacer
+    public class BlackboardReferenceReplacer : ReferenceReplacer<DynamicReferenceType, IUniqueBlackboardReferencer>
     {
-        private Dictionary<DynamicReferenceType, DynamicReferenceType> referenceReplaceData;
-        private List<IUniqueBlackboardReferencer> replaced = new List<IUniqueBlackboardReferencer>();
-
-        public ReferenceReplacer(Dictionary<DynamicReferenceType, DynamicReferenceType> referenceReplaceData) 
+        public BlackboardReferenceReplacer(Dictionary<DynamicReferenceType, DynamicReferenceType> referenceReplaceData) : base(referenceReplaceData)
         {
-            this.referenceReplaceData = referenceReplaceData;
         }
 
         public void SetBlackboardContainers(BlackboardBase blackboard, BlackboardBase.OnReplace containerSetter)
@@ -77,42 +73,11 @@ namespace GameAI
                 sharedData.Remove(currentKey);
             }
         }
-    
-        public void SetReference<T>(ref T original) where T : DynamicReferenceType
-        {
-            if (!ContainsReference(original)) return;
-            if (referenceReplaceData[original] is T t)
-            {
-                original = t;
-            }
-            else
-            {
-                throw new System.ArgumentException($"{typeof(T).Name} is not the type of the reference set on the original reference type. It is set to: {referenceReplaceData[original].GetType().Name}");
-            }
-        }
-
-        public bool HasBeenReplaced(IUniqueBlackboardReferencer replacer)
-        {
-            if (replaced.Contains(replacer))
-            {
-                return true;
-            }
-            else
-            {
-                replaced.Add(replacer);
-                return false;
-            }
-        }
-
-        private bool ContainsReference(DynamicReferenceType referenceType)
-        {
-            return referenceReplaceData.ContainsKey(referenceType);
-        }
     }
 
     public interface IUniqueBlackboardReferencer
     {
-        public void OnReplaceReferences(ReferenceReplacer replacer);
+        public void OnReplaceReferences(BlackboardReferenceReplacer replacer);
     }
 }
 

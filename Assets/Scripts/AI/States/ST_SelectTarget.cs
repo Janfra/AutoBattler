@@ -20,7 +20,7 @@ namespace GameAI
             return data.ContainsKey(selectedUnitType) && data.ContainsKey(arenaDataType);
         }
 
-        public override void OnReplaceReferences(ReferenceReplacer replacer)
+        public override void OnReplaceReferences(BlackboardReferenceReplacer replacer)
         {
             if (replacer.HasBeenReplaced(this))
             {

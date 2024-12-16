@@ -21,7 +21,7 @@ namespace GameAI
 
             public bool makeUnique;
 
-            [BlackboardReferenceConstraint(typeof(BlackboardDETargetReferenceType))]
+            [DynamicReferenceTypeConstraint(typeof(BlackboardDETargetReferenceType))]
             public List<DynamicReference> linkedTargets;
 
             public BlackboardTargetData GetWithUniqueKey()

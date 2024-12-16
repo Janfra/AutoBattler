@@ -26,7 +26,7 @@ namespace GameAI
 
         public virtual void StateExited() { }
 
-        public abstract void OnReplaceReferences(ReferenceReplacer replacer);
+        public abstract void OnReplaceReferences(BlackboardReferenceReplacer replacer);
     }
 
     public abstract class TimedState : State

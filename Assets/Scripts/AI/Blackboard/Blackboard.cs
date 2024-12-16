@@ -114,7 +114,7 @@ namespace GameAI
         /// <param name="newContainers"></param>
         protected abstract void SetDataContainers(DynamicReference[] newContainers);
 
-        public void OnReplaceReferences(ReferenceReplacer replacer)
+        public void OnReplaceReferences(BlackboardReferenceReplacer replacer)
         {
             if (replacer.HasBeenReplaced(this))
             {

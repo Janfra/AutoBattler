@@ -10,7 +10,7 @@ namespace GameAI
     {
         protected Dictionary<State, StateDesire> stateRetriever = new Dictionary<State, StateDesire>();
 
-        public override void OnReplaceReferences(ReferenceReplacer replacer)
+        public override void OnReplaceReferences(BlackboardReferenceReplacer replacer)
         {
             if (replacer.HasBeenReplaced(this))
             {

@@ -11,7 +11,7 @@ namespace ModularData
         [SerializeField]
         private BlackboardBase blackboard;
 
-        [BlackboardReferenceConstraint(typeof(IUniqueBlackboardReferenceType))]
+        [DynamicReferenceTypeConstraint(typeof(IUniqueBlackboardReferenceType))]
         [SerializeField]
         private List<DynamicReference> uniqueReferencers;
         [SerializeField]
@@ -32,7 +32,7 @@ namespace ModularData
                 referenceReplacements.Add(reference, uniqueReference);
             }
 
-            ReferenceReplacer replacer = new ReferenceReplacer(referenceReplacements);
+            BlackboardReferenceReplacer replacer = new BlackboardReferenceReplacer(referenceReplacements);
             blackboard.OnReplaceReferences(replacer);
             Debug.Log($"Replaced references in blackboard for: {blackboard.name}");
             foreach (var referencer in uniqueReferencers)

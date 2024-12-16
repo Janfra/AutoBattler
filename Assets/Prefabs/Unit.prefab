@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7749235412225715080}
   - component: {fileID: 3571175390502909745}
   - component: {fileID: 8582049202693186265}
+  - component: {fileID: 6253776430018267761}
   - component: {fileID: 8663045226548674072}
   - component: {fileID: 5962563251829866934}
   - component: {fileID: 8221352700508311453}
@@ -20,6 +21,7 @@ GameObject:
   - component: {fileID: 2410767140395443372}
   - component: {fileID: 7680060642109359082}
   - component: {fileID: 55286881564671760}
+  - component: {fileID: 6836204675947772849}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -109,6 +111,24 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a127a200167188b4ab1081a9f4d49afc, type: 2}
   - {fileID: 11400000, guid: be3a7b2cd365fa440a93027ae2685981, type: 2}
   - {fileID: 11400000, guid: 845cf932e300f9941a2b95fbe9690d89, type: 2}
+--- !u!114 &6253776430018267761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898764546766500607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d987b951052ab8428594947ddbe841b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runtimeReferencers:
+  - referenceType: {fileID: 0}
+    objectReference: {fileID: 8221352700508311453}
+  runtimeReferences:
+  - {fileID: 11400000, guid: 6fd592e4eb219bb47a7ac3714983d81a, type: 2}
+  - {fileID: 11400000, guid: 9f21b1e5c857d454da223a54c1be5784, type: 2}
 --- !u!114 &8663045226548674072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,7 +245,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 7680060642109359082}
-  animationDataSetters: []
+  animationDataSetters:
+  - {fileID: 11400000, guid: 0387556953894414ba20105e0a00f82a, type: 2}
 --- !u!95 &7680060642109359082
 Animator:
   serializedVersion: 5
@@ -299,6 +320,34 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6836204675947772849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898764546766500607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4f341fbed448c4da7cce54303e6574, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: fb87eba6f22f5fe46ae70837b0034d9a, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 0387556953894414ba20105e0a00f82a, type: 2}
+        m_TargetAssemblyTypeName: ModularData.AnimationDataSetter, Runtime.Animation
+        m_MethodName: OnInvokeEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8457862756826681462
 GameObject:
   m_ObjectHideFlags: 0

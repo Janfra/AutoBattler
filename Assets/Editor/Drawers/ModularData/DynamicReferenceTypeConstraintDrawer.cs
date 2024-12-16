@@ -7,13 +7,13 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CustomPropertyDrawer(typeof(BlackboardReferenceConstraintAttribute))]
-public class BlackboardReferenceConstraintDrawer : PropertyDrawer
+[CustomPropertyDrawer(typeof(DynamicReferenceTypeConstraintAttribute))]
+public class DynamicReferenceTypeConstraintDrawer : PropertyDrawer
 {
     BlackboardReferenceDataDrawer drawer = new BlackboardReferenceDataDrawer();
     public override VisualElement CreatePropertyGUI(SerializedProperty property)
     {
-        BlackboardReferenceConstraintAttribute constraintAttribute = attribute as BlackboardReferenceConstraintAttribute;
+        DynamicReferenceTypeConstraintAttribute constraintAttribute = attribute as DynamicReferenceTypeConstraintAttribute;
         DynamicReferenceType constraint = ScriptableObject.CreateInstance(constraintAttribute.constraintType.Name) as DynamicReferenceType;
         if (constraint == null)
         {

@@ -27,7 +27,7 @@ namespace GameAI
             return base.IsValid() && selectedUnitType != null && battleUnitType != null && arenaDataType != null;
         }
 
-        public override void OnReplaceReferences(ReferenceReplacer replacer)
+        public override void OnReplaceReferences(BlackboardReferenceReplacer replacer)
         {
             base.OnReplaceReferences(replacer);
             replacer.SetReference(ref battleUnitType);

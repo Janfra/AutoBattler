@@ -31,7 +31,7 @@ namespace GameAI
             desireTarget = ScriptableObject.Instantiate(Target);
         }
 
-        public virtual void OnReplaceReferences(ReferenceReplacer replacer) 
+        public virtual void OnReplaceReferences(BlackboardReferenceReplacer replacer) 
         {
             if (replacer.HasBeenReplaced(this))
             {

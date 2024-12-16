@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IRuntimeScriptableObject
 {
-    public T GetRuntimeDuplicate<T>() where T : ScriptableObject;
+    public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer);
 }
