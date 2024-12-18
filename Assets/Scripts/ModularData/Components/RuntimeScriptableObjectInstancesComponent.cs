@@ -1,6 +1,4 @@
 using ModularData;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -53,6 +51,7 @@ public class RuntimeScriptableObjectInstancesComponent : MonoBehaviour
     private List<DynamicReference> runtimeReferencers;
     [SerializeField]
     private List<ScriptableObject> runtimeReferences;
+    private Dictionary<ScriptableObject, ScriptableObject> referenceReplacements;
 
     private void Awake()
     {
@@ -67,9 +66,31 @@ public class RuntimeScriptableObjectInstancesComponent : MonoBehaviour
         }
     }
 
+    public T GetCreatedInstanceOfScriptableObject<T>(T original) where T : ScriptableObject
+    {
+        if (referenceReplacements == null)
+        {
+            throw new System.MethodAccessException($"Trying to get created instance of scriptable object before {name} has been initialised in {GetType().Name}");
+        }
+
+        if (!referenceReplacements.ContainsKey(original))
+        {
+            return null;
+        }
+
+        var instance = referenceReplacements[original];
+        if (instance is T t)
+        {
+            return t;
+        }
+
+        Debug.LogError($"Component {GetType().Name} in {name} does contain the given scriptable object, however the given type does not match. Input: {typeof(T).Name} - Is: {instance.GetType().Name}");
+        return null;
+    }
+
     protected Dictionary<ScriptableObject, ScriptableObject> CreateDictionary()
     {
-        Dictionary<ScriptableObject, ScriptableObject> referenceReplacements = new Dictionary<ScriptableObject, ScriptableObject>();
+        referenceReplacements = new Dictionary<ScriptableObject, ScriptableObject>();
         foreach (var reference in runtimeReferences)
         {
             ScriptableObject uniqueReference = Instantiate(reference);

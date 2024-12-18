@@ -46,11 +46,9 @@ namespace ModularData
     [Serializable]
     public struct AnimatorTriggerParameter : IAnimatorParameterSetter
     {
-        public string TriggerName;
-
         public void SetAnimatorParameter(Animator animator, string parameterName)
         {
-            animator.SetTrigger(TriggerName);
+            animator.SetTrigger(parameterName);
         }
     }
 }

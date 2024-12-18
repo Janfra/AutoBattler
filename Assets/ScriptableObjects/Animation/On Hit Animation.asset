@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcab2e296d803a54d95d2fc228740af6, type: 3}
   m_Name: On Hit Animation
   m_EditorClassIdentifier: 
-  parameterName: 
-  parameterSetter:
-    TriggerName: 
+  parameterName: Damaged

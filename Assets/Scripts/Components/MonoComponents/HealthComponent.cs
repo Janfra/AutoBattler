@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthComponent : MonoBehaviour, IAttackable
+public class HealthComponent : MonoBehaviour, IAttackable, IRuntimeScriptableObject
 {
     public event IAttackable.OnDestroy Destroyed;
 
+    [SerializeField]
+    private GameEvent damageTakenEvent;
     [SerializeField]
     private IntReference maxHealth;
     [SerializeField]
@@ -37,11 +39,18 @@ public class HealthComponent : MonoBehaviour, IAttackable
     public void ReceiveAttack(AttackData attackData)
     {
         health.Value -= attackData.damage;
+        damageTakenEvent?.Invoke();
+
         if (health.Value <= 0)
         {
             Destroyed?.Invoke();
             Destroyed = null;
             gameObject.SetActive(false);
         }
+    }
+
+    public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer)
+    {
+        replacer.SetReference(ref damageTakenEvent);
     }
 }

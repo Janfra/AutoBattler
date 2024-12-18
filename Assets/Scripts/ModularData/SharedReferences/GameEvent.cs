@@ -7,7 +7,7 @@ namespace ModularData
     [CreateAssetMenu(fileName = "New Shared Event", menuName = "ScriptableObjects/SharedValues/GameEvent")]
     public class GameEvent : ScriptableObject
     {
-        private List<GameEventListener> listeners = new List<GameEventListener>();
+        private List<EventListener> listeners = new List<EventListener>();
 
         public void Invoke()
         {
@@ -17,12 +17,12 @@ namespace ModularData
             }
         }
 
-        public void RegisterListener(GameEventListener listener)
+        public void RegisterListener(EventListener listener)
         {
             listeners.Add(listener);
         }
 
-        public void UnregisterListener(GameEventListener listener)
+        public void UnregisterListener(EventListener listener)
         {
             listeners.Remove(listener);
         }
