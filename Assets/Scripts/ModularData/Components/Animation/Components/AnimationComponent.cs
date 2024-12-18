@@ -4,7 +4,7 @@ using UnityEngine;
 using ModularData;
 
 [RequireComponent(typeof(Animator))]
-public class AnimationComponent : MonoBehaviour
+public class AnimationComponent : MonoBehaviour, IRuntimeScriptableObject
 {
     [SerializeField]
     protected Animator animator;
@@ -12,7 +12,17 @@ public class AnimationComponent : MonoBehaviour
     [SerializeField]
     protected List<AnimationDataSetter> animationDataSetters;
 
-    private void Awake()
+    public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer)
+    {
+        for (int i = 0; i < animationDataSetters.Count; i++)
+        {
+            var animationInstance = animationDataSetters[i];
+            replacer.SetReference(ref animationInstance);
+            animationDataSetters[i] = animationInstance;
+        }
+    }
+
+    private void Start()
     {
         if (animator == null)
         {

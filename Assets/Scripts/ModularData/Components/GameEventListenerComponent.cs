@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.Events;
 using UnityEngine;
 using UnityEngine.Events;
+using Object = UnityEngine.Object;
 
 namespace ModularData
 {
@@ -42,6 +44,22 @@ namespace ModularData
             }
 
             replacer.SetReference(ref Event);
+            for (int i = Response.GetPersistentEventCount() - 1; i >= 0; i--)
+            {
+                Object target = Response.GetPersistentTarget(i);
+                if (target is ScriptableObject targetSO)
+                {
+                    if (!replacer.ContainsReference(targetSO))
+                    {
+                        continue;
+                    }
+
+                    replacer.SetReference(ref targetSO);
+                    UnityAction action = UnityAction.CreateDelegate(typeof(UnityAction), targetSO, Response.GetPersistentMethodName(i)) as UnityAction;
+                    Response.AddListener(action);
+                    UnityEventTools.RemovePersistentListener(Response, i);
+                }
+            }
         }
     }
 

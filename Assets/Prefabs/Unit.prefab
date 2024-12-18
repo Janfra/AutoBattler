@@ -65,10 +65,13 @@ MonoBehaviour:
     objectReference: {fileID: 2533223097444589978}
   - referenceType: {fileID: 0}
     objectReference: {fileID: 6833558029409322255}
+  - referenceType: {fileID: 0}
+    objectReference: {fileID: 2410767140395443372}
   runtimeReferences:
   - {fileID: 11400000, guid: 6fd592e4eb219bb47a7ac3714983d81a, type: 2}
   - {fileID: 11400000, guid: 9f21b1e5c857d454da223a54c1be5784, type: 2}
   - {fileID: 11400000, guid: fb87eba6f22f5fe46ae70837b0034d9a, type: 2}
+  - {fileID: 11400000, guid: 0387556953894414ba20105e0a00f82a, type: 2}
 --- !u!114 &2533223097444589978
 MonoBehaviour:
   m_ObjectHideFlags: 0

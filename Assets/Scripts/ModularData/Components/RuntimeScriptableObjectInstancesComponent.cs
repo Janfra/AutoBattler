@@ -38,7 +38,7 @@ public class ReferenceReplacer<ReplacementType, ObjectReferenceType> where Repla
         }
     }
 
-    protected bool ContainsReference(ReplacementType referenceType)
+    public bool ContainsReference(ReplacementType referenceType)
     {
         return referenceReplaceData.ContainsKey(referenceType);
     }
