@@ -68,11 +68,7 @@ public class RuntimeScriptableObjectInstancesComponent : MonoBehaviour
 
     public T GetCreatedInstanceOfScriptableObject<T>(T original) where T : ScriptableObject
     {
-        if (referenceReplacements == null)
-        {
-            throw new System.MethodAccessException($"Trying to get created instance of scriptable object before {name} has been initialised in {GetType().Name}");
-        }
-
+        InitialisedCheck();
         if (!referenceReplacements.ContainsKey(original))
         {
             return null;
@@ -88,16 +84,43 @@ public class RuntimeScriptableObjectInstancesComponent : MonoBehaviour
         return null;
     }
 
+    public T CreateInstanceOfScriptableObject<T>(T original) where T : ScriptableObject
+    {
+        InitialisedCheck();
+        if (referenceReplacements.ContainsKey(original))
+        {
+            Debug.LogWarning("Scriptable object given has already been instanced in game object");
+            return referenceReplacements[original] as T;
+        }
+
+        return CreateRuntimeInstance(original) as T;
+    }
+
     protected Dictionary<ScriptableObject, ScriptableObject> CreateDictionary()
     {
         referenceReplacements = new Dictionary<ScriptableObject, ScriptableObject>();
         foreach (var reference in runtimeReferences)
         {
-            ScriptableObject uniqueReference = Instantiate(reference);
-            uniqueReference.name = reference.name + " as Unique";
-            referenceReplacements.Add(reference, uniqueReference);
+            CreateRuntimeInstance(reference);
         }
 
         return referenceReplacements;
+    }
+
+    private ScriptableObject CreateRuntimeInstance(ScriptableObject originalAsset)
+    {
+        ScriptableObject uniqueReference = Instantiate(originalAsset);
+        uniqueReference.name = originalAsset.name + " as Unique";
+        referenceReplacements.Add(originalAsset, uniqueReference);
+
+        return uniqueReference;
+    }
+
+    private void InitialisedCheck()
+    {
+        if (referenceReplacements == null)
+        {
+            throw new System.MethodAccessException($"Trying to get created instance of scriptable object before {name} has been initialised in {GetType().Name}");
+        }
     }
 }

@@ -1,4 +1,5 @@
 using ModularData;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,25 +15,38 @@ public class HealthComponent : MonoBehaviour, IAttackable, IRuntimeScriptableObj
     [SerializeField]
     private IntReference health;
 
-    private void Awake()
-    {
-        if (maxHealth == null)
-        {
-            maxHealth = new IntReference();
-        }
-
-        if (health == null)
-        {
-            health = new IntReference();
-        }
-
-        health.Value = maxHealth.Value;
-    }
-
     public void SetMaxHealth(int newMaxHealth)
     {
         maxHealth.Value = newMaxHealth;
         health.Value = newMaxHealth;
+    }
+
+    public void SetMaxHealth(SharedValue<int> newMaxHealth, bool resetHealth = true)
+    {
+        maxHealth.SharedValueReference = newMaxHealth;
+        if (resetHealth)
+        {
+            ResetHealth();
+        }
+        else
+        {
+            health.Value = Math.Min(newMaxHealth.Value, health.Value);
+        }
+    }
+
+    public void ReplaceHealthReference(SharedValue<int> newHealth)
+    {
+        if (health.IsValid())
+        {
+            newHealth.Value = health.Value;
+        }
+
+        health.SharedValueReference = newHealth;
+    }
+
+    public void ResetHealth()
+    {
+        health.Value = maxHealth.Value;
     }
 
     public bool IsAttackable => health > 0;

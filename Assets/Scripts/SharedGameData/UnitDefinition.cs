@@ -22,6 +22,10 @@ public class UnitDefinition : ScriptableObject
     public SharedInt MaxHealth { get => maxHealth; }
 
     [SerializeField]
+    private SharedInt health;
+    public SharedInt Health { get => health; }
+
+    [SerializeField]
     private SharedInt damage;
     public SharedInt Damage { get => damage; }
 

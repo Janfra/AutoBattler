@@ -8,6 +8,8 @@ using UnityEngine;
 public class BattleUnit : MonoBehaviour
 {
     [SerializeField]
+    private SharedBattleUnitData sharedUnitData;
+    [SerializeField]
     private ExtendedBattleUnitData unitData;
     [SerializeField]
     private PathfindMovementComponent unitMovement;
@@ -24,16 +26,21 @@ public class BattleUnit : MonoBehaviour
     private SpriteRenderer sprite;
 
     [SerializeField]
+    private RuntimeScriptableObjectInstancesComponent runtimeSOs;
+
+    [SerializeField]
     private DesireStateMachine stateMachine;
 
     public void Initialise(ExtendedBattleUnitData unitData, PathfindRequester pathfindRequester, ArenaBattleUnitsData enemyUnits, ArenaBattleUnitsData friendlyUnits)
     {
         this.unitData = unitData;
-        unitMovement.Initialise(pathfindRequester, unitData.unitPathfindHandle);
-        unitMovement.SetMaxSpeed(unitData.unitDefinition.MaxSpeed);
-        unitAttack.SetDamage(unitData.unitDefinition.Damage);
-        arenaData.Initialise(pathfindRequester, enemyUnits, friendlyUnits);
-        sprite.sprite = unitData.unitDefinition.Sprite;
+        runtimeSOs.CreateInstanceOfScriptableObject(sharedUnitData).Value = unitData;
+
+        SetMovementComponent(pathfindRequester);
+        SetAttackComponent();
+        SetHealthComponent();
+        SetArenaData(pathfindRequester, enemyUnits, friendlyUnits);
+        SetSpriteRenderer();
 
         if (unitData.unitDefinition.MaxSpeed.Value == 0 && unitData.unitDefinition.Damage.Value == 0)
         {
@@ -44,5 +51,32 @@ public class BattleUnit : MonoBehaviour
     public ExtendedBattleUnitData GetUnitData()
     {
         return unitData;
+    }
+
+    private void SetMovementComponent(PathfindRequester pathfindRequester)
+    {
+        unitMovement.Initialise(pathfindRequester, unitData.unitPathfindHandle);
+        unitMovement.SetMaxSpeed(runtimeSOs.CreateInstanceOfScriptableObject(unitData.unitDefinition.MaxSpeed));
+    }
+
+    private void SetAttackComponent()
+    {
+        unitAttack.SetDamage(runtimeSOs.CreateInstanceOfScriptableObject(unitData.unitDefinition.Damage));
+    }
+
+    private void SetHealthComponent()
+    {
+        Health.ReplaceHealthReference(runtimeSOs.CreateInstanceOfScriptableObject(unitData.unitDefinition.Health));
+        Health.SetMaxHealth(runtimeSOs.CreateInstanceOfScriptableObject(unitData.unitDefinition.MaxHealth));
+    }
+
+    private void SetArenaData(PathfindRequester pathfindRequester, ArenaBattleUnitsData enemyUnits, ArenaBattleUnitsData friendlyUnits)
+    {
+        arenaData.Initialise(pathfindRequester, enemyUnits, friendlyUnits);
+    }
+
+    private void SetSpriteRenderer()
+    {
+        sprite.sprite = unitData.unitDefinition.Sprite;
     }
 }

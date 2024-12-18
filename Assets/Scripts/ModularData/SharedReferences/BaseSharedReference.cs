@@ -207,6 +207,11 @@ namespace ModularData
             sharedValue = newSharedValue;
         }
 
+        public bool IsValid()
+        {
+            return isInternal || sharedValue != null;
+        }
+
         public override string ToString()
         {
             return Value.ToString();

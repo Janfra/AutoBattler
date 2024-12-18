@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36d6ba5d2df53fa4f921959681cabebc, type: 3}
-  m_Name: Unit Damage
+  m_Script: {fileID: 11500000, guid: 2fd54af80e74f024d8371ad0d56a3995, type: 3}
+  m_Name: Unit Data Accessor
   m_EditorClassIdentifier: 
-  shouldReset: 1
-  value: 1
+  shouldReset: 0
+  value:
+    unitDefinition: {fileID: 0}
+    transform: {fileID: 0}
