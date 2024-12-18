@@ -12,9 +12,12 @@ public class UI_BattleUnit : MonoBehaviour
     private SharedBattleUnitData unitDataAccessor;
     [SerializeField]
     private Slider healthBar;
+    [SerializeField]
+    private Slider delayedHealthBar;
 
     private SharedInt health;
     private SharedInt maxHealth;
+    private IEnumerator healthAnimation;
 
     private void Awake()
     {
@@ -42,10 +45,36 @@ public class UI_BattleUnit : MonoBehaviour
 
         healthBar.maxValue = maxHealth.Value;
         healthBar.value = health.Value;
+        delayedHealthBar.maxValue = maxHealth.Value;
+        delayedHealthBar.value = health.Value;
     }
 
     public void UpdateHealth()
     {
+        if (healthAnimation != null)
+        {
+            delayedHealthBar.value = healthBar.value;
+            StopCoroutine(healthAnimation);
+        }
+
+        healthAnimation = AnimateHealthBar(health.Value);
+        StartCoroutine(healthAnimation);
         healthBar.value = health.Value;
     }
+
+    public IEnumerator AnimateHealthBar(int healthValue)
+    {
+        float progress = 0.0f;
+        float startValue = healthBar.value;
+
+        while (progress < 1.0f)
+        {
+            progress = Mathf.Min(1.0f, progress + Time.deltaTime);
+            delayedHealthBar.value = Mathf.Lerp(startValue, healthValue, progress);
+            yield return null;
+        }
+
+        healthAnimation = null;
+        yield return null;
+    } 
 }

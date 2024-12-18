@@ -74,13 +74,13 @@ public class MovementComponent : MonoBehaviour, IRuntimeScriptableObject
     public void SetMaxSpeed(float newSpeed)
     {
         movementStats.maxSpeed.Value = newSpeed;
-        movementStats.speed.Value = Math.Min(newSpeed, movementStats.speed.Value);
+        movementStats.speed.Value = Mathf.Min(newSpeed, movementStats.speed.Value);
     }
 
     public void SetMaxSpeed(SharedValue<float> newSpeed)
     {
         movementStats.maxSpeed.SharedValueReference = newSpeed;
-        movementStats.speed.Value = Math.Min(newSpeed.Value, movementStats.speed.Value);
+        movementStats.speed.Value = Mathf.Min(newSpeed.Value, movementStats.speed.Value);
     }
 
     public void SetMovementTarget(Vector2 newTarget)
@@ -155,12 +155,12 @@ public class MovementComponent : MonoBehaviour, IRuntimeScriptableObject
 
     private void Deccelerate()
     {
-        movementStats.speed.Value = Math.Max(movementStats.speed.Value - Time.deltaTime, 0.0f);
+        movementStats.speed.Value = Mathf.Max(movementStats.speed.Value - Time.deltaTime, 0.0f);
     }
 
     private void Accelerate()
     {
-        movementStats.speed.Value = Math.Min(movementStats.speed.Value + Time.deltaTime, movementStats.maxSpeed.Value);
+        movementStats.speed.Value = Mathf.Min(movementStats.speed.Value + Time.deltaTime, movementStats.maxSpeed.Value);
     }
 
     private bool HasTargetBeenReached()

@@ -1,5 +1,4 @@
 using ModularData;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,7 +29,7 @@ public class HealthComponent : MonoBehaviour, IAttackable, IRuntimeScriptableObj
         }
         else
         {
-            health.Value = Math.Min(newMaxHealth.Value, health.Value);
+            health.Value = Mathf.Min(newMaxHealth.Value, health.Value);
         }
     }
 

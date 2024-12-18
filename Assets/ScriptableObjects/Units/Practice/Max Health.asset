@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Max Health
   m_EditorClassIdentifier: 
   shouldReset: 1
-  value: 1000
+  value: 10
