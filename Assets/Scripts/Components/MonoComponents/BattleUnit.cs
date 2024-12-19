@@ -23,7 +23,7 @@ public class BattleUnit : MonoBehaviour
     [SerializeField]
     private ArenaData arenaData;
     [SerializeField]
-    private SpriteRenderer sprite;
+    private Animator animator;
 
     [SerializeField]
     private RuntimeScriptableObjectInstancesComponent runtimeSOs;
@@ -77,6 +77,6 @@ public class BattleUnit : MonoBehaviour
 
     private void SetSpriteRenderer()
     {
-        sprite.sprite = unitData.unitDefinition.Sprite;
+        animator.runtimeAnimatorController = unitData.unitDefinition.AnimatorController;
     }
 }

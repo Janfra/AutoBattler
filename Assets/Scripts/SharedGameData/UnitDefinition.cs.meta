@@ -3,7 +3,13 @@ guid: edee352eae4c833478625f63a67e708e
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - animatorController: {instanceID: 0}
+  - maxSpeed: {instanceID: 0}
+  - maxHealth: {instanceID: 0}
+  - health: {instanceID: 0}
+  - damage: {instanceID: 0}
+  - attackSpeed: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

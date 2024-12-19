@@ -18,7 +18,7 @@ namespace AutoBattler
 
             public GraphNodeHandle GetPathfindNode()
             {
-                return spawnTile.pathfindHandler;
+                return spawnTile.PathfindHandler;
             }
         }
 

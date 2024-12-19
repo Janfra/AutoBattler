@@ -25,7 +25,7 @@ GameObject:
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
-  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -39,8 +39,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.17, y: 0.17, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4068365456213360012}
   - {fileID: 6713034703661977986}
@@ -67,11 +67,18 @@ MonoBehaviour:
     objectReference: {fileID: 6833558029409322255}
   - referenceType: {fileID: 0}
     objectReference: {fileID: 2410767140395443372}
+  - referenceType: {fileID: 0}
+    objectReference: {fileID: 6681417383073306200}
   runtimeReferences:
   - {fileID: 11400000, guid: 6fd592e4eb219bb47a7ac3714983d81a, type: 2}
   - {fileID: 11400000, guid: 9f21b1e5c857d454da223a54c1be5784, type: 2}
   - {fileID: 11400000, guid: fb87eba6f22f5fe46ae70837b0034d9a, type: 2}
   - {fileID: 11400000, guid: 0387556953894414ba20105e0a00f82a, type: 2}
+  - {fileID: 11400000, guid: 7583a5ad99a4d5f469e1cddc36b4b7f6, type: 2}
+  - {fileID: 11400000, guid: 426d88982ebdb8742beb02901c3dee41, type: 2}
+  - {fileID: 11400000, guid: e3fc2eff546af48498ece55b21089264, type: 2}
+  - {fileID: 11400000, guid: 52f2da035bdb4804380c08d5cdee7b55, type: 2}
+  - {fileID: 11400000, guid: dbea4d042320ea84b83a51c38bcf3e51, type: 2}
 --- !u!114 &2533223097444589978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,11 +92,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Events:
+  - Event: {fileID: 11400000, guid: 7583a5ad99a4d5f469e1cddc36b4b7f6, type: 2}
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 11400000, guid: 426d88982ebdb8742beb02901c3dee41, type: 2}
+          m_TargetAssemblyTypeName: ModularData.AnimationDataSetter, Runtime.Animation
+          m_MethodName: OnInvokeEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - Event: {fileID: 11400000, guid: fb87eba6f22f5fe46ae70837b0034d9a, type: 2}
     Response:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 11400000, guid: 0387556953894414ba20105e0a00f82a, type: 2}
+          m_TargetAssemblyTypeName: ModularData.AnimationDataSetter, Runtime.Animation
+          m_MethodName: OnInvokeEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1226700734062085342}
+          m_TargetAssemblyTypeName: UI_BattleUnit, Runtime.UI
+          m_MethodName: UpdateHealth
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - Event: {fileID: 11400000, guid: e3fc2eff546af48498ece55b21089264, type: 2}
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 11400000, guid: 52f2da035bdb4804380c08d5cdee7b55, type: 2}
           m_TargetAssemblyTypeName: ModularData.AnimationDataSetter, Runtime.Animation
           m_MethodName: OnInvokeEvent
           m_Mode: 1
@@ -134,7 +185,7 @@ MonoBehaviour:
   unitAttack: {fileID: 6681417383073306200}
   unitHealth: {fileID: 6833558029409322255}
   arenaData: {fileID: 5962563251829866934}
-  sprite: {fileID: 55286881564671760}
+  animator: {fileID: 7680060642109359082}
   runtimeSOs: {fileID: 6253776430018267761}
   stateMachine: {fileID: 8663045226548674072}
 --- !u!114 &3571175390502909745
@@ -227,8 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c762e3119581d9e489f2db764744615f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetSetEvent: {fileID: 11400000, guid: 9f21b1e5c857d454da223a54c1be5784, type: 2}
-  TargetReachedEvent: {fileID: 11400000, guid: 6fd592e4eb219bb47a7ac3714983d81a, type: 2}
+  targetSetEvent: {fileID: 11400000, guid: 9f21b1e5c857d454da223a54c1be5784, type: 2}
+  targetReachedEvent: {fileID: 11400000, guid: 6fd592e4eb219bb47a7ac3714983d81a, type: 2}
   movementStats:
     speed:
       isInternal: 1
@@ -257,6 +308,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTakenEvent: {fileID: 11400000, guid: fb87eba6f22f5fe46ae70837b0034d9a, type: 2}
+  healthDepleted: {fileID: 11400000, guid: e3fc2eff546af48498ece55b21089264, type: 2}
+  healthProvider: {fileID: 11400000, guid: dbea4d042320ea84b83a51c38bcf3e51, type: 2}
   maxHealth:
     isInternal: 0
     internalValue: 0
@@ -277,6 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95dadfedfe9e8b945baa20dcd3f49015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttacked: {fileID: 11400000, guid: 7583a5ad99a4d5f469e1cddc36b4b7f6, type: 2}
   damage:
     isInternal: 0
     internalValue: 1
@@ -300,6 +354,8 @@ MonoBehaviour:
   animator: {fileID: 7680060642109359082}
   animationDataSetters:
   - {fileID: 11400000, guid: 0387556953894414ba20105e0a00f82a, type: 2}
+  - {fileID: 11400000, guid: 426d88982ebdb8742beb02901c3dee41, type: 2}
+  - {fileID: 11400000, guid: 52f2da035bdb4804380c08d5cdee7b55, type: 2}
 --- !u!95 &7680060642109359082
 Animator:
   serializedVersion: 5
@@ -363,11 +419,11 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: f698e171ac7179e4b9333b426bb977de, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 5, y: 5}
+  m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -650,8 +706,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2.03}
-  m_SizeDelta: {x: 5, y: 2}
+  m_AnchoredPosition: {x: 0, y: 0.34}
+  m_SizeDelta: {x: 0.8, y: 0.2}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!223 &7747979871446646401
 Canvas:
@@ -674,7 +730,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &7683280587846982251
 MonoBehaviour:
@@ -906,7 +962,7 @@ GameObject:
   - component: {fileID: 4068365456213360012}
   - component: {fileID: 314140829403314178}
   - component: {fileID: 8212802826312084225}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Debug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -923,8 +979,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.58, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8215478436028446021}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

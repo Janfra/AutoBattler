@@ -109,7 +109,7 @@ namespace GameAI
         private void OnTargetTileReached()
         {
             hasReachedTarget = true;
-            ownerPathfindNode.Value = currentTargetTile.pathfindHandler;
+            ownerPathfindNode.Value = currentTargetTile.PathfindHandler;
         }
 
         private void StopAndClearMovementCoroutine()

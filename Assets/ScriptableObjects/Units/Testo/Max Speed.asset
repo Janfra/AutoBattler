@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Max Speed
   m_EditorClassIdentifier: 
   shouldReset: 1
-  value: 1
+  value: 0.5

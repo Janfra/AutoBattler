@@ -18,6 +18,11 @@ public class AnimationComponent : MonoBehaviour, IRuntimeScriptableObject
         {
             var animationInstance = animationDataSetters[i];
             replacer.SetReference(ref animationInstance);
+            if (animationInstance is IRuntimeScriptableObject runtimeReplace)
+            {
+                runtimeReplace.OnReplaceReferences(replacer);
+            }
+
             animationDataSetters[i] = animationInstance;
         }
     }

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1ee8d9d01fb88f43999a84c4a498b94, type: 3}
+  m_Name: On Death Animation
+  m_EditorClassIdentifier: 
+  parameterName: Is Dead
+  comparisonType: 5
+  parameterSetter:
+    SetParameterTo: 1
+  valueOne: {fileID: 11400000, guid: dbea4d042320ea84b83a51c38bcf3e51, type: 2}
+  valueTwo:
+    isInternal: 1
+    internalValue: 0
+    sharedValue: {fileID: 0}

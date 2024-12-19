@@ -44,7 +44,7 @@ namespace AutoBattler
                 return null;
             }
 
-            if (pathTiles[0].pathfindHandler == startNode)
+            if (pathTiles[0].PathfindHandler == startNode)
             {
                 Debug.LogError("First waypoint is the start");
                 pathTiles.Reverse();
@@ -203,7 +203,8 @@ namespace AutoBattler
             {
                 for (int height = 0; height < Mathf.Abs(gridSize.y); height++)
                 {
-                    BattleTile tileInstance = tileAssetData.GetTileInstance(gridContainer.transform);
+                    Vector2Int gridTilePosition = new Vector2Int(width, height);
+                    BattleTile tileInstance = tileAssetData.GetTileInstance(gridContainer.transform, gridTilePosition, gridSize);
                     if (tileInstance == null)
                     {
                         throw new System.NullReferenceException($"Instantiated Battle Tile inside Battle Grid component returned a null instance in {nameof(SpawnGrid)} method - Object Name: {name}");
@@ -216,7 +217,7 @@ namespace AutoBattler
                     float yPosition = (height * tileAssetData.Height) + yPositionCenteringOffset + (height * tileOffset.y);
                     tileInstance.transform.position += new Vector3(xPosition, yPosition);
                     
-                    if (TrySetCornerPosition(new Vector2(width, height), tileInstance.transform.position, cornerIndexCount))
+                    if (TrySetCornerPosition(gridTilePosition, tileInstance.transform.position, cornerIndexCount))
                     {
                         cornerIndexCount++;
                     }
@@ -225,7 +226,7 @@ namespace AutoBattler
                     if (handler != null)
                     {
                         pathfind.SetNodePosition(handler, tileInstance.transform);
-                        tileInstance.pathfindHandler = handler;
+                        tileInstance.PathfindHandler = handler;
                     }
                     tileIndex++;
                 }
@@ -240,7 +241,7 @@ namespace AutoBattler
             return tiles[index];
         }
 
-        private bool TrySetCornerPosition(Vector2 tileGridPosition, Vector2 tilePosition, int cornerIndex)
+        private bool TrySetCornerPosition(Vector2Int tileGridPosition, Vector2 tilePosition, int cornerIndex)
         {
             if (cornerIndex >= 4)
             {

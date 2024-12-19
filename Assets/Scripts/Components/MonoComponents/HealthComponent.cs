@@ -3,16 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthComponent : MonoBehaviour, IAttackable, IRuntimeScriptableObject
+public class HealthComponent : MonoBehaviour, IAttackable, IRuntimeScriptableObject, IDataProvider<int>
 {
     public event IAttackable.OnDestroy Destroyed;
 
     [SerializeField]
     private GameEvent damageTakenEvent;
     [SerializeField]
+    private GameEvent healthDepleted;
+
+    [SerializeField]
+    private SharedIntDataProvider healthProvider;
+
+    [SerializeField]
     private IntReference maxHealth;
     [SerializeField]
     private IntReference health;
+
+    private void Awake()
+    {
+        healthProvider.Value = this;
+    }
 
     public void SetMaxHealth(int newMaxHealth)
     {
@@ -52,18 +63,39 @@ public class HealthComponent : MonoBehaviour, IAttackable, IRuntimeScriptableObj
     public void ReceiveAttack(AttackData attackData)
     {
         health.Value -= attackData.damage;
-        damageTakenEvent?.Invoke();
 
         if (health.Value <= 0)
         {
             Destroyed?.Invoke();
             Destroyed = null;
-            gameObject.SetActive(false);
+            healthDepleted?.Invoke();
         }
+        else
+        {
+            damageTakenEvent?.Invoke();
+        }
+    }
+
+    public void OnHealthDepleyed()
+    {
+        gameObject.SetActive(false);
     }
 
     public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer)
     {
+        if (replacer.HasBeenReplaced(this))
+        {
+            return;
+        }
+
         replacer.SetReference(ref damageTakenEvent);
+        replacer.SetReference(ref healthDepleted);
+        replacer.SetReference(ref healthProvider);
+    }
+
+    // Health's provide data interface will just be used to return the current health
+    public int OnProvideData()
+    {
+        return health.Value;
     }
 }

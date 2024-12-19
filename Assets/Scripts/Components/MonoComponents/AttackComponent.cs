@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackComponent : MonoBehaviour
+public class AttackComponent : MonoBehaviour, IRuntimeScriptableObject
 {
+    [SerializeField]
+    private GameEvent onAttacked;
     [SerializeField]
     private IntReference damage;
     [SerializeField]
@@ -45,6 +47,17 @@ public class AttackComponent : MonoBehaviour
         AttackData attackData = new AttackData();
         attackData.damage = damage.Value;
         target.ReceiveAttack(attackData);
+        onAttacked?.Invoke();
         return true;
+    }
+
+    public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer)
+    {
+        if (replacer.HasBeenReplaced(this))
+        {
+            return;
+        }
+
+        replacer.SetReference(ref onAttacked);
     }
 }

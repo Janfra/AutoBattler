@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Practice Definition
   m_EditorClassIdentifier: 
   unitName: Practice Target
-  sprite: {fileID: 21300000, guid: f698e171ac7179e4b9333b426bb977de, type: 3}
+  animatorController: {fileID: 9100000, guid: 3654c42567a96d242a6809b3c25dff6b, type: 2}
   maxSpeed: {fileID: 11400000, guid: f63a3ce096ab0ff4fbde309106efecc0, type: 2}
   maxHealth: {fileID: 11400000, guid: c8b405b764fd0fe46914a45cc03a43d4, type: 2}
   health: {fileID: 11400000, guid: a608e4a451ad31f46b55e56937386206, type: 2}

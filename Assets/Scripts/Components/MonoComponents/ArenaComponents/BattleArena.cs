@@ -52,7 +52,7 @@ namespace AutoBattler
 
             // Testing pathfind requester
             GraphNodeHandle startTest = new GraphNodeHandle(12);
-            debugPath = grid.GetPathfindRequester().GetPathFromTo(startTest, tile.pathfindHandler);
+            debugPath = grid.GetPathfindRequester().GetPathFromTo(startTest, tile.PathfindHandler);
             unitManager.TrySpawnSelectedUnitAt(tile, grid.GetPathfindRequester());
         }
 

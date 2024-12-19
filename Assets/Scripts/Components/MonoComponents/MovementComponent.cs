@@ -44,13 +44,13 @@ public class MovementComponent : MonoBehaviour, IRuntimeScriptableObject
     /// Call only when a new target has been set and there was no target
     /// </summary>
     [SerializeField]
-    protected GameEvent TargetSetEvent;
+    protected GameEvent targetSetEvent;
 
     /// <summary>
     /// Call only when the target has been reach and there is now no target
     /// </summary>
     [SerializeField]
-    protected GameEvent TargetReachedEvent;
+    protected GameEvent targetReachedEvent;
 
     [SerializeField]
     protected MovementStats movementStats;
@@ -86,9 +86,9 @@ public class MovementComponent : MonoBehaviour, IRuntimeScriptableObject
     public void SetMovementTarget(Vector2 newTarget)
     {
         targetData.targetPosition = newTarget;
-        if (targetData.hasTarget == false && TargetSetEvent != null)
+        if (targetData.hasTarget == false)
         {
-            TargetSetEvent.Invoke();
+            targetSetEvent?.Invoke();
         }
 
         targetData.hasTarget = true;
@@ -172,20 +172,13 @@ public class MovementComponent : MonoBehaviour, IRuntimeScriptableObject
     {
         targetData.hasTarget = false;
 
-        if (OnTargetReached != null)
-        {
-            OnTargetReached.Invoke();
-        }
-
-        if (TargetReachedEvent != null)
-        {
-            TargetReachedEvent.Invoke();
-        }
+        OnTargetReached?.Invoke();
+        targetReachedEvent?.Invoke();
     }
 
     public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer)
     {
-        replacer.SetReference(ref TargetSetEvent);
-        replacer.SetReference(ref TargetReachedEvent);
+        replacer.SetReference(ref targetSetEvent);
+        replacer.SetReference(ref targetReachedEvent);
     }
 }

@@ -10,8 +10,8 @@ public class UnitDefinition : ScriptableObject
     public string UnitName { get => unitName; }
 
     [SerializeField]
-    private Sprite sprite;
-    public Sprite Sprite { get => sprite; }
+    private RuntimeAnimatorController animatorController;
+    public RuntimeAnimatorController AnimatorController { get => animatorController; }
 
     [SerializeField]
     private SharedFloat maxSpeed;

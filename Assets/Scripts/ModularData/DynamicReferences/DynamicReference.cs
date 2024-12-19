@@ -29,6 +29,16 @@ namespace ModularData
             return objectReference;
         }
 
+        public T GetReference<T>() where T : Object
+        {
+            if (objectReference is T t)
+            {
+                return t;
+            }
+
+            return null;
+        }
+
         public bool HasValidConstraint()
         {
             return referenceType != null;

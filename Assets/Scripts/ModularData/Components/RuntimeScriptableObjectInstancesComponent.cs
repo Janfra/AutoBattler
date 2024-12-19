@@ -40,6 +40,11 @@ public class ReferenceReplacer<ReplacementType, ObjectReferenceType> where Repla
 
     public bool ContainsReference(ReplacementType referenceType)
     {
+        if (referenceType == null)
+        {
+            throw new System.ArgumentNullException($"{nameof(ContainsReference)} method does not take in null arguments, part of {GetType().Name} component");
+        }
+
         return referenceReplaceData.ContainsKey(referenceType);
     }
 }
