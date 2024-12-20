@@ -9,6 +9,8 @@ public struct MovementStats
 {
     public FloatReference speed;
     public FloatReference maxSpeed;
+    public FloatReference accelerationRate;
+    public FloatReference deccelerationRate;
 }
 
 public struct MovementFrameData
@@ -29,9 +31,9 @@ public struct MovementTargetData
     public float sqrDistanceToTarget;
 }
 
-public class MovementComponent : MonoBehaviour, IRuntimeScriptableObject
+public class MovementComponent : MonoBehaviour, IRuntimeScriptableObject, IDataProvider<float>
 {
-    const float TARGET_DISTANCE_THRESHOLD = 0.005f;
+    const float TARGET_DISTANCE_THRESHOLD = 0.00005f;
 
     /// <summary>
     /// In code event, call only when the target has been reach and there is now no target
@@ -39,6 +41,11 @@ public class MovementComponent : MonoBehaviour, IRuntimeScriptableObject
     public delegate void TargetUpdate();
     public event TargetUpdate OnTargetReached;
     public event TargetUpdate OnTargetCancelled;
+
+    [SerializeField]
+    private SharedFloatDataProvider speedProvider;
+    [SerializeField]
+    private SharedVector2 velocitySharedCopy;
 
     /// <summary>
     /// Call only when a new target has been set and there was no target
@@ -59,6 +66,11 @@ public class MovementComponent : MonoBehaviour, IRuntimeScriptableObject
 
     protected MovementFrameData cachedFrameData;
     protected Vector2 velocity;
+
+    private void Awake()
+    {
+        speedProvider.Value = this;
+    }
 
     private void Update()
     {
@@ -128,6 +140,9 @@ public class MovementComponent : MonoBehaviour, IRuntimeScriptableObject
                 SetVelocityToTarget();
                 Accelerate();
             }
+
+            // For now only sharing movement velocity
+            velocitySharedCopy.Value = velocity;
             return true;
         }
 
@@ -155,12 +170,14 @@ public class MovementComponent : MonoBehaviour, IRuntimeScriptableObject
 
     private void Deccelerate()
     {
-        movementStats.speed.Value = Mathf.Max(movementStats.speed.Value - Time.deltaTime, 0.0f);
+        float decceleration = (Time.deltaTime * movementStats.deccelerationRate.Value);
+        movementStats.speed.Value = Mathf.Max(movementStats.speed.Value - decceleration, 0.0f);
     }
 
     private void Accelerate()
     {
-        movementStats.speed.Value = Mathf.Min(movementStats.speed.Value + Time.deltaTime, movementStats.maxSpeed.Value);
+        float acceleration = (Time.deltaTime * movementStats.accelerationRate.Value);
+        movementStats.speed.Value = Mathf.Min(movementStats.speed.Value + acceleration, movementStats.maxSpeed.Value);
     }
 
     private bool HasTargetBeenReached()
@@ -178,7 +195,20 @@ public class MovementComponent : MonoBehaviour, IRuntimeScriptableObject
 
     public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer)
     {
+        if (replacer.HasBeenReplaced(this))
+        {
+            return;
+        }
+
         replacer.SetReference(ref targetSetEvent);
         replacer.SetReference(ref targetReachedEvent);
+        replacer.SetReference(ref speedProvider);
+        replacer.SetReference(ref velocitySharedCopy);
+    }
+
+    // Provides current speed data
+    public float OnProvideData()
+    {
+        return movementStats.speed.Value;
     }
 }

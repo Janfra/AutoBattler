@@ -10,7 +10,8 @@ public class AnimationComponent : MonoBehaviour, IRuntimeScriptableObject
     protected Animator animator;
 
     [SerializeField]
-    protected List<AnimationDataSetter> animationDataSetters;
+    protected List<AnimatorDataSetter> animationDataSetters;
+    private List<AnimatorDataSetter> onUpdateCheckers = new List<AnimatorDataSetter>();
 
     public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer)
     {
@@ -34,9 +35,37 @@ public class AnimationComponent : MonoBehaviour, IRuntimeScriptableObject
             animator = GetComponent<Animator>();
         }
 
-        foreach (AnimationDataSetter setter in animationDataSetters)
+        foreach (AnimatorDataSetter setter in animationDataSetters)
         {
             setter.Init(animator);
+            if (setter.IsPerFrameCheck)
+            {
+                onUpdateCheckers.Add(setter);
+            }
+        }
+    }
+
+    private void Update()
+    {
+        foreach (var dataSetter in onUpdateCheckers)
+        {
+            dataSetter.OnUpdate();
+        }
+    }
+
+    private void OnDisable()
+    {
+        foreach (AnimatorDataSetter setter in animationDataSetters)
+        {
+            setter.Disabled();
+        }
+    }
+
+    private void OnEnable()
+    {
+        foreach (AnimatorDataSetter setter in animationDataSetters)
+        {
+            setter.Enabled();
         }
     }
 }

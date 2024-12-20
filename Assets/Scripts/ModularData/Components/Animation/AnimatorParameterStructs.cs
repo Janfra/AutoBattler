@@ -21,6 +21,19 @@ namespace ModularData
         }
     }
 
+    // Should be set to the condition result of the data setter
+    [Serializable]
+    public struct AnimatorBoolConditionResultParameter : IAnimatorParameterSetter
+    {
+        [HideInInspector]
+        public bool SetParameterTo;
+
+        public void SetAnimatorParameter(Animator animator, string parameterName)
+        {
+            animator.SetBool(parameterName, SetParameterTo);
+        }
+    }
+
     [Serializable]
     public struct AnimatorIntParamater : IAnimatorParameterSetter
     {
@@ -35,6 +48,19 @@ namespace ModularData
     [Serializable]
     public struct AnimatorFloatParamater : IAnimatorParameterSetter
     {
+        public float SetParameterTo;
+
+        public void SetAnimatorParameter(Animator animator, string parameterName)
+        {
+            animator.SetFloat(parameterName, SetParameterTo);
+        }
+    }
+
+    // Must be set dynamically
+    [Serializable]
+    public struct AnimatorDynamicFloatParameter : IAnimatorParameterSetter
+    {
+        [HideInInspector]
         public float SetParameterTo;
 
         public void SetAnimatorParameter(Animator animator, string parameterName)

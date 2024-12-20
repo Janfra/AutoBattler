@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Attack Speed
   m_EditorClassIdentifier: 
   shouldReset: 1
-  value: 2
+  value: 1

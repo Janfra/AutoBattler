@@ -79,6 +79,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e3fc2eff546af48498ece55b21089264, type: 2}
   - {fileID: 11400000, guid: 52f2da035bdb4804380c08d5cdee7b55, type: 2}
   - {fileID: 11400000, guid: dbea4d042320ea84b83a51c38bcf3e51, type: 2}
+  - {fileID: 11400000, guid: 5aa31b4b7d5dacb4ebcfbc73babbb32b, type: 2}
+  - {fileID: 11400000, guid: 4b6b3a548be2f064aa6313447f605e6f, type: 2}
+  - {fileID: 11400000, guid: 208018855d99df34587277927c1a62d7, type: 2}
+  - {fileID: 11400000, guid: 35a0daff9057e2648bd168ff18baff49, type: 2}
 --- !u!114 &2533223097444589978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +282,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c762e3119581d9e489f2db764744615f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speedProvider: {fileID: 11400000, guid: 4b6b3a548be2f064aa6313447f605e6f, type: 2}
+  velocitySharedCopy: {fileID: 11400000, guid: 35a0daff9057e2648bd168ff18baff49, type: 2}
   targetSetEvent: {fileID: 11400000, guid: 9f21b1e5c857d454da223a54c1be5784, type: 2}
   targetReachedEvent: {fileID: 11400000, guid: 6fd592e4eb219bb47a7ac3714983d81a, type: 2}
   movementStats:
@@ -289,6 +295,14 @@ MonoBehaviour:
       isInternal: 0
       internalValue: 0
       sharedValue: {fileID: 11400000, guid: 263f05b07533d7342ad1f80341d04dac, type: 2}
+    accelerationRate:
+      isInternal: 1
+      internalValue: 2
+      sharedValue: {fileID: 0}
+    deccelerationRate:
+      isInternal: 1
+      internalValue: 100
+      sharedValue: {fileID: 0}
   targetData:
     hasTarget: 0
     targetPosition: {x: 0, y: 0}
@@ -356,6 +370,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0387556953894414ba20105e0a00f82a, type: 2}
   - {fileID: 11400000, guid: 426d88982ebdb8742beb02901c3dee41, type: 2}
   - {fileID: 11400000, guid: 52f2da035bdb4804380c08d5cdee7b55, type: 2}
+  - {fileID: 11400000, guid: 5aa31b4b7d5dacb4ebcfbc73babbb32b, type: 2}
+  - {fileID: 11400000, guid: 208018855d99df34587277927c1a62d7, type: 2}
 --- !u!95 &7680060642109359082
 Animator:
   serializedVersion: 5
@@ -366,7 +382,7 @@ Animator:
   m_GameObject: {fileID: 898764546766500607}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a12da23623aba8840b678f98dce03501, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3654c42567a96d242a6809b3c25dff6b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -978,7 +994,7 @@ Transform:
   m_GameObject: {fileID: 8457862756826681462}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.58, z: 0}
+  m_LocalPosition: {x: 0, y: 0.614, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1034,9 +1050,9 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8457862756826681462}
-  m_Text: a
+  m_Text: No State
   m_OffsetZ: -5
-  m_CharacterSize: 0.2
+  m_CharacterSize: 0.1
   m_LineSpacing: 1
   m_Anchor: 4
   m_Alignment: 1
@@ -1047,4 +1063,4 @@ TextMesh:
   m_Font: {fileID: 2230732570650464555, guid: a369db463c5bc7c4689c7b6435fc8f5c, type: 3}
   m_Color:
     serializedVersion: 2
-    rgba: 4282137660
+    rgba: 4293059298

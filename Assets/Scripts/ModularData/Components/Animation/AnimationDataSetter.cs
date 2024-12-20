@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace ModularData
 {
-    public abstract class AnimationDataSetter : ScriptableObject
+    public abstract class AnimatorDataSetter : ScriptableObject
     {
         [SerializeField]
-        private string parameterName;
-        protected string ParameterName { get { return parameterName; } }
+        private bool isPerFrameCheck;
+        public bool IsPerFrameCheck => isPerFrameCheck;
 
         [NonSerialized]
         protected Animator animator;
@@ -19,22 +19,18 @@ namespace ModularData
         {
             SetAnimator(newAnimator);
 
-            bool isNameFound = false;
-            foreach (var param in animator.parameters)
+            string[] targetParameters = GetTargetParameters();
+            foreach (var param in targetParameters)
             {
-                if (param.name == parameterName)
-                {
-                    Debug.Log("param found");
-                    isNameFound = true;
-                    break;
-                }
-            }
-
-            if (!isNameFound)
-            {
-                Debug.LogError("Parameter name not found inside animator for " + animator.gameObject.name);
+                CheckForParameter(param);
             }
         }
+
+        public abstract string[] GetTargetParameters();
+
+        public virtual void Enabled() { }
+
+        public virtual void Disabled() { }
 
         public void OnInvokeEvent()
         {
@@ -49,34 +45,76 @@ namespace ModularData
         {
             animator = newAnimator;
         }
+
+        private void CheckForParameter(string parameterName)
+        {
+            if (animator == null)
+            {
+                throw new NullReferenceException($"Animator is null inside animation data setter - {name}");
+            }
+
+            bool isNameFound = false;
+            foreach (var param in animator.parameters)
+            {
+                if (param.name == parameterName)
+                {
+                    Debug.Log("param found");
+                    isNameFound = true;
+                    break;
+                }
+            }
+
+            if (!isNameFound)
+            {
+                Debug.LogError($"Parameter name '{parameterName}' not found inside animator for {animator.gameObject.name} using controller {animator.runtimeAnimatorController.name}");
+                isPerFrameCheck = false;
+            }
+        }
     }
 
-    public abstract class AnimatorEventDataSetter<T> : AnimationDataSetter where T : IAnimatorParameterSetter
+    #region One Param
+    public abstract class OneParamAnimDS<T> : AnimatorDataSetter where T : IAnimatorParameterSetter
     {
         [SerializeField]
-        private T parameterSetter;
+        private string parameterName;
+        protected string ParameterName => parameterName;
+
+        [SerializeField]
+        protected T parameterSetter;
+
+        public sealed override string[] GetTargetParameters()
+        {
+            return new string[]{ parameterName };
+        }
 
         public override void UpdateAnimatorData()
         {
             if (animator == null)
             {
-                Debug.LogError("Animator is null inside animation data setter - " + name);
-                return;
+                throw new NullReferenceException($"Animator is null inside animation data setter - {name}");
             }
 
             parameterSetter.SetAnimatorParameter(animator, ParameterName);
         }
     }
 
-    public abstract class AnimationConditionalDataSetter<T> : AnimationDataSetter where T : IAnimatorParameterSetter
+    public abstract class DynamicOneParamAnimDS<T> : OneParamAnimDS<T> where T : IAnimatorParameterSetter
+    {
+        public override void OnUpdate()
+        {
+            SetParameterSetter();
+            UpdateAnimatorData();
+        }
+
+        public abstract void SetParameterSetter();
+    }
+
+    public abstract class ConditionalOneParamAnimDS<T> : OneParamAnimDS<T> where T : IAnimatorParameterSetter
     {
         private delegate bool ConditionCheck();
 
         [SerializeField]
         private EComparisonOptions comparisonType;
-
-        [SerializeField]
-        private T parameterSetter;
 
         private ConditionCheck onConditionCheck;
 
@@ -97,17 +135,6 @@ namespace ModularData
             {
                 UpdateAnimatorData();
             }
-        }
-
-        public override void UpdateAnimatorData()
-        {
-            if (animator == null)
-            {
-                Debug.LogError("Animator is null inside animation data setter - " + name);
-                return;
-            }
-
-            parameterSetter.SetAnimatorParameter(animator, ParameterName);
         }
 
         public abstract bool OnEqualComparison();
@@ -151,4 +178,60 @@ namespace ModularData
             }
         }
     }
+
+    // Not used for now to avoid duplicating the condition checks, adding it for demonstration purposes. May move condition checks to a separate class for easier reusability.
+    public abstract class ConditionResultOneParamAnimDS : ConditionalOneParamAnimDS<AnimatorBoolConditionResultParameter>
+    {
+        public override void OnUpdate()
+        {
+            parameterSetter.SetParameterTo = IsConditionMet();
+            UpdateAnimatorData();
+        }
+    }
+    #endregion
+
+    #region Two Param
+    public abstract class TwoParamAnimDS<T> : AnimatorDataSetter where T : IAnimatorParameterSetter
+    {
+        [SerializeField]
+        private string firstParameterName;
+        protected string FirstParameterName => firstParameterName;
+        [SerializeField]
+        protected T firstParameterSetter;
+
+        [SerializeField]
+        private string secondParameterName;
+        protected string SecondParameterName => secondParameterName;
+        [SerializeField]
+        protected T secondParameterSetter;
+
+        public sealed override string[] GetTargetParameters()
+        {
+            return new string[] { firstParameterName, secondParameterName };
+        }
+
+        public override void UpdateAnimatorData()
+        {
+            if (animator == null)
+            {
+                throw new NullReferenceException($"Animator is null inside animation data setter - {name}");
+            }
+
+            firstParameterSetter.SetAnimatorParameter(animator, FirstParameterName);
+            secondParameterSetter.SetAnimatorParameter(animator, SecondParameterName);
+        }
+    }
+
+    public abstract class DynamicTwoParamAnimDS<T> : TwoParamAnimDS<T> where T : IAnimatorParameterSetter
+    {
+        public override void OnUpdate()
+        {
+            SetParameterSetters();
+            UpdateAnimatorData();
+        }
+
+        public abstract void SetParameterSetters();
+    }
+
+    #endregion
 }
