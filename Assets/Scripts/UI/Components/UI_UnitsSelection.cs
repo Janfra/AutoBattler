@@ -9,6 +9,8 @@ namespace AutoBattler.UI
     [Serializable]
     public class UI_UnitsSelection
     {
+        public const string UNIT_CONTAINER_NAME = "UnitGroupContainer";
+
         [SerializeField]
         private VisualTreeAsset unitOptionVisualTreeAsset;
         [SerializeField]
@@ -32,7 +34,7 @@ namespace AutoBattler.UI
                 throw new NullReferenceException($"{uiGameObject.name} has a {GetType().Name} component with a null Visual Tree Asset on {nameof(Initialise)}, unable to create Unit Options UI");
             }
 
-            unitUIContainer = uiGameObject.rootVisualElement.Q<VisualElement>("UnitGroupContainer");
+            unitUIContainer = uiGameObject.rootVisualElement.Q<VisualElement>(UNIT_CONTAINER_NAME);
             CreateUnitOption(test);
         }
 
@@ -53,8 +55,8 @@ namespace AutoBattler.UI
     [Serializable]
     public class UI_UnitOption
     {
-        const string UI_BUTTON_NAME = "Button";
-        const string ROOT_NAME_PREFIX = "Unit Selection Button for ";
+        public const string UI_BUTTON_NAME = "Button";
+        public const string ROOT_NAME_PREFIX = "Unit Selection Button for ";
 
         public delegate void OnSelected(UnitDefinition selectedUnitData);
 

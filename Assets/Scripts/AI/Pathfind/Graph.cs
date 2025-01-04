@@ -3,8 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace GameAI

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Events;
 using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
@@ -54,10 +53,13 @@ namespace ModularData
                         continue;
                     }
 
+                    // Disable original event
+                    Response.SetPersistentListenerState(i, UnityEventCallState.Off);
+
+                    // Add new non persistent event for instance
                     replacer.SetReference(ref targetSO);
-                    UnityAction action = UnityAction.CreateDelegate(typeof(UnityAction), targetSO, Response.GetPersistentMethodName(i)) as UnityAction;
-                    Response.AddListener(action);
-                    UnityEventTools.RemovePersistentListener(Response, i);
+                    UnityAction newAction = UnityAction.CreateDelegate(typeof(UnityAction), targetSO, Response.GetPersistentMethodName(i)) as UnityAction;
+                    Response.AddListener(newAction);
                 }
             }
         }

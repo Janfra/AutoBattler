@@ -351,6 +351,15 @@ namespace AutoBattler
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Quit"",
+                    ""type"": ""Button"",
+                    ""id"": ""d9d3d6cc-40f0-4912-b699-4cc93621c742"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -771,6 +780,17 @@ namespace AutoBattler
                     ""action"": ""TrackedDeviceOrientation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""512bad94-d6f1-4deb-8b3a-fa7779a146e2"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Quit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -855,6 +875,7 @@ namespace AutoBattler
             m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
             m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
             m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+            m_UI_Quit = m_UI.FindAction("Quit", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -988,6 +1009,7 @@ namespace AutoBattler
         private readonly InputAction m_UI_RightClick;
         private readonly InputAction m_UI_TrackedDevicePosition;
         private readonly InputAction m_UI_TrackedDeviceOrientation;
+        private readonly InputAction m_UI_Quit;
         public struct UIActions
         {
             private @AutoBattlerInput m_Wrapper;
@@ -1002,6 +1024,7 @@ namespace AutoBattler
             public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
             public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
             public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
+            public InputAction @Quit => m_Wrapper.m_UI_Quit;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1041,6 +1064,9 @@ namespace AutoBattler
                 @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
+                @Quit.started += instance.OnQuit;
+                @Quit.performed += instance.OnQuit;
+                @Quit.canceled += instance.OnQuit;
             }
 
             private void UnregisterCallbacks(IUIActions instance)
@@ -1075,6 +1101,9 @@ namespace AutoBattler
                 @TrackedDeviceOrientation.started -= instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.performed -= instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.canceled -= instance.OnTrackedDeviceOrientation;
+                @Quit.started -= instance.OnQuit;
+                @Quit.performed -= instance.OnQuit;
+                @Quit.canceled -= instance.OnQuit;
             }
 
             public void RemoveCallbacks(IUIActions instance)
@@ -1155,6 +1184,7 @@ namespace AutoBattler
             void OnRightClick(InputAction.CallbackContext context);
             void OnTrackedDevicePosition(InputAction.CallbackContext context);
             void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+            void OnQuit(InputAction.CallbackContext context);
         }
     }
 }

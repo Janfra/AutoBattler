@@ -55,18 +55,21 @@ namespace ModularData
 #if UNITY_EDITOR
         [SerializeField]
         private bool shouldReset;
-        public void CheckReset()
-        {
-            if (shouldReset)
-            {
-                Reset();
-            }
-        }
         private void Reset()
         {
             value.Clear();
         }
 #endif
+
+        public void CheckReset()
+        {
+#if UNITY_EDITOR
+            if (shouldReset)
+            {
+                Reset();
+            }
+#endif
+        }
 
         public ValueType GetValueAtIndex(int index)
         {

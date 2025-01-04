@@ -22,12 +22,10 @@ namespace GameAI
 
         private bool isTransitionLocked;
 
-#if UNITY_EDITOR
         [SerializeField]
         protected bool isDebugActive;
         [SerializeField]
         protected TextMesh debugText;
-#endif
 
         public virtual void OnReplaceReferences(BlackboardReferenceReplacer replacer)
         {

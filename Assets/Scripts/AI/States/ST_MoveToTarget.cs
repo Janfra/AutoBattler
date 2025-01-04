@@ -63,6 +63,11 @@ namespace GameAI
             movementComponent = null;
         }
 
+        private void CanUpdateTarget()
+        {
+            SetMovementTarget();
+        }
+
         private void SetMovementTarget()
         {
             ExtendedBattleUnitData selectedUnit = selectedUnitData.Value as ExtendedBattleUnitData;
@@ -72,11 +77,6 @@ namespace GameAI
             }
 
             movementComponent.SetPathfindTarget(selectedUnit.unitPathfindHandle.Value);
-        }
-
-        private void CanUpdateTarget()
-        {
-            SetMovementTarget();
         }
     }
 }

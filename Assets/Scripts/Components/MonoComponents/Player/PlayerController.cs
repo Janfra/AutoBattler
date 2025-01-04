@@ -14,6 +14,7 @@ namespace AutoBattler
         private AutoBattlerInput playerControls;
         private InputAction interact;
         private InputAction mousePosition;
+        private InputAction quitGame;
 
         private void OnEnable()
         {
@@ -28,6 +29,10 @@ namespace AutoBattler
 
             mousePosition = playerControls.Player.Mouse;
             mousePosition.Enable();
+
+            quitGame = playerControls.UI.Quit;
+            quitGame.Enable();
+            quitGame.performed += OnQuitInput;
         }
 
         private void OnDisable()
@@ -66,6 +71,11 @@ namespace AutoBattler
             mousePos.z = Mathf.Abs(cam.transform.position.z);   
             Vector2 worldPoint = cam.ScreenToWorldPoint(mousePos);
             return worldPoint;
+        }
+
+        private void OnQuitInput(InputAction.CallbackContext context)
+        {
+            Application.Quit();
         }
     }
 }

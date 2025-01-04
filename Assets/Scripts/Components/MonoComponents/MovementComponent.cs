@@ -33,7 +33,7 @@ public struct MovementTargetData
 
 public class MovementComponent : MonoBehaviour, IRuntimeScriptableObject, IDataProvider<float>
 {
-    const float TARGET_DISTANCE_THRESHOLD = 0.00005f;
+    const float TARGET_DISTANCE_THRESHOLD = 0.05f;
 
     /// <summary>
     /// In code event, call only when the target has been reach and there is now no target
