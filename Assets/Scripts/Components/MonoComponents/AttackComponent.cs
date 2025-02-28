@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackComponent : MonoBehaviour, IRuntimeScriptableObject
+public class AttackComponent : MonoBehaviour, IUniqueRuntimeScriptableObject
 {
     [SerializeField]
     private GameEvent onAttacked;
@@ -51,7 +51,7 @@ public class AttackComponent : MonoBehaviour, IRuntimeScriptableObject
         return true;
     }
 
-    public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer)
+    public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IUniqueRuntimeScriptableObject> replacer)
     {
         if (replacer.HasBeenReplaced(this))
         {

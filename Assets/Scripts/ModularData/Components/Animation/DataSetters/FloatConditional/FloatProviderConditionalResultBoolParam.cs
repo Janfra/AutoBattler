@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace ModularData
+namespace ModularData.Animation
 {
     [CreateAssetMenu(fileName = "New Float Provider Conditional", menuName = "ScriptableObjects/AnimatorDataSetter/OneParam/ConditionResult/Float Provider")]
     public class FloatProviderConditionalResultBoolParam_OneParamDS : FloatProviderConditionalOneParamDS<AnimatorBoolConditionResultParameter>

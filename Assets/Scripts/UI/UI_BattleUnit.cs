@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class UI_BattleUnit : MonoBehaviour
 {
     [SerializeField]
-    private RuntimeScriptableObjectInstancesComponent dataHolder;
+    private UniqueRuntimeScriptableObjectInstancesComponent dataHolder;
     [SerializeField]
     private SharedBattleUnitData unitDataAccessor;
     [SerializeField]

@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace ModularData
+namespace ModularData.Animation
 {
     [CreateAssetMenu(fileName = "New Dynamic Float Setter", menuName = "ScriptableObjects/AnimatorDataSetter/OneParam/DynamicSetter/Float Provider")]
     public class DynamicFloatProvider_OneParamDS : DynamicOneParamAnimDS<AnimatorDynamicFloatParameter>

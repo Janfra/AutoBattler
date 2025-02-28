@@ -11,6 +11,14 @@ namespace GameAI
         {
         }
 
+        public BlackboardReferenceReplacer(List<DynamicReferenceType> originalReferenceList) : base(originalReferenceList)
+        {
+        }
+
+        public BlackboardReferenceReplacer(DynamicReferenceType[] originalReferenceArray) : base(originalReferenceArray)
+        {
+        }
+
         public void SetBlackboardContainers(BlackboardBase blackboard, BlackboardBase.OnReplace containerSetter)
         {
             if (blackboard == null || containerSetter == null)

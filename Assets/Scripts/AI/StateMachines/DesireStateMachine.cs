@@ -117,6 +117,11 @@ namespace GameAI
                 }
             }
 
+            if (entryState == null)
+            {
+                entryState = availableStates[0].Target;
+            }
+
             foreach (StateDesire desire in availableStates)
             {
                 if (!desire || !desire.IsValid())
@@ -127,7 +132,7 @@ namespace GameAI
 
                 if (!desire.IsBlackboardValidForState(blackboard))
                 {
-                    Debug.LogError("Blackboard is missing variables for the states to handle");
+                    Debug.LogError("Blackboard is missing variables for the states to function");
                     continue;
                 }
 
@@ -137,10 +142,6 @@ namespace GameAI
                     continue;
                 }
 
-                if (entryState == null)
-                {
-                    entryState = desire.Target;
-                }
 
                 desire.InitReferences(blackboard);
                 desire.Target.Init(blackboard);

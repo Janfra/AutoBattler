@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace ModularData
+namespace ModularData.Animation
 {
     [CreateAssetMenu(fileName = "New Dynamic Vector Setter", menuName = "ScriptableObjects/AnimatorDataSetter/TwoParam/DynamicSetter/Shared Vector")]
-    public class DynamicSharedVector_TwoParamDS : DynamicTwoParamAnimDS<AnimatorFloatParamater>, IRuntimeScriptableObject
+    public class DynamicSharedVector_TwoParamDS : DynamicTwoParamAnimDS<AnimatorDynamicFloatParameter>, IUniqueRuntimeScriptableObject
     {
         [SerializeField]
         private SharedVector2 sharedVector;
@@ -24,7 +22,7 @@ namespace ModularData
             secondParameterSetter.SetParameterTo = value.y;
         }
 
-        public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer)
+        public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IUniqueRuntimeScriptableObject> replacer)
         {
             if (replacer.HasBeenReplaced(this))
             {

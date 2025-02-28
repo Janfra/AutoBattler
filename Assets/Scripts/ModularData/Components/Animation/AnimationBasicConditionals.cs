@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 
-namespace ModularData
+namespace ModularData.Animation
 {
     public abstract class IntConditionalOneParamAnimDS<T> : ConditionalOneParamAnimDS<T> where T : IAnimatorParameterSetter
     {
@@ -44,7 +40,7 @@ namespace ModularData
         }
     }
 
-    public abstract class IntProviderConditionalOneParamDS<T> : ConditionalOneParamAnimDS<T>, IRuntimeScriptableObject where T : IAnimatorParameterSetter
+    public abstract class IntProviderConditionalOneParamDS<T> : ConditionalOneParamAnimDS<T>, IUniqueRuntimeScriptableObject where T : IAnimatorParameterSetter
     {
         [SerializeField]
         protected SharedIntDataProvider valueOne;
@@ -92,7 +88,7 @@ namespace ModularData
             return GetProviderValue() != valueTwo.Value;
         }
 
-        public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer)
+        public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IUniqueRuntimeScriptableObject> replacer)
         {
             if (replacer.HasBeenReplaced(this))
             {
@@ -103,7 +99,7 @@ namespace ModularData
         }
     }
 
-    public abstract class FloatProviderConditionalOneParamDS<T> : ConditionalOneParamAnimDS<T>, IRuntimeScriptableObject where T : IAnimatorParameterSetter
+    public abstract class FloatProviderConditionalOneParamDS<T> : ConditionalOneParamAnimDS<T>, IUniqueRuntimeScriptableObject where T : IAnimatorParameterSetter
     {
         [SerializeField]
         protected SharedFloatDataProvider valueOne;
@@ -151,7 +147,7 @@ namespace ModularData
             return GetProviderValue() != valueTwo.Value;
         }
 
-        public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer)
+        public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IUniqueRuntimeScriptableObject> replacer)
         {
             if (replacer.HasBeenReplaced(this))
             {

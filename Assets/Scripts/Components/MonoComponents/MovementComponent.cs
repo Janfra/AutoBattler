@@ -31,7 +31,7 @@ public struct MovementTargetData
     public float sqrDistanceToTarget;
 }
 
-public class MovementComponent : MonoBehaviour, IRuntimeScriptableObject, IDataProvider<float>
+public class MovementComponent : MonoBehaviour, IUniqueRuntimeScriptableObject, IDataProvider<float>
 {
     const float TARGET_DISTANCE_THRESHOLD = 0.005f;
 
@@ -193,7 +193,7 @@ public class MovementComponent : MonoBehaviour, IRuntimeScriptableObject, IDataP
         targetReachedEvent?.Invoke();
     }
 
-    public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer)
+    public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IUniqueRuntimeScriptableObject> replacer)
     {
         if (replacer.HasBeenReplaced(this))
         {

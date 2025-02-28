@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace ModularData
+namespace ModularData.Animation
 {
     public interface IAnimatorParameterSetter
     {

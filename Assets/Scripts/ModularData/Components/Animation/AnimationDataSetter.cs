@@ -1,10 +1,7 @@
-using ModularData;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace ModularData
+namespace ModularData.Animation
 {
     public abstract class AnimatorDataSetter : ScriptableObject
     {

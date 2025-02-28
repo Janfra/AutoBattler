@@ -11,6 +11,9 @@ namespace GameAI
         [Range(0f, 1f)]
         protected float constantDesire;
 
+        /// <summary>
+        /// Return a defined value that is modified by the bias
+        /// </summary>
         protected override void CalculateDesire()
         {
             desireValue = bias * constantDesire;

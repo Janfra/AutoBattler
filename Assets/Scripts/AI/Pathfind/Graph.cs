@@ -225,7 +225,6 @@ namespace GameAI
 
                 if (cost[edge.From] > cost[edge.To] + edge.Cost)
                 {
-                    // This is supposed to be the other way
                     route[edge.From] = edge.To;
                     cost[edge.From] = cost[edge.To] + edge.Cost;
                     if (edge.From == targetNodeHandler.Handle)

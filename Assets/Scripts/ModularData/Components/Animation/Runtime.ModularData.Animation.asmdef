@@ -1,5 +1,5 @@
 {
-    "name": "Runtime.Animation",
+    "name": "Runtime.ModularData.Animation",
     "rootNamespace": "",
     "references": [
         "Runtime.ModularData"

@@ -56,6 +56,11 @@ namespace ModularData
                 return false;
             }
 
+            if (!HasValidConstraint())
+            {
+                throw new NullReferenceException($"{nameof(DynamicReferenceType)} has not been set, unable to set a reference until type has been defined.");
+            }
+
             if (!referenceType.IsObjectValid(reference))
             {
                 return false;

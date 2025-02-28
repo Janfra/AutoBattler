@@ -26,7 +26,7 @@ public class BattleUnit : MonoBehaviour
     private Animator animator;
 
     [SerializeField]
-    private RuntimeScriptableObjectInstancesComponent runtimeSOs;
+    private UniqueRuntimeScriptableObjectInstancesComponent runtimeSOs;
 
     [SerializeField]
     private DesireStateMachine stateMachine;

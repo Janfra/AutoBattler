@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 namespace ModularData
 {
     [Serializable]
-    public class EventListener : IRuntimeScriptableObject
+    public class EventListener : IUniqueRuntimeScriptableObject
     {
         [SerializeField]
         private GameEvent Event;
@@ -35,7 +35,7 @@ namespace ModularData
             Response?.Invoke();
         }
 
-        public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer)
+        public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IUniqueRuntimeScriptableObject> replacer)
         {
             if (Event == null)
             {
@@ -65,7 +65,7 @@ namespace ModularData
         }
     }
 
-    public class GameEventListenerComponent : MonoBehaviour, IRuntimeScriptableObject
+    public class GameEventListenerComponent : MonoBehaviour, IUniqueRuntimeScriptableObject
     {
         [SerializeField]
         private List<EventListener> Events;
@@ -86,7 +86,7 @@ namespace ModularData
             }
         }
 
-        public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer)
+        public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IUniqueRuntimeScriptableObject> replacer)
         {
             if (replacer.HasBeenReplaced(this))
             {

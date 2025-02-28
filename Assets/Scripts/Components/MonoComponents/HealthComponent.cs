@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthComponent : MonoBehaviour, IAttackable, IRuntimeScriptableObject, IDataProvider<int>
+public class HealthComponent : MonoBehaviour, IAttackable, IUniqueRuntimeScriptableObject, IDataProvider<int>
 {
     public event IAttackable.OnDestroy Destroyed;
 
@@ -81,7 +81,7 @@ public class HealthComponent : MonoBehaviour, IAttackable, IRuntimeScriptableObj
         gameObject.SetActive(false);
     }
 
-    public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IRuntimeScriptableObject> replacer)
+    public void OnReplaceReferences(ReferenceReplacer<ScriptableObject, IUniqueRuntimeScriptableObject> replacer)
     {
         if (replacer.HasBeenReplaced(this))
         {
